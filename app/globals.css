@@ -1,6 +1,6 @@
 /* QUITify global typography — final brand stack is declared in product-system.css. */
-:root{--font-brand:"Satoshi",ui-sans-serif,system-ui,sans-serif;--font-display:"Cabinet Grotesk",ui-sans-serif,system-ui,sans-serif;--type-display:clamp(2.1rem,8vw,3rem);--type-title:1.55rem;--type-body:.9375rem;--type-small:.8125rem;--type-caption:.6875rem;--tracking-display:-.055em;--tracking-label:.12em}
-html,body{font-family:var(--font-brand)!important;font-optical-sizing:auto;font-synthesis:none}body{letter-spacing:-.012em}h1,h2,h3,b,strong,button{font-family:var(--font-brand)}
+:root{--font-brand:"Work Sans",ui-sans-serif,system-ui,sans-serif;--font-display:"Cotham","Work Sans",ui-sans-serif,system-ui,sans-serif;--type-display:clamp(2.1rem,8vw,3rem);--type-title:1.55rem;--type-body:.9375rem;--type-small:.8125rem;--type-caption:.6875rem;--tracking-display:-.055em;--tracking-label:.12em}
+html,body{font-family:var(--font-brand),ui-sans-serif,system-ui,sans-serif!important;font-optical-sizing:auto;font-synthesis:none}body{letter-spacing:-.012em}h1,h2,h3,b,strong,button{font-family:var(--font-brand)}
 :root{
 --bg:#f7f7f5;--surface:#fff;--surface2:#f3f4f2;--ink:#171816;--muted:#74776f;--soft:#a3a69e;
 --line:#e5e6e1;--accent:#355cde;--accent2:#294bc0;--accentSoft:#eef2ff;--green:#2e8b68;--greenSoft:#eaf7f0;
