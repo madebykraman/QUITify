@@ -2,344 +2,89 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  Activity, ArrowRight, Check, ChevronRight, CircleHelp, Clock3, Download,
-  Fingerprint, LockKeyhole, Pause, Plus, RotateCcw, Settings2, ShieldCheck,
-  Target, Trash2, Upload, X
+  ArrowRight, BarChart3, Check, ChevronRight, Clock3, Download,
+  Heart, LockKeyhole, MoreHorizontal, Pause, Plus, RotateCcw,
+  Settings2, ShieldCheck, Sparkles, Target, Trash2, Upload, X, Zap
 } from "lucide-react";
 
-type Goal = {
-  id: string;
-  label: string;
-  icon: string;
-  accent: string;
-  startedAt: string;
-  best: number;
-  checkIns: number;
-  resets: number;
-  active: boolean;
-  reason?: string;
-};
+type Goal={id:string;label:string;icon:string;accent:string;startedAt:string;best:number;checkIns:number;resets:number;active:boolean;reason?:string};
+type Checkin={date:string;goalId:string;stayedOnTrack:boolean};
 
-type Checkin = { date: string; goalId: string; stayedOnTrack: boolean };
-type Setup = { reason: string; intention: string };
+const goals=[["Nicotine","N","lime"],["Smoking","S","coral"],["Vaping","V","blue"],["Alcohol","A","amber"],["Sugar / junk food","S","orange"],["Doomscrolling","D","purple"],["Social media","S","blue"],["Gaming","G","violet"],["Adult content","A","rose"],["Something else","•","gray"]];
 
-const goalOptions = [
-  ["Nicotine", "N", "green"], ["Smoking", "S", "green"], ["Vaping", "V", "green"],
-  ["Alcohol", "A", "sand"], ["Sugar / junk food", "S", "sand"],
-  ["Doomscrolling", "D", "violet"], ["Social media", "S", "violet"],
-  ["Gaming", "G", "violet"], ["Adult content", "A", "plum"], ["Something else", "•", "neutral"]
-];
+function key(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function since(iso:string){const s=new Date(iso),n=new Date();const a=new Date(s.getFullYear(),s.getMonth(),s.getDate()).getTime(),b=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime();return Math.max(0,Math.round((b-a)/86400000))}
+function parseGoals(v:string|null):Goal[]{try{const a=JSON.parse(v||"[]");return Array.isArray(a)?a.filter(x=>x&&x.id&&x.label).map(x=>({...x,best:Number(x.best)||0,checkIns:Number(x.checkIns)||0,resets:Number(x.resets)||0,active:x.active!==false})):[]}catch{return[]}}
+function parseChecks(v:string|null):Checkin[]{try{const a=JSON.parse(v||"[]");return Array.isArray(a)?a.filter(x=>x&&x.id!==null&&typeof x.goalId==="string"&&typeof x.date==="string"):[]}catch{return[]}}
 
-const reasonOptions = ["More focus", "More time", "Better sleep", "More money", "My relationships", "My own reason"];
-const intentionOptions = [
-  ["steady", "Keep today simple"], ["clear", "Make the next choice easier"], ["private", "Do this quietly, for me"]
-];
+export default function Home(){
+ const [ready,setReady]=useState(false),[goalsState,setGoals]=useState<Goal[]>([]),[checks,setChecks]=useState<Checkin[]>([]);
+ const [selected,setSelected]=useState(""),[tab,setTab]=useState<"home"|"insights"|"settings">("home");
+ const [onboard,setOnboard]=useState(false),[onStep,setOnStep]=useState(0),[chosen,setChosen]=useState<(typeof goals)[number]|null>(null),[reason,setReason]=useState("");
+ const [sheet,setSheet]=useState<"goal"|"pause"|"reset"|null>(null),[timer,setTimer]=useState(600),[toast,setToast]=useState("");
+ const current=goalsState.find(g=>g.id===selected)||goalsState[0], days=current?since(current.startedAt):0;
+ const today=current?checks.find(c=>c.goalId===current.id&&c.date===key()):undefined;
+ const recorded=!!today?.stayedOnTrack;
+ const recent=useMemo(()=>Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));return key(d)}),[]);
+ const recentCount=current?recent.filter(d=>checks.some(c=>c.goalId===current.id&&c.date===d&&c.stayedOnTrack)).length:0;
+ const dateText=new Intl.DateTimeFormat(undefined,{weekday:"long",month:"long",day:"numeric"}).format(new Date());
 
-function dateKey(date = new Date()) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, "0");
-  const d = String(date.getDate()).padStart(2, "0");
-  return `${y}-${m}-${d}`;
-}
+ useEffect(()=>{try{const g=parseGoals(localStorage.getItem("quitify-goals"));const c=parseChecks(localStorage.getItem("quitify-checkins"));setGoals(g);setChecks(c);if(g.length)setSelected(g[0].id);else setOnboard(true)}catch{setOnboard(true)}setReady(true)},[]);
+ useEffect(()=>{if(ready)localStorage.setItem("quitify-goals",JSON.stringify(goalsState))},[goalsState,ready]);
+ useEffect(()=>{if(ready)localStorage.setItem("quitify-checkins",JSON.stringify(checks))},[checks,ready]);
+ useEffect(()=>{if(!sheet||sheet!=="pause"||timer<=0)return;const i=setInterval(()=>setTimer(v=>Math.max(0,v-1)),1000);return()=>clearInterval(i)},[sheet,timer]);
+ useEffect(()=>{const f=(e:KeyboardEvent)=>{if(e.key==="Escape"){setSheet(null);setOnboard(false)}};addEventListener("keydown",f);return()=>removeEventListener("keydown",f)},[]);
+ function notify(t:string){setToast(t);setTimeout(()=>setToast(""),2200)}
+ function createGoal(g:(typeof goals)[number],r=""){const id=crypto?.randomUUID?.()||Date.now().toString();const n:Goal={id,label:g[0],icon:g[1],accent:g[2],startedAt:new Date().toISOString(),best:0,checkIns:0,resets:0,active:true,reason:r};setGoals(v=>[...v,n]);setSelected(id);setOnboard(false);setSheet(null);setTab("home");notify("Your focus is ready.")}
+ function finish(){if(chosen)createGoal(chosen,reason)}
+ function toggle(){if(!current)return;const d=key(),next=!recorded;setChecks(v=>[...v.filter(c=>!(c.goalId===current.id&&c.date===d)),{goalId:current.id,date:d,stayedOnTrack:next}]);setGoals(v=>v.map(g=>g.id===current.id?{...g,checkIns:Math.max(0,g.checkIns+(next?1:-1))}:g));notify(next?"Today is checked in.":"Today's check-in was removed.")}
+ function reset(){if(!current)return;setGoals(v=>v.map(g=>g.id===current.id?{...g,startedAt:new Date().toISOString(),best:Math.max(g.best,days),resets:g.resets+1}:g));setChecks(v=>v.filter(c=>!(c.goalId===current.id&&c.date===key())));setSheet(null);notify("Fresh start saved.")}
+ function exportData(){const blob=new Blob([JSON.stringify({version:3,exportedAt:new Date().toISOString(),goals:goalsState,checkins:checks},null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="quitify-backup.json";a.click();notify("Backup exported.")}
+ function clear(){localStorage.clear();setGoals([]);setChecks([]);setSelected("");setOnboard(true);setOnStep(0);setTab("home");notify("Local data cleared.")}
+ if(!ready)return <main className="loading"><div className="brand"><span>Q</span>QUITify</div></main>;
 
-function daysSince(iso: string) {
-  const start = new Date(iso), now = new Date();
-  const a = new Date(start.getFullYear(), start.getMonth(), start.getDate()).getTime();
-  const b = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  return Math.max(0, Math.round((b - a) / 86400000));
-}
+ return <main className="app">
+  <header className="header">
+   <button className="brand" onClick={()=>setTab("home")}><span>Q</span>QUITify</button>
+   <div className="privacy"><ShieldCheck size={14}/> Private by default</div>
+   <button className="icon-btn" onClick={()=>setTab("settings")} aria-label="Settings"><Settings2 size={18}/></button>
+  </header>
 
-function safeGoals(raw: string | null): Goal[] {
-  try {
-    const parsed = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter((g: any) => g && typeof g.id === "string" && typeof g.label === "string" && typeof g.startedAt === "string")
-      .map((g: any) => ({
-        id: g.id, label: g.label, icon: typeof g.icon === "string" ? g.icon : "•",
-        accent: typeof g.accent === "string" ? g.accent : "neutral", startedAt: g.startedAt,
-        best: Number.isFinite(g.best) ? Math.max(0, Math.floor(g.best)) : 0,
-        checkIns: Number.isFinite(g.checkIns) ? Math.max(0, Math.floor(g.checkIns)) : 0,
-        resets: Number.isFinite(g.resets) ? Math.max(0, Math.floor(g.resets)) : 0,
-        active: g.active !== false, reason: typeof g.reason === "string" ? g.reason : ""
-      }));
-  } catch { return []; }
-}
+  {tab==="home"&&<section className="content">
+   <div className="welcome-row"><div><p className="eyebrow">{dateText}</p><h1>Today is enough.</h1><p className="sub">One moment at a time. No judgement, no performance.</p></div><div className="avatar"><Heart size={17}/></div></div>
 
-function safeCheckins(raw: string | null): Checkin[] {
-  try {
-    const parsed = raw ? JSON.parse(raw) : [];
-    return Array.isArray(parsed) ? parsed.filter((c: any) =>
-      c && typeof c.goalId === "string" && typeof c.date === "string" && typeof c.stayedOnTrack === "boolean"
-    ) : [];
-  } catch { return []; }
-}
+   {current?<><div className="focus-bar">
+     <div className={`focus-icon ${current.accent}`}>{current.icon}</div><div><span className="eyebrow">YOUR FOCUS</span><b>{current.label}</b></div>
+     <button onClick={()=>setSheet("goal")}><MoreHorizontal size={19}/></button>
+   </div>
+   <section className="hero-card">
+    <div className="hero-top"><div><span className="eyebrow">CURRENT RUN</span><div className="days">{days}<small> day{days===1?"":"s"}</small></div></div><div className="run-badge"><Sparkles size={14}/> {days===0?"Started today":"You're doing it"}</div></div>
+    <div className="hero-progress"><div><span>Next milestone</span><b>{days<7?7:days<14?14:days<30?30:60} days</b></div><div className="bar"><i style={{width:`${Math.min(100,Math.max(5,(days/(days<7?7:days<14?14:days<30?30:60))*100))}%`}}/></div></div>
+   </section>
 
-function safeSetup(raw: string | null): Setup {
-  try {
-    const parsed = raw ? JSON.parse(raw) : {};
-    return { reason: typeof parsed.reason === "string" ? parsed.reason : "", intention: typeof parsed.intention === "string" ? parsed.intention : "steady" };
-  } catch { return { reason: "", intention: "steady" }; }
-}
+   <section className="check-card">
+    <div className="check-copy"><div className="eyebrow">RIGHT NOW</div><h2>How are you doing today?</h2><p>There is no score here. Just a small check-in for yourself.</p></div>
+    <button className={`check-button ${recorded?"done":""}`} onClick={toggle}><span>{recorded?<Check size={22}/>:<span className="ring"/>}</span><div><b>{recorded?"I'm on track":"I'm on track today"}</b><small>{recorded?"Recorded · tap to undo":"Tap once to record today"}</small></div><ChevronRight size={18}/></button>
+    <button className="pause-link" onClick={()=>{setTimer(600);setSheet("pause")}}><Pause size={15}/> I need a moment</button>
+   </section>
 
-export default function Home() {
-  const [ready, setReady] = useState(false);
-  const [goals, setGoals] = useState<Goal[]>([]);
-  const [checkins, setCheckins] = useState<Checkin[]>([]);
-  const [setup, setSetup] = useState<Setup>({ reason: "", intention: "steady" });
-  const [selected, setSelected] = useState("");
-  const [tab, setTab] = useState<"today" | "progress" | "settings">("today");
-  const [onboard, setOnboard] = useState(false);
-  const [onboardStep, setOnboardStep] = useState(0);
-  const [onboardGoal, setOnboardGoal] = useState<(typeof goalOptions)[number] | null>(null);
-  const [onboardReason, setOnboardReason] = useState("");
-  const [showGoals, setShowGoals] = useState(false);
-  const [showPause, setShowPause] = useState(false);
-  const [showReset, setShowReset] = useState(false);
-  const [timer, setTimer] = useState(600);
-  const [checked, setChecked] = useState(false);
-  const [message, setMessage] = useState("");
-  const [importing, setImporting] = useState(false);
+   <section className="week-card"><div className="section-head"><div><span className="eyebrow">YOUR WEEK</span><h3>Small steps count.</h3></div><span className="week-count">{recentCount}/7</span></div><div className="week-grid">{recent.map((d,i)=>{const on=checks.some(c=>c.goalId===current.id&&c.date===d&&c.stayedOnTrack),today=d===key();return <div key={d} className={today?"today":""}><span>{["S","M","T","W","T","F","S"][new Date(d+"T12:00:00").getDay()]}</span><i className={on?"on":""}>{on&&<Check size={12}/>}</i><small>{new Date(d+"T12:00:00").getDate()}</small></div>})}</div></section>
 
-  useEffect(() => {
-    try {
-      if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister())).catch(() => {});
-      if ("caches" in window) caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).catch(() => {});
-      const gs = safeGoals(localStorage.getItem("quitify-goals"));
-      const cs = safeCheckins(localStorage.getItem("quitify-checkins"));
-      const sp = safeSetup(localStorage.getItem("quitify-setup"));
-      setGoals(gs); setCheckins(cs); setSetup(sp);
-      if (gs.length) setSelected(gs[0].id); else setOnboard(true);
-    } catch { setOnboard(true); }
-    setReady(true);
-  }, []);
+   <div className="tool-grid"><button onClick={()=>setSheet("pause")}><span><Zap size={17}/></span><div><b>Need a reset?</b><small>A short pause before the next choice.</small></div><ChevronRight size={16}/></button><button onClick={()=>setSheet("reset")}><span><RotateCcw size={17}/></span><div><b>Start fresh</b><small>Keep your history. Begin a new run.</small></div><ChevronRight size={16}/></button></div>
+   </>:<section className="first-card"><div className="first-art"><Target size={30}/></div><span className="eyebrow">YOUR FIRST STEP</span><h2>Choose one thing<br/>you want to change.</h2><p>QUITify keeps the experience simple: one focus, one day, one decision at a time.</p><button className="primary" onClick={()=>setSheet("goal")}>Choose my focus <ArrowRight size={17}/></button></section>}
+  </section>}
 
-  useEffect(() => { if (ready) try { localStorage.setItem("quitify-goals", JSON.stringify(goals)); } catch { flash("Local storage is full. Export a backup."); } }, [goals, ready]);
-  useEffect(() => { if (ready) try { localStorage.setItem("quitify-checkins", JSON.stringify(checkins)); } catch { flash("Local storage is full. Export a backup."); } }, [checkins, ready]);
-  useEffect(() => { if (ready) try { localStorage.setItem("quitify-setup", JSON.stringify(setup)); } catch {} }, [setup, ready]);
+  {tab==="insights"&&<section className="content"><div className="page-title"><p className="eyebrow">INSIGHTS</p><h1>Notice the change.</h1><p className="sub">Progress isn't only a number. Here's what you've recorded.</p></div>{current?<><div className="stats-grid"><div className="stat-card featured"><span className="eyebrow">CURRENT RUN</span><strong>{days}</strong><small>days</small><div className="stat-foot">Best · {Math.max(days,current.best)} days</div></div><div className="stat-card"><span className="eyebrow">CHECK-INS</span><strong>{checks.filter(c=>c.goalId===current.id).length}</strong><small>moments</small></div><div className="stat-card"><span className="eyebrow">THIS WEEK</span><strong>{recentCount}</strong><small>of 7 days</small></div></div><div className="insight-card"><div className="insight-icon"><BarChart3 size={19}/></div><div><span className="eyebrow">A SIMPLE READ</span><h3>{recentCount>=5?"You've been showing up consistently.":recentCount>=3?"You're building a pattern.":"Every check-in is useful information."}</h3><p>Keep looking at the pattern, not just the perfect days.</p></div></div><div className="history-card"><div className="section-head"><div><span className="eyebrow">HISTORY</span><h3>Recent check-ins</h3></div></div>{checks.filter(c=>c.goalId===current.id).slice(-8).reverse().map(c=><div className="history" key={c.date}><span>{new Date(c.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</span><b>{c.stayedOnTrack?"On track":"Recorded"}</b></div>)}{!checks.filter(c=>c.goalId===current.id).length&&<p className="empty-text">Your check-ins will appear here.</p>}</div></>:<div className="empty-small">Choose a focus to start seeing your pattern.</div>}</section>}
 
-  const current = goals.find(g => g.id === selected) ?? goals[0];
-  const active = goals.filter(g => g.active);
-  const days = current ? daysSince(current.startedAt) : 0;
-  const goalCheckins = current ? checkins.filter(c => c.goalId === current.id) : [];
-  const todayCheckin = checkins.find(c => c.goalId === current?.id && c.date === dateKey());
-  const last14 = Array.from({ length: 14 }, (_, i) => {
-    const d = new Date(); d.setDate(d.getDate() - (13 - i)); return dateKey(d);
-  });
-  const last14OnTrack = last14.filter(k => goalCheckins.some(c => c.date === k && c.stayedOnTrack)).length;
-  const consistency = Math.round((last14OnTrack / 14) * 100);
-  const nextMilestone = days < 7 ? 7 : days < 14 ? 14 : days < 30 ? 30 : days < 60 ? 60 : 90;
-  const milestoneProgress = Math.min(100, Math.round((days / nextMilestone) * 100));
-  const dateLabel = useMemo(() => new Intl.DateTimeFormat(undefined, { weekday: "long", month: "long", day: "numeric" }).format(new Date()), []);
-  const intention = intentionOptions.find(x => x[0] === setup.intention)?.[1] ?? "Keep today simple";
+  {tab==="settings"&&<section className="content"><div className="page-title"><p className="eyebrow">SETTINGS</p><h1>Your space.</h1><p className="sub">QUITify stays on this device unless you choose to move it.</p></div><div className="settings-card"><div className="setting"><span className="setting-icon"><LockKeyhole size={17}/></span><div><b>Local-only</b><p>No account is required. Your data stays in this browser.</p></div><em>ON DEVICE</em></div><button className="setting action" onClick={exportData}><span className="setting-icon"><Download size={17}/></span><div><b>Export backup</b><p>Save a copy of your QUITify data.</p></div><ChevronRight size={17}/></button><label className="setting action"><span className="setting-icon"><Upload size={17}/></span><div><b>Restore backup</b><p>Bring your data back onto this device.</p></div><ChevronRight size={17}/><input hidden type="file" accept=".json,application/json" onChange={async e=>{const f=e.target.files?.[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!Array.isArray(x.goals))throw 0;setGoals(x.goals);setChecks(Array.isArray(x.checkins)?x.checkins:[]);setSelected(x.goals[0]?.id||"");notify("Backup restored.")}catch{notify("That backup could not be restored.")}}}/></label><div className="setting"><span className="setting-icon"><ShieldCheck size={17}/></span><div><b>Safety</b><p>QUITify is a self-guided design case study, not medical treatment. Some forms of dependence may need professional support.</p></div></div><button className="danger" onClick={clear}><Trash2 size={17}/><span><b>Clear local data</b><small>Delete goals, check-ins and setup from this browser.</small></span></button></div></section>}
 
-  useEffect(() => { setChecked(!!todayCheckin?.stayedOnTrack); }, [todayCheckin?.stayedOnTrack, current?.id]);
-  useEffect(() => {
-    const key = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { setShowGoals(false); setShowPause(false); setShowReset(false); }
-    };
-    window.addEventListener("keydown", key); return () => window.removeEventListener("keydown", key);
-  }, []);
-  useEffect(() => {
-    if (!showPause || timer <= 0) return;
-    const id = setInterval(() => setTimer(v => Math.max(0, v - 1)), 1000);
-    return () => clearInterval(id);
-  }, [showPause, timer]);
+  <nav className="nav"><button className={tab==="home"?"active":""} onClick={()=>setTab("home")}><Target size={18}/><span>Today</span></button><button className={tab==="insights"?"active":""} onClick={()=>setTab("insights")}><BarChart3 size={18}/><span>Progress</span></button><button className={tab==="settings"?"active":""} onClick={()=>setTab("settings")}><Settings2 size={18}/><span>Settings</span></button></nav>
 
-  function flash(text: string) {
-    setMessage(text);
-    window.setTimeout(() => setMessage(""), 2300);
-  }
+  {onboard&&<div className="onboard"><div className="onboard-inner"><header><div className="brand light"><span>Q</span>QUITify</div><small>{onStep+1} / 3</small></header>{onStep===0&&<div className="on-content"><div className="welcome-symbol"><Sparkles size={24}/></div><p className="eyebrow">WELCOME TO QUITify</p><h2>A little more space<br/>between you and the habit.</h2><p>Private, simple, and built for the moments that actually matter.</p><button className="light-primary" onClick={()=>setOnStep(1)}>Let's begin <ArrowRight size={17}/></button></div>}{onStep===1&&<div className="on-content"><p className="eyebrow">STEP 1 · YOUR FOCUS</p><h2>What would you like<br/>to change?</h2><div className="goal-grid">{goals.map(g=><button className={chosen?.[0]===g[0]?"selected":""} key={g[0]} onClick={()=>setChosen(g)}><span className={`focus-icon ${g[2]}`}>{g[1]}</span>{g[0]}<ChevronRight size={15}/></button>)}</div><button className="light-primary" disabled={!chosen} onClick={()=>setOnStep(2)}>Continue <ArrowRight size={17}/></button></div>}{onStep===2&&<div className="on-content"><p className="eyebrow">STEP 2 · YOUR REASON</p><h2>Why does this<br/>matter to you?</h2><div className="reason-list">{["More focus","More time","Better sleep","My relationships","More money","Just for me"].map(r=><button className={reason===r?"selected":""} key={r} onClick={()=>setReason(r)}>{r}{reason===r&&<Check size={16}/>}</button>)}</div><button className="light-primary" onClick={finish}>Enter QUITify <ArrowRight size={17}/></button><button className="skip" onClick={finish}>Skip for now</button></div>}</div></div>}
 
-  function makeGoal(label: string, icon: string, accent: string, reason = "") {
-    const id = globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    const goal: Goal = { id, label, icon, accent, startedAt: new Date().toISOString(), best: 0, checkIns: 0, resets: 0, active: true, reason };
-    setGoals(v => [...v, goal]); setSelected(id); setShowGoals(false); setOnboard(false); setTab("today");
-    flash("Your space is ready.");
-  }
-
-  function finishOnboarding() {
-    if (!onboardGoal) return;
-    const [label, icon, accent] = onboardGoal;
-    setSetup({ reason: onboardReason, intention: setup.intention });
-    makeGoal(label, icon, accent, onboardReason);
-  }
-
-  function toggleCheckin() {
-    if (!current) return;
-    const date = dateKey(), next = !checked;
-    setChecked(next);
-    setCheckins(v => [...v.filter(c => !(c.goalId === current.id && c.date === date)), { goalId: current.id, date, stayedOnTrack: next }]);
-    setGoals(v => v.map(g => g.id === current.id ? { ...g, checkIns: Math.max(0, g.checkIns + (next ? 1 : -1)) } : g));
-    flash(next ? "Today is recorded." : "Today's check-in was removed.");
-  }
-
-  function resetGoal() {
-    if (!current) return;
-    const hadToday = !!todayCheckin?.stayedOnTrack;
-    setGoals(v => v.map(g => g.id === current.id ? {
-      ...g, startedAt: new Date().toISOString(), best: Math.max(g.best, days),
-      checkIns: Math.max(0, g.checkIns - (hadToday ? 1 : 0)), resets: g.resets + 1
-    } : g));
-    setCheckins(v => v.filter(c => !(c.goalId === current.id && c.date === dateKey())));
-    setShowReset(false); setChecked(false); flash("New starting point saved.");
-  }
-
-  function exportData() {
-    const payload = { version: 2, exportedAt: new Date().toISOString(), setup, goals, checkins };
-    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob), link = document.createElement("a");
-    link.href = url; link.download = "quitify-backup.json"; link.click(); URL.revokeObjectURL(url); flash("Backup exported.");
-  }
-
-  async function importData(file: File) {
-    setImporting(true);
-    try {
-      const parsed = JSON.parse(await file.text());
-      const importedGoals = safeGoals(JSON.stringify(parsed?.goals));
-      const importedCheckins = safeCheckins(JSON.stringify(parsed?.checkins));
-      if (![1, 2].includes(parsed?.version) || !importedGoals.length) throw new Error("Invalid");
-      const ids = new Set(importedGoals.map(g => g.id));
-      setGoals(importedGoals); setCheckins(importedCheckins.filter(c => ids.has(c.goalId)));
-      setSetup(safeSetup(JSON.stringify(parsed?.setup))); setSelected(importedGoals[0].id);
-      setOnboard(false); setTab("today"); flash("Backup restored.");
-    } catch { flash("That file is not a valid QUITify backup."); }
-    finally { setImporting(false); }
-  }
-
-  function eraseAll() {
-    localStorage.removeItem("quitify-goals"); localStorage.removeItem("quitify-checkins"); localStorage.removeItem("quitify-setup");
-    setGoals([]); setCheckins([]); setSelected(""); setOnboard(true); setOnboardStep(0); setTab("today"); flash("Local data cleared.");
-  }
-
-  function beginPause() { setTimer(600); setShowPause(true); }
-  const mins = String(Math.floor(timer / 60)).padStart(2, "0");
-  const secs = String(timer % 60).padStart(2, "0");
-
-  if (!ready) return <main className="page loading"><div className="wordmark"><span className="qmark">Q</span><b>QUITify</b></div></main>;
-
-  return (
-    <main className="page">
-      <header className="topbar">
-        <button className="wordmark" onClick={() => setTab("today")} aria-label="Go to Today"><span className="qmark">Q</span><b>QUITify</b></button>
-        <div className="top-meta"><Fingerprint size={15} /><span>Only you can see this</span></div>
-        <button className="top-icon" onClick={() => setTab("settings")} aria-label="Settings"><Settings2 size={19} /></button>
-      </header>
-
-      {tab === "today" && (
-        <section className="screen today-screen">
-          <div className="screen-intro">
-            <div><span className="micro">{dateLabel}</span><h1>Make room<br />for today.</h1></div>
-            <div className="intention-chip"><span className="live-dot" />{intention}</div>
-          </div>
-
-          {active.length > 0 && (
-            <div className="goal-switcher">
-              {active.map(g => <button key={g.id} className={g.id === current?.id ? "chosen" : ""} onClick={() => setSelected(g.id)}>
-                <span className={`goal-symbol ${g.accent}`}>{g.icon}</span><span>{g.label}</span>
-              </button>)}
-              <button className="add-goal" onClick={() => setShowGoals(true)}><Plus size={16} /> New</button>
-            </div>
-          )}
-
-          {current ? (
-            <>
-              <section className="command-grid">
-                <div className="run-card">
-                  <div className="run-orbit" style={{ "--progress": `${Math.min(100, Math.max(7, milestoneProgress))}%` } as React.CSSProperties}>
-                    <div className="orbit-core"><span>current run</span><strong>{days}</strong><small>days</small></div>
-                  </div>
-                  <div className="run-copy"><span className="micro">THE RUN</span><h2>{days === 0 ? "Today is day one." : days === 1 ? "One day at a time." : "Keep the next choice simple."}</h2><p>{nextMilestone} day milestone · {Math.max(current.best, days)} day best</p></div>
-                </div>
-
-                <div className="choice-card">
-                  <div className="choice-heading"><span className="micro">RIGHT NOW</span><Target size={18} /></div>
-                  <h2>How is this moment going?</h2>
-                  <p>You don't need to solve the whole habit. Just record this moment.</p>
-                  <button className={`check-action ${checked ? "checked" : ""}`} onClick={toggleCheckin}>
-                    <span>{checked ? <Check size={21} /> : <span className="empty-check" />}</span>
-                    <span><b>{checked ? "I'm on track today" : "I'm on track today"}</b><small>{checked ? "Recorded · tap to undo" : "One tap. No score."}</small></span>
-                    <ChevronRight size={17} />
-                  </button>
-                  <button className="pause-action" onClick={beginPause}><Pause size={15} /> I need a little space</button>
-                </div>
-              </section>
-
-              <section className="pattern-section">
-                <div className="section-line"><div><span className="micro">THE PATTERN</span><h2>Last 14 days</h2></div><span>{consistency}% recorded</span></div>
-                <div className="pattern-grid">
-                  {last14.map((key, i) => {
-                    const d = new Date(); d.setDate(d.getDate() - (13 - i));
-                    const done = goalCheckins.some(c => c.date === key && c.stayedOnTrack);
-                    const today = key === dateKey();
-                    return <div key={key} className={`pattern-cell ${done ? "done" : ""} ${today ? "today" : ""}`} title={key}>
-                      <span>{["S","M","T","W","T","F","S"][d.getDay()]}</span><i>{done && <Check size={11} />}</i><small>{d.getDate()}</small>
-                    </div>;
-                  })}
-                </div>
-              </section>
-
-              <section className="lower-grid">
-                <div className="reason-card"><span className="micro">YOUR REASON</span><h3>{current.reason || "You chose to make room."}</h3><p>{current.reason ? "Keep this close when the moment gets noisy." : "You can add a reason later in a new goal."}</p></div>
-                <div className="fresh-card"><div><span className="micro">RESET WITHOUT ERASING</span><h3>Need a new starting point?</h3><p>Your history and best stay intact.</p></div><button onClick={() => setShowReset(true)} aria-label="Start a fresh run"><RotateCcw size={17} /></button></div>
-              </section>
-            </>
-          ) : (
-            <section className="empty-focus"><span className="empty-number">01</span><h2>Start with one thing.</h2><p>QUITify is deliberately quiet. Choose one change and the rest of the interface will organize itself around today.</p><button className="primary-action" onClick={() => setShowGoals(true)}>Choose your focus <ArrowRight size={17} /></button></section>
-          )}
-        </section>
-      )}
-
-      {tab === "progress" && (
-        <section className="screen secondary-screen">
-          <div className="screen-intro"><div><span className="micro">REFLECTION</span><h1>See what<br />is changing.</h1></div><Activity size={26} /></div>
-          {current ? (
-            <div className="reflection-layout">
-              <section className="big-stat"><span className="micro">CURRENT RUN</span><strong>{days}<small> days</small></strong><div className="milestone-track"><i style={{ width: `${milestoneProgress}%` }} /></div><div><span>{milestoneProgress}% toward {nextMilestone} days</span><span>best {Math.max(current.best, days)}</span></div></section>
-              <section className="small-stat"><span className="micro">LAST 14 DAYS</span><strong>{consistency}%</strong><p>days recorded</p></section>
-              <section className="small-stat"><span className="micro">TOTAL CHECK-INS</span><strong>{goalCheckins.length}</strong><p>moments captured</p></section>
-              <section className="history-block"><div className="section-line"><div><span className="micro">RECENT HISTORY</span><h2>What you recorded</h2></div></div>{goalCheckins.length ? goalCheckins.slice(-10).reverse().map(c => <div className="history-item" key={c.date}><span>{new Date(c.date + "T12:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}</span><b>{c.stayedOnTrack ? "On track" : "Logged"}</b></div>) : <p className="quiet">Your first check-in will appear here.</p>}</section>
-            </div>
-          ) : <section className="empty-focus"><h2>Nothing to reflect on yet.</h2><p>Choose a focus first. Your history will grow from there.</p><button className="primary-action" onClick={() => setShowGoals(true)}>Choose your focus <ArrowRight size={17} /></button></section>}
-        </section>
-      )}
-
-      {tab === "settings" && (
-        <section className="screen secondary-screen">
-          <div className="screen-intro"><div><span className="micro">CONTROL</span><h1>Keep it<br />in your hands.</h1></div><LockKeyhole size={26} /></div>
-          <div className="control-list">
-            <div className="control-row"><span className="control-icon"><ShieldCheck size={17} /></span><div><b>Local-only data</b><p>Your goals and check-ins live in this browser. No account is required.</p></div><span className="secure-label">LOCAL</span></div>
-            <div className="control-row"><span className="control-icon"><Download size={17} /></span><div><b>Export a backup</b><p>Save a JSON copy that you control.</p></div><button onClick={exportData}>Export</button></div>
-            <label className="control-row"><span className="control-icon"><Upload size={17} /></span><div><b>Restore a backup</b><p>Replace this browser's data with a QUITify backup.</p></div><button>{importing ? "Reading…" : "Import"}<input type="file" accept="application/json,.json" hidden disabled={importing} onChange={e => { const f = e.target.files?.[0]; if (f) importData(f); e.currentTarget.value = ""; }} /></button></label>
-            <div className="control-row"><span className="control-icon"><CircleHelp size={17} /></span><div><b>Safety note</b><p>QUITify is a self-guided design case study, not medical treatment. Some forms of dependence can require professional support.</p></div></div>
-            <button className="erase-row" onClick={eraseAll}><Trash2 size={17} /><span><b>Clear local data</b><small>This removes goals, check-ins, and setup from this browser.</small></span><ChevronRight size={17} /></button>
-          </div>
-        </section>
-      )}
-
-      <nav className="dock" aria-label="Main navigation">
-        <button className={tab === "today" ? "active" : ""} onClick={() => setTab("today")}><span>01</span>Today</button>
-        <button className={tab === "progress" ? "active" : ""} onClick={() => setTab("progress")}><span>02</span>Reflect</button>
-        <button className={tab === "settings" ? "active" : ""} onClick={() => setTab("settings")}><span>03</span>Control</button>
-      </nav>
-
-      {message && <div className="toast"><Check size={15} />{message}</div>}
-
-      {onboard && (
-        <div className="onboarding">
-          <div className="onboard-shell">
-            <header><button className="wordmark light" onClick={() => { if (onboardStep > 0) setOnboardStep(v => v - 1); }}><span className="qmark">Q</span><b>QUITify</b></button><span>{String(onboardStep + 1).padStart(2, "0")} / 03</span></header>
-            {onboardStep === 0 && <div className="onboard-step"><span className="micro light-text">A QUIET START</span><h2>Make room<br />for your life.</h2><p>No account. No feed. No performance. Just a private place to work on one change.</p><button className="light-action" onClick={() => setOnboardStep(1)}>Begin <ArrowRight size={17} /></button></div>}
-            {onboardStep === 1 && <div className="onboard-step"><span className="micro light-text">01 · YOUR FOCUS</span><h2>What are you<br />making room for?</h2><div className="choice-grid">{goalOptions.map(g => <button key={g[0]} className={onboardGoal?.[0] === g[0] ? "picked" : ""} onClick={() => setOnboardGoal(g)}><span>{g[1]}</span>{g[0]}</button>)}</div><button className="light-action" disabled={!onboardGoal} onClick={() => setOnboardStep(2)}>Continue <ArrowRight size={17} /></button></div>}
-            {onboardStep === 2 && <div className="onboard-step"><span className="micro light-text">02 · YOUR REASON</span><h2>Give today<br />a reason.</h2><div className="reason-grid">{reasonOptions.map(r => <button className={onboardReason === r ? "picked" : ""} key={r} onClick={() => setOnboardReason(r)}>{r}</button>)}</div><span className="micro light-text intention-label">YOUR MODE</span><div className="mode-row">{intentionOptions.map(i => <button className={setup.intention === i[0] ? "picked" : ""} key={i[0]} onClick={() => setSetup(v => ({ ...v, intention: i[0] }))}>{i[1]}</button>)}</div><button className="light-action" onClick={finishOnboarding}>Enter QUITify <ArrowRight size={17} /></button><button className="skip" onClick={finishOnboarding}>Skip the reason</button></div>}
-          </div>
-        </div>
-      )}
-
-      {showGoals && <div className="overlay" onClick={() => setShowGoals(false)}><section className="goal-picker" onClick={e => e.stopPropagation()}><header><div><span className="micro">CHOOSE A FOCUS</span><h2>What comes next?</h2></div><button onClick={() => setShowGoals(false)} aria-label="Close"><X size={18} /></button></header><div className="picker-grid">{goalOptions.map(g => <button key={g[0]} onClick={() => makeGoal(g[0], g[1], g[2])}><span className={`goal-symbol ${g[2]}`}>{g[1]}</span><span>{g[0]}</span><ChevronRight size={16} /></button>)}</div></section></div>}
-
-      {showPause && <div className="overlay" onClick={() => setShowPause(false)}><section className="pause-room" onClick={e => e.stopPropagation()}><header><div><span className="micro">A LITTLE SPACE</span><h2>Nothing to solve<br />for ten minutes.</h2></div><button onClick={() => setShowPause(false)} aria-label="Close"><X size={18} /></button></header><div className="timer-face"><Clock3 size={20} /><strong>{mins}:{secs}</strong><span>{timer === 0 ? "Time is up. Choose what feels useful now." : "Let the moment become a little less immediate."}</span></div><div className="pause-notes"><div><b>Change the scene</b><span>Stand up, move rooms, or put a little distance between you and the trigger.</span></div><div><b>Do one ordinary thing</b><span>Drink water, wash your face, stretch, or return to what you were doing.</span></div></div><button className="primary-action wide" onClick={() => setShowPause(false)}>I'm ready <ArrowRight size={17} /></button></section></div>}
-
-      {showReset && <div className="overlay" onClick={() => setShowReset(false)}><section className="reset-room" onClick={e => e.stopPropagation()}><span className="micro">NEW STARTING POINT</span><h2>Start again without deleting what you learned.</h2><p>Your best and history stay. Only the current run starts over.</p><div><button className="quiet-button" onClick={() => setShowReset(false)}>Keep this run</button><button className="primary-action" onClick={resetGoal}>Start fresh <RotateCcw size={16} /></button></div></section></div>}
-    </main>
-  );
+  {sheet==="goal"&&<div className="sheet-bg" onClick={()=>setSheet(null)}><section className="sheet" onClick={e=>e.stopPropagation()}><div className="sheet-handle"/><div className="sheet-head"><div><span className="eyebrow">YOUR FOCUS</span><h2>Choose another focus</h2></div><button className="icon-btn" onClick={()=>setSheet(null)}><X size={18}/></button></div><div className="sheet-goals">{goals.map(g=><button key={g[0]} onClick={()=>createGoal(g)}><span className={`focus-icon ${g[2]}`}>{g[1]}</span>{g[0]}<ChevronRight size={16}/></button>)}</div></section></div>}
+  {sheet==="pause"&&<div className="sheet-bg" onClick={()=>setSheet(null)}><section className="pause-sheet" onClick={e=>e.stopPropagation()}><div className="sheet-handle"/><div className="sheet-head"><div><span className="eyebrow">PAUSE</span><h2>You don't have to decide right now.</h2></div><button className="icon-btn" onClick={()=>setSheet(null)}><X size={18}/></button></div><div className="pause-timer"><Clock3 size={18}/><strong>{String(Math.floor(timer/60)).padStart(2,"0")}:{String(timer%60).padStart(2,"0")}</strong><p>Give the moment a little room. Change your surroundings, breathe, and let the urgency settle.</p></div><div className="pause-actions"><div><b>Change the scene</b><span>Stand up or move somewhere different.</span></div><div><b>Do one ordinary thing</b><span>Return to a simple, familiar activity.</span></div></div><button className="primary full" onClick={()=>setSheet(null)}>I'm ready <ArrowRight size={17}/></button></section></div>}
+  {sheet==="reset"&&<div className="sheet-bg" onClick={()=>setSheet(null)}><section className="sheet reset-sheet" onClick={e=>e.stopPropagation()}><div className="sheet-head"><div><span className="eyebrow">FRESH START</span><h2>Start again without erasing your progress.</h2></div><button className="icon-btn" onClick={()=>setSheet(null)}><X size={18}/></button></div><p>Your history and best run stay saved. Only the current run starts over.</p><div className="reset-buttons"><button className="secondary" onClick={()=>setSheet(null)}>Keep my run</button><button className="primary" onClick={reset}>Start fresh <RotateCcw size={16}/></button></div></section></div>}
+  {toast&&<div className="toast"><Check size={15}/>{toast}</div>}
+ </main>
 }
