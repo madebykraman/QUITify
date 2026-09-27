@@ -13,10 +13,10 @@ const streakFor=(arr:Checkin[],goalId:string,startedAt:string)=>{const start=sta
 const bestStreakFor=(arr:Checkin[],goalId:string)=>{const dates=arr.filter(x=>x.goalId===goalId&&x.stayedOnTrack).map(x=>x.date).sort();let best=0,run=0,prev="";for(const date of dates){if(date===prev)continue;const p=prev?new Date(prev+"T12:00:00"):null,d=new Date(date+"T12:00:00");if(p&&Math.round((d.getTime()-p.getTime())/86400000)===1)run++;else run=1;best=Math.max(best,run);prev=date}return best};
 
 export default function Home(){
-const[g,setG]=useState<Goal[]>([]),[c,setC]=useState<Checkin[]>([]),[ready,setReady]=useState(false),[dark,setDark]=useState(false),[sel,setSel]=useState(""),[tab,setTab]=useState<"today"|"progress"|"settings">("today"),[intro,setIntro]=useState(false),[step,setStep]=useState(0),[pick,setPick]=useState<(typeof opts)[number]|null>(null),[reason,setReason]=useState(""),[sheet,setSheet]=useState<"goal"|"pause"|"reset"|null>(null),[timer,setTimer]=useState(600),[toast,setToast]=useState(""),[support,setSupport]=useState(false);
+const[g,setG]=useState<Goal[]>([]),[c,setC]=useState<Checkin[]>([]),[ready,setReady]=useState(false),[dark,setDark]=useState(false),[sel,setSel]=useState(""),[tab,setTab]=useState<"today"|"progress"|"settings">("today"),[landing,setLanding]=useState(false),[intro,setIntro]=useState(false),[step,setStep]=useState(0),[pick,setPick]=useState<(typeof opts)[number]|null>(null),[reason,setReason]=useState(""),[sheet,setSheet]=useState<"goal"|"pause"|"reset"|null>(null),[timer,setTimer]=useState(600),[toast,setToast]=useState(""),[support,setSupport]=useState(false);
 const cur=g.find(x=>x.id===sel)||g[0],days=cur?streakFor(c,cur.id,cur.startedAt):0,best=cur?Math.max(cur.best,bestStreakFor(c,cur.id)):0,today=!!cur&&hasTrack(c,cur.id,dk()),checkIns=cur?c.filter(x=>x.goalId===cur.id&&x.stayedOnTrack).length:0,week=useMemo(()=>Array.from({length:7},(_,i)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-6+i);return dk(d)}),[]);
 const wc=cur?week.filter(d=>hasTrack(c,cur.id,d)).length:0; const encouragement=days===0?"Start with today.":days===1?"You made it through one day.":days<7?"You are building momentum.":days<14?"A week is behind you. Keep the next day simple.":"Consistency is becoming familiar."; const consistency=cur?Math.round((wc/7)*100):0; const nextMilestone=days<3?3:days<7?7:days<14?14:days<30?30:60; const timerDeg=Math.max(0,Math.min(360,(timer/600)*360)); const todayLabel=new Date().toLocaleDateString(undefined,{weekday:"long"}).toUpperCase();
-useEffect(()=>{const a=rg(localStorage.getItem("quitify-goals")),b=rc(localStorage.getItem("quitify-checkins"));setG(a);setC(b);setSel(a[0]?.id||"");setIntro(!a.length);setDark(localStorage.getItem("quitify-theme")==="dark");setReady(true)},[]);
+useEffect(()=>{const a=rg(localStorage.getItem("quitify-goals")),b=rc(localStorage.getItem("quitify-checkins"));setG(a);setC(b);setSel(a[0]?.id||"");setLanding(!a.length);setIntro(false);setDark(localStorage.getItem("quitify-theme")==="dark");setReady(true)},[]);
 useEffect(()=>{if(ready)localStorage.setItem("quitify-goals",JSON.stringify(g))},[g,ready]);useEffect(()=>{document.documentElement.dataset.theme=dark?"dark":"light";if(ready)localStorage.setItem("quitify-theme",dark?"dark":"light")},[dark,ready]);useEffect(()=>{if(ready)localStorage.setItem("quitify-checkins",JSON.stringify(c))},[c,ready]);
 useEffect(()=>{if(sheet!=="pause"||timer<1)return;const i=setInterval(()=>setTimer(v=>v-1),1000);return()=>clearInterval(i)},[sheet,timer]);
 useEffect(()=>{const f=(e:KeyboardEvent)=>{if(e.key==="Escape"){setSheet(null);setIntro(false)}};addEventListener("keydown",f);return()=>removeEventListener("keydown",f)},[]);
@@ -27,6 +27,60 @@ const check=()=>{if(!cur)return;const d=dk(),n=!today;setC(v=>[...v.filter(x=>!(
 const fresh=()=>{if(!cur)return;setG(v=>v.map(x=>x.id===cur.id?{...x,startedAt:new Date().toISOString(),best:Math.max(x.best,days),resets:x.resets+1}:x));setC(v=>v.filter(x=>!(x.goalId===cur.id&&x.date===dk())));setSheet(null);note("Fresh start saved.")};
 const backup=()=>{const b=new Blob([JSON.stringify({version:3,exportedAt:new Date().toISOString(),goals:g,checkins:c},null,2)],{type:"application/json"}),url=URL.createObjectURL(b),a=document.createElement("a");a.href=url;a.download="quitify-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);note("Backup exported.")};
 if(!ready)return <main className="loading"><span>Q</span><b>QUITify</b></main>;
+if(landing)return <main className="landing-page">
+  <div className="landing-orb landing-orb-a"></div><div className="landing-orb landing-orb-b"></div>
+  <header className="landing-nav">
+    <button className="landing-brand" onClick={()=>setLanding(false)} aria-label="Open QUITify"><span>Q</span><b>QUITify</b></button>
+    <div className="landing-navlinks"><a href="#how">How it works</a><a href="#features">Features</a><a href="#privacy">Privacy</a></div>
+    <button className="landing-nav-cta" onClick={()=>{setLanding(false);setIntro(true)}}>Use QUITify <ArrowRight size={15}/></button>
+  </header>
+  <section className="landing-hero">
+    <div className="landing-hero-copy">
+      <div className="landing-kicker"><span></span> A private reset space</div>
+      <h1>Change the habit.<br/><em>Keep the progress.</em></h1>
+      <p>QUITify is a calm, local-first space for changing one habit at a time — with a clear daily check-in, visible progress, and room to start again.</p>
+      <div className="landing-actions"><button className="landing-primary" onClick={()=>{setLanding(false);setIntro(true)}}>Start with QUITify <ArrowRight size={17}/></button><a href="#how" className="landing-secondary">See how it works <ChevronRight size={16}/></a></div>
+      <div className="landing-proof"><span><ShieldCheck size={14}/> On-device by default</span><span><LockKeyhole size={14}/> No account required</span></div>
+    </div>
+    <div className="landing-device" aria-label="QUITify app preview">
+      <div className="device-glow"></div>
+      <div className="device-frame">
+        <div className="device-top"><span>Today</span><i></i></div>
+        <div className="device-greeting"><small>MONDAY</small><b>Good to see you.</b><span>Start with today.</span></div>
+        <div className="device-focus"><small>TODAY’S FOCUS</small><strong>One habit at a time</strong><span>Today is enough.</span><div className="device-stats"><b>0<small>current run</small></b><i><span>7</span>/7</i><em><small>PERSONAL BEST</small>0 days</em></div></div>
+        <div className="device-check"><small>TODAY</small><b>Check in with yourself.</b><span>Record today without a score.</span><div><i></i><strong>I’m on track today</strong><ChevronRight size={14}/></div></div>
+        <div className="device-tabs"><span className="active">◎<b>Today</b></span><span>▥<b>Progress</b></span><span>☷<b>Settings</b></span></div>
+      </div>
+    </div>
+  </section>
+  <section className="landing-strip"><span>Designed around one simple loop</span><b>Notice → Pause → Choose → Check in → See progress</b></section>
+  <section className="landing-section landing-how" id="how">
+    <div className="landing-section-head"><p>HOW IT WORKS</p><h2>Small enough to use<br/>when it actually matters.</h2></div>
+    <div className="landing-steps">
+      <article><i>01</i><div><b>Choose one focus</b><span>Start with the habit you want more control over. Add context only when it helps.</span></div></article>
+      <article><i>02</i><div><b>Check in today</b><span>A single, judgment-free action records whether today stayed on track.</span></div></article>
+      <article><i>03</i><div><b>Use a pause when needed</b><span>A short ten-minute intervention creates space before the next decision.</span></div></article>
+      <article><i>04</i><div><b>Look back, not down</b><span>Progress shows patterns and milestones without turning your change into a score.</span></div></article>
+    </div>
+  </section>
+  <section className="landing-section" id="features">
+    <div className="landing-section-head compact"><p>THE PRODUCT</p><h2>Everything important.<br/>Nothing that gets in the way.</h2></div>
+    <div className="landing-feature-grid">
+      <article className="landing-feature feature-purple"><span><Target size={18}/></span><b>One clear focus</b><p>Keep the main decision visible instead of burying it under dashboards.</p></article>
+      <article className="landing-feature feature-mint"><span><Check size={18}/></span><b>Daily check-in</b><p>Record today quickly, with no score, feed, or public comparison.</p></article>
+      <article className="landing-feature feature-amber"><span><Clock3 size={18}/></span><b>Ten-minute pause</b><p>Step away from the moment and return when you are ready.</p></article>
+      <article className="landing-feature feature-blue"><span><BarChart3 size={18}/></span><b>Progress that explains itself</b><p>Current run, personal best, weekly consistency, history, and milestones.</p></article>
+      <article className="landing-feature feature-dark"><span><LockKeyhole size={18}/></span><b>Local-first</b><p>Your goals and check-ins stay in this browser. Export a backup whenever you want.</p></article>
+      <article className="landing-feature feature-coral"><span><RotateCcw size={18}/></span><b>Fresh starts keep history</b><p>Starting again does not erase what you have already learned.</p></article>
+    </div>
+  </section>
+  <section className="landing-privacy" id="privacy">
+    <div className="privacy-mark"><ShieldCheck size={22}/></div>
+    <div><p>PRIVATE BY DEFAULT</p><h2>Your space stays yours.</h2><span>QUITify is built to work locally in the browser. There is no account wall before the core experience, and your data can be exported or cleared from Settings.</span></div>
+    <button onClick={()=>{setLanding(false);setIntro(true)}}>Enter the app <ArrowRight size={16}/></button>
+  </section>
+  <footer className="landing-footer"><span>QUITify</span><small>One day at a time.</small><button onClick={()=>{setLanding(false);setIntro(true)}}>Use the app <ArrowRight size={14}/></button></footer>
+</main>;
 return <main className="app"><div className="shell">
 <header className="top"><button className="logo" aria-label="Go to Today" onClick={()=>setTab("today")}><span>Q</span><strong>QUITify</strong></button><div className="topstatus"><ShieldCheck size={13}/><span>On-device</span></div><button className="topbtn" aria-label="Settings" onClick={()=>setTab("settings")}><Settings2 size={18}/></button></header>
 {tab==="today"&&<section className="page"><div className="home-heading"><div><p>{todayLabel}</p><h1>Good to see you.</h1><span>{encouragement}</span></div><button className="round home-add" aria-label="Add or change focus" onClick={()=>setSheet("goal")}><Plus size={18}/></button></div>
