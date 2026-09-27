@@ -351,3 +351,6 @@ button:focus-visible,label:focus-within{outline:3px solid rgba(53,92,222,.32);ou
 @media(max-width:640px){.onboarding-modal .onboard-v2{padding:16px 20px calc(20px + env(safe-area-inset-bottom))}.onboard-top-actions{gap:12px}.on-progress i{width:16px}.on-progress i.active{width:28px}.on-screen{padding:34px 0 20px}.on-screen h1{font-size:34px}.on-lead{font-size:14px}.options-v2{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.options-v2 button{min-height:68px;padding:10px}.options-v2 button>i{width:32px;height:32px;flex-basis:32px}.options-v2 button>span{font-size:12px}.reasons-v2{gap:8px;margin-top:24px}.reasons-v2 button{min-height:56px;font-size:13px}.on-footer{margin-top:24px}.on-footer .on-primary{width:100%}.on-footer small{width:100%;text-align:center}.on-back{width:100%}}
 @media(max-width:380px){.on-screen h1{font-size:31px}.options-v2 button{min-height:62px}.options-v2 button>span{font-size:11px}.reasons-v2 button{min-height:52px}}
 @media(prefers-reduced-motion:reduce){.on-screen{animation:none}}
+
+/* Focus context — let onboarding have a visible payoff on Today. */
+.focusreason{display:block!important;margin-top:4px;color:var(--onHeroMuted)!important;font-size:11px!important;font-weight:500!important;letter-spacing:0!important;line-height:1.25}
