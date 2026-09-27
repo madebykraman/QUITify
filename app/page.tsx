@@ -27,6 +27,18 @@ function todayKey(){ return new Date().toISOString().slice(0,10); }
 function daysSince(iso:string){
   return Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 86400000));
 }
+function safeGoals(raw:string|null):Goal[]{
+  try{
+    const parsed=raw?JSON.parse(raw):[];
+    return Array.isArray(parsed)?parsed.filter((g:any)=>g&&typeof g.id==="string"&&typeof g.label==="string"&&typeof g.startedAt==="string"):[]; 
+  }catch{return []}
+}
+function safeCheckins(raw:string|null):Checkin[]{
+  try{
+    const parsed=raw?JSON.parse(raw):[];
+    return Array.isArray(parsed)?parsed.filter((c:any)=>c&&typeof c.goalId==="string"&&typeof c.date==="string"&&typeof c.stayedOnTrack==="boolean"):[]; 
+  }catch{return []}
+}
 
 export default function Home(){
   const [ready,setReady]=useState(false);
@@ -49,16 +61,17 @@ export default function Home(){
       if ("caches" in window) caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).catch(()=>{});
       const g=localStorage.getItem("quitify-goals");
       const c=localStorage.getItem("quitify-checkins");
-      const savedGoals=g?JSON.parse(g):[];
+      const savedGoals=safeGoals(g);
+      const savedCheckins=safeCheckins(c);
       setGoals(savedGoals);
-      setCheckins(c?JSON.parse(c):[]);
+      setCheckins(savedCheckins);
       if(savedGoals.length) setSelected(savedGoals[0].id); else setOnboard(true);
     }catch{ setOnboard(true); }
     setReady(true);
   },[]);
 
-  useEffect(()=>{ if(ready) localStorage.setItem("quitify-goals",JSON.stringify(goals)); },[goals,ready]);
-  useEffect(()=>{ if(ready) localStorage.setItem("quitify-checkins",JSON.stringify(checkins)); },[checkins,ready]);
+  useEffect(()=>{ if(ready){try{localStorage.setItem("quitify-goals",JSON.stringify(goals))}catch{flash("Local storage is full; export a backup in Settings.")}} },[goals,ready]);
+  useEffect(()=>{ if(ready){try{localStorage.setItem("quitify-checkins",JSON.stringify(checkins))}catch{flash("Local storage is full; export a backup in Settings.")}} },[checkins,ready]);
 
   const current=goals.find(g=>g.id===selected) ?? goals[0];
   const days=current?daysSince(current.startedAt):0;
