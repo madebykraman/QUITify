@@ -80,6 +80,12 @@ export default function Home(){
   const current=goals.find(g=>g.id===selected) ?? goals[0];
   const days=current?daysSince(current.startedAt):0;
   const active=goals.filter(g=>g.active);
+  const goalCheckins=current?checkins.filter(c=>c.goalId===current.id):[];
+  const last7=Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));return dateKey(d)});
+  const last7OnTrack=last7.filter(key=>goalCheckins.some(c=>c.date===key&&c.stayedOnTrack)).length;
+  const consistency=Math.round((last7OnTrack/7)*100);
+  const nextMilestone=days<7?7:days<14?14:days<30?30:days<60?60:90;
+  const milestoneProgress=Math.min(100,Math.round((days/nextMilestone)*100));
   const todayCheckin=checkins.find(c=>c.goalId===current?.id && c.date===todayKey());
   const greeting=useMemo(()=>{const h=new Date().getHours();return h<12?"Good morning":h<18?"Good afternoon":"Good evening"},[]);
 
@@ -190,8 +196,10 @@ export default function Home(){
 
     {tab==="progress" && <section className="secondary-page">
       <div className="page-heading"><span className="label">REFLECTION</span><h2>Your progress<br/><span>is the data.</span></h2><p>Look back without judging the person who was trying.</p></div>
-      {current?<div className="progress-layout"><article className="glass-card big-number"><span className="label">CURRENT RUN</span><strong>{days}</strong><span>days</span><div className="mini-line"><i style={{width:`${Math.min(100,days*4+8)}%`}}/></div></article>
-      <article className="glass-card history-card"><span className="label">CHECK-IN HISTORY</span><div className="history-list">{checkins.filter(c=>c.goalId===current.id).slice(-8).reverse().map(c=><div className="history-row" key={c.date}><span>{new Date(c.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</span><b className={c.stayedOnTrack?"positive":"neutral"}>{c.stayedOnTrack?"Stayed on track":"Logged"}</b></div>)}{!checkins.filter(c=>c.goalId===current.id).length&&<p className="muted">Your check-ins will appear here.</p>}</div></article></div>
+      {current?<div className="progress-layout">
+        <article className="glass-card big-number"><span className="label">CURRENT RUN</span><strong>{days}</strong><span>days</span><div className="mini-line"><i style={{width:`${Math.min(100,days*4+8)}%`}}/></div><div className="milestone"><div><span>Next milestone</span><b>{nextMilestone} days</b></div><span>{milestoneProgress}%</span></div></article>
+        <article className="glass-card history-card"><div className="progress-summary"><div><span className="label">LAST 7 DAYS</span><strong>{consistency}%</strong><span>on-track check-ins</span></div><div><span className="label">LOGGED</span><strong>{goalCheckins.length}</strong><span>total check-ins</span></div></div><span className="label">CHECK-IN HISTORY</span><div className="history-list">{goalCheckins.slice(-8).reverse().map(c=><div className="history-row" key={c.date}><span>{new Date(c.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</span><b className={c.stayedOnTrack?"positive":"neutral"}>{c.stayedOnTrack?"Stayed on track":"Logged"}</b></div>)}{!goalCheckins.length&&<p className="muted">Your check-ins will appear here.</p>}</div></article>
+      </div>
       :<div className="glass-card empty-state"><h2>Nothing to measure yet.</h2><p>Choose a goal first and QUITify will keep the useful history locally.</p></div>}
     </section>}
 
