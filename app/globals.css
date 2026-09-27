@@ -37,3 +37,29 @@ linear-gradient(180deg,#f7f4ed 0%,#f0ece3 100%)}
   .page{padding:14px 16px 38px}.hero{padding:55px 0 31px}.hero h1{font-size:58px}.hero-copy{font-size:15px}.privacy-pill{display:none}
   .main-grid{gap:12px}.streak-card,.focus-card,.stats-card,.principle-card{padding:23px}.streak-card h2{font-size:64px}.focus-card h3{font-size:28px}.focus-orb{right:20px;top:20px}.onboarding h2{font-size:43px}
 }
+
+
+/* Settings actions + keyboard-visible focus */
+.setting-action{
+  border:1px solid rgba(17,22,20,.1);
+  background:#f3f1ea;
+  color:#315b49;
+  border-radius:11px;
+  padding:8px 11px;
+  font:700 10px Inter,ui-sans-serif,sans-serif;
+  cursor:pointer;
+  white-space:nowrap;
+  align-self:center;
+}
+.setting-action:hover{background:#fffdf8}
+.setting-action:focus-visible,.primary-button:focus-visible,.secondary-button:focus-visible,
+.icon-button:focus-visible,.goal-chip:focus-visible,.add-chip:focus-visible,
+.bottom-nav button:focus-visible,.danger-row:focus-visible,.tiny-action:focus-visible,
+.close:focus-visible,.option-grid button:focus-visible{
+  outline:3px solid rgba(66,107,88,.28);
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  .setting-row{gap:11px}
+  .setting-action{padding:8px 10px}
+}
