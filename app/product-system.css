@@ -1,4 +1,7 @@
-@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,600,700,800&f[]=satoshi@400,500,600,700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.2.6/400.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.2.6/500.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.2.6/600.css');
+@import url('https://cdn.jsdelivr.net/npm/@fontsource/be-vietnam-pro@5.2.6/700.css');
 /* QUITify Product System v2.0 */
 :root{--bg:#f5f6f4;--surface:#fff;--surface2:#f0f2ef;--ink:#161816;--muted:#6f746e;--soft:#969c94;--line:#dfe3dd;--accent:#3158d8;--accent2:#2749ba;--accentSoft:#edf1ff;--green:#2b8865;--greenSoft:#e8f5ee;--shadow:0 1px 2px rgba(18,24,18,.04),0 8px 28px rgba(18,24,18,.045);--shadowStrong:0 12px 40px rgba(18,24,18,.08)}
 :root[data-theme="dark"]{--bg:#0d0f12;--surface:#15181d;--surface2:#1c2026;--ink:#f4f6f4;--muted:#a4aaa5;--soft:#747b76;--line:#2a3037;--accent:#8198ff;--accent2:#9badff;--accentSoft:#1c2545;--green:#65c99a;--greenSoft:#153027;--shadow:0 8px 28px rgba(0,0,0,.20);--shadowStrong:0 16px 44px rgba(0,0,0,.30)}
@@ -32,8 +35,8 @@ button,.settings>label{touch-action:manipulation;-webkit-tap-highlight-color:tra
 /* QUITify Design Language v3 — expressive, familiar, product-first */
 
 :root{
-  --font-brand:"Satoshi",ui-sans-serif,system-ui,sans-serif;
-  --font-display:"Cabinet Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --font-brand:"Be Vietnam Pro",ui-sans-serif,system-ui,sans-serif;
+  --font-display:"Be Vietnam Pro",ui-sans-serif,system-ui,sans-serif;
   --brand:#5b55e8; --brand2:#766ff5; --brand-soft:#eeedff;
   --coral:#ff786b; --mint:#49b98c; --sun:#f2b84b;
   --ink:#17181c; --bg:#f4f5f8; --surface:#fff; --surface2:#f7f7fa;
@@ -170,7 +173,7 @@ button:focus-visible{outline-color:color-mix(in srgb,var(--brand) 55%,white)!imp
 }
 
 
-/* === QUITify PUBLIC PRESENTATION 1.0 === */
+/* === QUITify PUBLIC PRESENTATION 1.1 === */
 .landing-page{
   min-height:100dvh;position:relative;overflow:hidden;background:#f6f6fb;color:#15161b;
   font-family:var(--font-brand);isolation:isolate;
@@ -263,3 +266,10 @@ button:focus-visible{outline-color:color-mix(in srgb,var(--brand) 55%,white)!imp
 
 .danger-confirm{border:1px solid rgba(180,75,69,.22);background:var(--redSoft);color:#a24d49;border-radius:12px;min-height:48px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font:700 12px var(--font-brand);cursor:pointer}
 :root[data-theme="dark"] .danger-confirm{background:#321d20;border-color:#5b3032;color:#f08b87}
+
+/* Final typography calibration */
+html,body{font-family:var(--font-brand)!important}
+h1,h2,h3,.heading h1,.home-heading h1,.momentum-copy h2,.on-screen h1,.landing-page h1,.landing-page h2{font-family:var(--font-display)!important}
+.landing-hero h1{font-weight:700;letter-spacing:-.06em}
+.landing-section-head h2{font-weight:650}
+.momentum-copy h2,.home-heading h1,.heading h1,.on-screen h1{font-weight:700}
