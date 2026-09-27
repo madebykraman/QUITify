@@ -23,7 +23,11 @@ const goalOptions = [
 
 const starter: Goal[] = [];
 
-function todayKey(){ return new Date().toISOString().slice(0,10); }
+function dateKey(date=new Date()){
+  const y=date.getFullYear(),m=String(date.getMonth()+1).padStart(2,"0"),d=String(date.getDate()).padStart(2,"0");
+  return `${y}-${m}-${d}`;
+}
+function todayKey(){ return dateKey(); }
 function daysSince(iso:string){
   return Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 86400000));
 }
@@ -173,7 +177,7 @@ export default function Home(){
           <div className="stat-row">
             <div><strong>{current.checkIns}</strong><span>check-ins</span></div><div><strong>{current.best}</strong><span>best run</span></div><div><strong>{current.resets}</strong><span>fresh starts</span></div>
           </div>
-          <div className="week">{Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const key=d.toISOString().slice(0,10);const done=checkins.some(c=>c.goalId===current.id&&c.date===key&&c.stayedOnTrack);return <div className="day" key={key}><span>{["S","M","T","W","T","F","S"][d.getDay()]}</span><i className={done?"done":""}>{done?<Check size={11}/>:null}</i></div>})}</div>
+          <div className="week">{Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const key=dateKey(d);const done=checkins.some(c=>c.goalId===current.id&&c.date===key&&c.stayedOnTrack);return <div className="day" key={key}><span>{["S","M","T","W","T","F","S"][d.getDay()]}</span><i className={done?"done":""}>{done?<Check size={11}/>:null}</i></div>})}</div>
         </article>
 
         <article className="glass-card principle-card"><div className="quote-mark">“</div><p>You don’t need to win forever. You only need to make the next useful choice.</p><span>QUITify principle 01</span></article>
