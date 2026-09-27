@@ -118,3 +118,105 @@ button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3p
 :root[data-theme="dark"] .settings .theme-row>span.switch{background:#343b46}
 :root[data-theme="dark"] .settings .theme-row>span.switch.on{background:var(--accent)}
 :root[data-theme="dark"] .pause-clock{background:linear-gradient(145deg,#171b25,#1a2441)}
+
+
+/* === 10-PASS UI AUDIT FINAL LAYER === */
+
+/* Pass 1 — Today week strip: turn the calendar into a compact status component. */
+.week{box-shadow:var(--shadow);border:1px solid var(--line);background:var(--surface);border-radius:18px}
+.weekrow{gap:4px;margin-top:17px}
+.weekrow>div{min-width:0}
+.weekrow small{text-transform:uppercase;font-size:7px;font-weight:800;letter-spacing:.04em;margin-bottom:8px}
+.weekrow i{width:34px;height:34px;border-radius:12px;background:var(--surface2);border-color:transparent;transition:transform .18s ease,background .18s ease}
+.weekrow i.on{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 5px 12px rgba(46,139,104,.16)}
+.weekrow .today i{border:2px solid var(--accent);background:var(--accentSoft);color:var(--accent)}
+.weekrow .today i.on{border-color:var(--green);background:var(--green);color:#fff}
+.weekrow em{font-size:7px;font-weight:700;margin-top:6px}
+.weeklegend{display:flex;gap:14px;margin-top:13px;padding-top:11px;border-top:1px solid var(--line);color:var(--muted);font-size:7px;font-weight:700}
+.weeklegend span{display:flex;align-items:center;gap:5px}
+.weeklegend i{width:7px;height:7px;border-radius:50%;display:block}
+.weeklegend .done-dot{background:var(--green)}
+.weeklegend .today-dot{background:var(--accent);box-shadow:0 0 0 2px var(--accentSoft)}
+
+/* Pass 2 — Progress: give the weekly chart a clear baseline and reduce decorative noise. */
+.week-bars{position:relative;height:106px;margin-top:20px;padding-bottom:19px}
+.week-bars:before{content:"";position:absolute;left:0;right:0;bottom:18px;height:1px;background:var(--line)}
+.week-bars>div{position:relative;z-index:1;height:100%;gap:7px}
+.week-bars i{width:28px;max-width:28px;height:12px;border-radius:8px 8px 4px 4px}
+.week-bars i.on{height:58px}
+.week-bars i.current{height:26px}
+.week-bars .current-day small{color:var(--accent);font-weight:850}
+
+/* Pass 3 — 14-day history: make it feel like history, not an empty calendar. */
+.history-grid{gap:6px}
+.history-grid>div{min-height:55px;background:transparent}
+.history-grid>div.on{background:var(--greenSoft);border-color:#bfe2cf}
+.history-grid>div.current{background:var(--accentSoft)}
+.history-grid b{font-size:13px}
+.history-grid span{font-size:7px;font-weight:700;text-transform:uppercase}
+.history-grid svg{right:7px;bottom:7px}
+
+/* Pass 4 — Progress cards: consistent surface rhythm. */
+.progress-stack{gap:12px}
+.progress-hero,.week-progress,.progress-metrics>div,.history,.milestone{border-radius:18px}
+.progress-metrics>div{box-shadow:none}
+.milestone{box-shadow:none}
+
+/* Pass 5 — Pause intervention: make it read as one intentional experience. */
+.pause-screen{padding-top:2px}
+.pause-clock{box-shadow:0 12px 30px rgba(53,92,222,.07)}
+.clock-ring{box-shadow:0 10px 28px rgba(53,92,222,.13)}
+.pause-steps>div{background:var(--surface2);border-color:transparent}
+.pause-steps>div>span{width:25px;height:25px;display:grid;place-items:center;border-radius:8px;background:var(--accentSoft)}
+.pause-done{min-height:48px;border-radius:12px}
+
+/* Pass 6 — Settings: introduce visual grouping and breathing room. */
+.settings-wrap{padding-bottom:16px}
+.settings-label{margin:18px 3px 8px;color:var(--soft);font-size:8px;font-weight:850;letter-spacing:.14em}
+.settings-wrap>.settings-label:first-child{margin-top:0}
+.settings{border:1px solid var(--line);background:var(--surface);overflow:hidden}
+.settings>div,.settings>button,.settings>label{min-height:68px}
+.settings .theme-row{min-height:76px!important}
+.settings .theme-row>span:not(.switch){min-width:0}
+.settings .theme-row .switch{margin-left:auto}
+.settings-wrap .danger-card{border-color:#ead4d2;background:var(--surface)}
+.settings-wrap .danger-card .danger{min-height:76px;border:0;background:transparent;color:#a04d4a}
+.settings-wrap .danger-card .danger>svg{width:31px;height:31px;padding:7px;border-radius:9px;background:var(--redSoft);flex:0 0 31px}
+.settings-wrap .danger-card .danger span{flex:1}
+.settings-wrap .danger-card .danger b{font-size:10px}
+.settings-wrap .danger-card .danger small{font-size:8px}
+.settings-wrap .settings>div>em{margin-left:auto}
+
+/* Pass 7 — Dark settings: no white legacy surfaces. */
+:root[data-theme="dark"] .settings-wrap .danger-card{border-color:#4b2b2d}
+:root[data-theme="dark"] .settings-wrap .danger-card .danger{color:#f08b87}
+:root[data-theme="dark"] .settings-wrap .danger-card .danger>svg{background:#321d20}
+:root[data-theme="dark"] .weeklegend{border-color:var(--line)}
+:root[data-theme="dark"] .weekrow i{background:#1a1e25}
+:root[data-theme="dark"] .weekrow .today i{background:var(--accentSoft)}
+
+/* Pass 8 — Mobile ergonomics: preserve comfortable touch targets and safe bottom spacing. */
+button,label{touch-action:manipulation}
+.app{padding-bottom:calc(104px + env(safe-area-inset-bottom))}
+.nav{bottom:calc(12px + env(safe-area-inset-bottom))}
+.sheet{padding-bottom:calc(21px + env(safe-area-inset-bottom))}
+@media(max-width:380px){
+  .weekrow i{width:31px;height:31px}
+  .weeklegend{gap:10px}
+  .history-grid{gap:5px}
+  .history-grid>div{min-height:51px;padding:7px 5px}
+}
+
+/* Pass 9 — Interaction polish: surfaces should feel clickable without becoming noisy. */
+.actions button,.settings>button,.settings>label,.sheetopts button,.pause-steps>div,.history-grid>div{transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease}
+.actions button:active,.sheetopts button:active{transform:scale(.985)}
+.actions button:hover{border-color:#d5d9d1;box-shadow:0 7px 18px rgba(22,27,22,.045)}
+.settings>button:hover,.settings>label:hover{background:var(--surface2)}
+:root[data-theme="dark"] .actions button:hover{border-color:#3a424d;box-shadow:none}
+
+/* Pass 10 — Visual consistency: align the smaller screens with the Today product language. */
+.progress-hero{box-shadow:0 16px 38px rgba(28,43,93,.14)}
+.milestone-icon{flex:0 0 36px}
+.toast{border:1px solid rgba(255,255,255,.08)}
+:root[data-theme="dark"] .progress-hero{box-shadow:0 18px 48px rgba(0,0,0,.35)}
+:root[data-theme="dark"] .week-progress,:root[data-theme="dark"] .history,:root[data-theme="dark"] .milestone{box-shadow:none}
