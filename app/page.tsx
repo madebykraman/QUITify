@@ -171,27 +171,27 @@ export default function Home(){
     {tab==="today"&&<div className="app-body">
       <section className="home-header">
         <div>
-          <span className="label">{dateLabel.toUpperCase()}</span>
+          <span className="eyebrow">{dateLabel.toUpperCase()}</span>
           <h1>Today</h1>
           <p>{greeting}. One small choice is enough for now.</p>
         </div>
       </section>
 
-      <section className="goal-selector" aria-label="Your goals">
+      <section className="focus-nav" aria-label="Your goals">
         {active.map(g=><button key={g.id} className={`goal-row ${selected===g.id?"selected":""}`} onClick={()=>setSelected(g.id)}>
           <span className={`goal-dot ${g.accent}`}>{g.icon}</span><span className="goal-name">{g.label}</span><span className="goal-age">{daysSince(g.startedAt)}d</span>
         </button>)}
-        <button className="goal-add" onClick={()=>setShowAdd(true)}><Plus size={16}/> Add goal</button>
+        <button className="add-focus" onClick={()=>setShowAdd(true)}><Plus size={16}/> Add goal</button>
       </section>
 
-      {current?<div className="home-stack">
-        <section className="status-card surface-card">
+      {current?<div className="redesign-grid">
+        <section className="run-panel surface-card">
           <div className="status-head">
-            <div><span className="label">YOUR RUN</span><div className="run-number"><strong>{days}</strong><span>days</span></div></div>
+            <div><span className="eyebrow">YOUR RUN</span><div className="big-run"><strong>{days}</strong><span>days</span></div></div>
             <div className="best-stat"><span>Best</span><strong>{Math.max(current.best,days)}</strong></div>
           </div>
-          <div className="run-line"><span style={{width:`${Math.min(100,days*4+8)}%`}}/></div>
-          <div className="run-meta"><span>{days===0?"Started today":"Since your fresh start"}</span><span>{nextMilestone} day milestone</span></div>
+          <div className="run-rule"><span style={{width:`${Math.min(100,days*4+8)}%`}}/></div>
+          <div className="run-foot"><span>{days===0?"Started today":"Since your fresh start"}</span><span>{nextMilestone} day milestone</span></div>
           <button className={`daily-check ${checked?"done":""}`} onClick={toggleCheckin}>
             <span className="daily-check-icon">{checked?<Check size={20}/>:null}</span>
             <span><b>{checked?"Checked in for today":"Check in for today"}</b><small>{checked?"You recorded today's choice.":"Tap once when you want to mark today."}</small></span>
@@ -200,24 +200,24 @@ export default function Home(){
         </section>
 
         <section className="pause-card surface-card">
-          <div className="pause-top"><span className="label">A MOMENT BEFORE THE NEXT CHOICE</span><span className="pause-badge">10 min</span></div>
+          <div className="pause-top"><span className="eyebrow">A MOMENT BEFORE THE NEXT CHOICE</span><span className="pause-badge">10 min</span></div>
           <h2>Pause. Let the moment pass.</h2>
           <p>A short timer gives you a little distance before you decide what to do next.</p>
-          <button className="primary-button" onClick={startTimer}>Start a reset <ArrowRight size={16}/></button>
+          <button className="dark-button" onClick={startTimer}><Timer size={16}/> 10 minute pause <ArrowRight size={15}/></button>
         </section>
 
-        <section className="week-card surface-card">
-          <div className="card-heading"><div><span className="label">THIS WEEK</span><h2>Keep it visible.</h2></div><button className="text-button" onClick={()=>setTab("progress")}>See progress <ArrowRight size={14}/></button></div>
+        <section className="week-panel surface-card">
+          <div className="card-heading"><div><span className="eyebrow">THIS WEEK</span><h2>Keep it visible.</h2></div><button className="link-button" onClick={()=>setTab("progress")}>See progress <ArrowRight size={14}/></button></div>
           <div className="week-grid">{Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const key=dateKey(d);const done=goalCheckins.some(c=>c.date===key&&c.stayedOnTrack);const isToday=key===todayKey();return <div className={`week-day ${done?"done":""} ${isToday?"today":""}`} key={key}><span>{["S","M","T","W","T","F","S"][d.getDay()]}</span><i>{done?<Check size={12}/>:null}</i><small>{d.getDate()}</small></div>})}</div>
           <div className="consistency"><span>{consistency}% of the last 7 days checked in</span><span>{goalCheckins.length} total</span></div>
         </section>
 
-        <section className="principle">
-          <span className="label">THE QUITIFY IDEA</span>
+        <section className="principle" hidden>
+          <span className="eyebrow">THE QUITIFY IDEA</span>
           <p>Don’t build a perfect streak. Build a life where the next useful choice is easier.</p>
         </section>
 
-        <div className="footer-actions">
+        <div className="under-actions">
           <button className="secondary-button" onClick={()=>setShowReset(true)}><RotateCcw size={15}/> Fresh start</button>
           <span className="local-note"><ShieldCheck size={14}/> Private on this device</span>
         </div>
@@ -229,16 +229,16 @@ export default function Home(){
     </div>}
 
     {tab==="progress"&&<section className="secondary-page">
-      <div className="page-heading"><span className="label">PROGRESS</span><h1>See the pattern,<br/><span>not the score.</span></h1><p>Use your history to understand what helps. There is nothing to win here.</p></div>
+      <div className="page-heading"><span className="eyebrow">PROGRESS</span><h1>See the pattern,<br/><span>not the score.</span></h1><p>Use your history to understand what helps. There is nothing to win here.</p></div>
       {current?<div className="progress-stack">
-        <section className="progress-hero surface-card"><span className="label">CURRENT RUN</span><strong>{days}<small> days</small></strong><div className="progress-bar"><i style={{width:`${Math.min(100,days*4+8)}%`}}/></div><div className="milestone-row"><span>Next milestone <b>{nextMilestone} days</b></span><span>{milestoneProgress}%</span></div></section>
-        <section className="metrics-grid"><div className="metric surface-card"><span className="label">LAST 7 DAYS</span><strong>{consistency}%</strong><small>checked in</small></div><div className="metric surface-card"><span className="label">TOTAL</span><strong>{goalCheckins.length}</strong><small>check-ins</small></div><div className="metric surface-card"><span className="label">FRESH STARTS</span><strong>{current.resets}</strong><small>recorded</small></div></section>
-        <section className="history-card surface-card"><div className="card-heading"><div><span className="label">HISTORY</span><h2>Your recent check-ins</h2></div></div><div className="history-list">{goalCheckins.slice(-12).reverse().map(c=><div className="history-row" key={c.date}><span>{new Date(c.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})}</span><b>{c.stayedOnTrack?"Checked in":"Logged"}</b></div>)}{!goalCheckins.length&&<p className="muted">Nothing here yet. Your history starts with your first check-in.</p>}</div></section>
+        <section className="progress-hero surface-card"><span className="eyebrow">CURRENT RUN</span><strong>{days}<small> days</small></strong><div className="progress-bar"><i style={{width:`${Math.min(100,days*4+8)}%`}}/></div><div className="milestone-row"><span>Next milestone <b>{nextMilestone} days</b></span><span>{milestoneProgress}%</span></div></section>
+        <section className="metrics-grid"><div className="metric surface-card"><span className="eyebrow">LAST 7 DAYS</span><strong>{consistency}%</strong><small>checked in</small></div><div className="metric surface-card"><span className="eyebrow">TOTAL</span><strong>{goalCheckins.length}</strong><small>check-ins</small></div><div className="metric surface-card"><span className="eyebrow">FRESH STARTS</span><strong>{current.resets}</strong><small>recorded</small></div></section>
+        <section className="history-card surface-card"><div className="card-heading"><div><span className="eyebrow">HISTORY</span><h2>Your recent check-ins</h2></div></div><div className="history-list">{goalCheckins.slice(-12).reverse().map(c=><div className="history-row" key={c.date}><span>{new Date(c.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"long",month:"short",day:"numeric"})}</span><b>{c.stayedOnTrack?"Checked in":"Logged"}</b></div>)}{!goalCheckins.length&&<p className="muted">Nothing here yet. Your history starts with your first check-in.</p>}</div></section>
       </div>:<section className="empty-state surface-card"><span className="empty-kicker">PROGRESS</span><h2>Start with one goal.</h2><p>Your history will appear here after you choose what you want to change.</p><button className="primary-button" onClick={()=>setShowAdd(true)}>Choose a goal <ArrowRight size={16}/></button></section>}
     </section>}
 
     {tab==="settings"&&<section className="secondary-page">
-      <div className="page-heading"><span className="label">SETTINGS</span><h1>Simple by design.<br/><span>Private by default.</span></h1><p>No account, cloud database, feed, or public profile is required.</p></div>
+      <div className="page-heading"><span className="eyebrow">SETTINGS</span><h1>Simple by design.<br/><span>Private by default.</span></h1><p>No account, cloud database, feed, or public profile is required.</p></div>
       <section className="settings-list surface-card">
         <div className="setting-row"><div className="setting-icon"><ShieldCheck size={17}/></div><div><strong>Local-only storage</strong><p>Your goals and check-ins stay in this browser.</p></div><span className="status-dot"/></div>
         <div className="setting-row"><div className="setting-icon"><Download size={17}/></div><div><strong>Back up your data</strong><p>Save a small JSON copy that you control.</p></div><button className="setting-action" onClick={exportData}>Export</button></div>
@@ -257,26 +257,26 @@ export default function Home(){
     {message&&<div className="toast" role="status"><Check size={15}/>{message}</div>}
 
     {showAdd&&<div className="modal-backdrop" onClick={()=>setShowAdd(false)}><section className="sheet surface-card" role="dialog" aria-modal="true" aria-labelledby="goal-title" onClick={e=>e.stopPropagation()}>
-      <div className="sheet-head"><div><span className="label">NEW GOAL</span><h2 id="goal-title">What are you changing?</h2></div><button className="close" aria-label="Close" onClick={()=>setShowAdd(false)}><X size={18}/></button></div>
+      <div className="sheet-head"><div><span className="eyebrow">NEW GOAL</span><h2 id="goal-title">What are you changing?</h2></div><button className="close" aria-label="Close" onClick={()=>setShowAdd(false)}><X size={18}/></button></div>
       <p>Choose one. You can add another later.</p>
       <div className="option-list">{goalOptions.map(([label,icon,accent])=><button key={label} onClick={()=>createGoal(label,icon,accent)}><span className={`option-icon ${accent}`}>{icon}</span><span>{label}</span><ChevronRight size={16}/></button>)}</div>
     </section></div>}
 
     {showReset&&<div className="modal-backdrop" onClick={()=>setShowReset(false)}><section className="sheet compact surface-card" role="dialog" aria-modal="true" onClick={e=>e.stopPropagation()}>
-      <div className="sheet-head"><div><span className="label">FRESH START</span><h2>Start again?</h2></div><button className="close" aria-label="Close" onClick={()=>setShowReset(false)}><X size={18}/></button></div>
+      <div className="sheet-head"><div><span className="eyebrow">FRESH START</span><h2>Start again?</h2></div><button className="close" aria-label="Close" onClick={()=>setShowReset(false)}><X size={18}/></button></div>
       <p>Your previous best stays saved. A reset changes the starting point, not your history.</p>
       <div className="sheet-actions"><button className="secondary-button" onClick={()=>setShowReset(false)}>Keep going</button><button className="primary-button" onClick={resetGoal}>Start fresh <ArrowRight size={15}/></button></div>
     </section></div>}
 
     {showTimer&&<div className="modal-backdrop" onClick={()=>setShowTimer(false)}><section className="sheet timer-sheet surface-card" role="dialog" aria-modal="true" onClick={e=>e.stopPropagation()}>
-      <div className="sheet-head"><div><span className="label">PAUSE</span><h2>Ten quiet minutes.</h2></div><button className="close" aria-label="Close timer" onClick={()=>setShowTimer(false)}><X size={18}/></button></div>
+      <div className="sheet-head"><div><span className="eyebrow">PAUSE</span><h2>Ten quiet minutes.</h2></div><button className="close" aria-label="Close timer" onClick={()=>setShowTimer(false)}><X size={18}/></button></div>
       <div className="timer-display"><span>{mins}:{secs}</span><small>{timer===0?"Time is yours again.":"You don't need to decide yet."}</small></div>
       <div className="timer-steps"><div><b>01</b><span>Put a little distance between you and the moment.</span></div><div><b>02</b><span>Change what you are doing for a few minutes.</span></div><div><b>03</b><span>When the timer ends, choose what feels right for you.</span></div></div>
       <button className="primary-button full" onClick={()=>{setShowTimer(false);flash("You gave yourself some space.")}}>{timer===0?"Finish":"I'm ready to continue"} <ArrowRight size={15}/></button>
     </section></div>}
 
     {onboard&&<div className="modal-backdrop"><section className="onboarding surface-card" role="dialog" aria-modal="true" aria-labelledby="welcome-title">
-      <span className="brand-mark large" aria-hidden="true">Q</span><span className="label">WELCOME TO QUITIFY</span><h2 id="welcome-title">Make room for your life.</h2>
+      <span className="brand-mark large" aria-hidden="true">Q</span><span className="eyebrow">WELCOME TO QUITIFY</span><h2 id="welcome-title">Make room for your life.</h2>
       <p>A private, focused place to work on one change at a time. No account. No feed. No performance theatre.</p>
       <button className="primary-button full" onClick={()=>{setOnboard(false);setShowAdd(true)}}>Choose my first goal <ArrowRight size={15}/></button>
       <small>Design case study · local-first prototype</small>
