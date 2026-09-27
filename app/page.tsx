@@ -67,6 +67,14 @@ export default function Home(){
   const greeting=useMemo(()=>{const h=new Date().getHours();return h<12?"Good morning":h<18?"Good afternoon":"Good evening"},[]);
 
   useEffect(()=>{
+    const onKeyDown=(e:KeyboardEvent)=>{
+      if(e.key==="Escape"){setShowAdd(false);setShowReset(false);setShowTimer(false);setOnboard(false)}
+    };
+    window.addEventListener("keydown",onKeyDown);
+    return ()=>window.removeEventListener("keydown",onKeyDown);
+  },[]);
+
+  useEffect(()=>{
     if(!showTimer) return;
     if(timer<=0) return;
     const id=setInterval(()=>setTimer(v=>Math.max(0,v-1)),1000);
@@ -77,7 +85,8 @@ export default function Home(){
 
   function flash(text:string){setMessage(text);setTimeout(()=>setMessage(""),2400)}
   function createGoal(label:string,icon:string,accent:string){
-    const id=globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;\n    const goal:Goal={id,label,icon,accent,startedAt:new Date().toISOString(),best:0,checkIns:0,resets:0,active:true};
+    const id=globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const goal:Goal={id,label,icon,accent,startedAt:new Date().toISOString(),best:0,checkIns:0,resets:0,active:true};
     setGoals(v=>[...v,goal]);setSelected(goal.id);setShowAdd(false);setOnboard(false);flash("Saved only on this device.");
   }
   function toggleCheckin(){
