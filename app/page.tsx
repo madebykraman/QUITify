@@ -1,3 +1,4 @@
+import "./product-system.css";
 "use client";
 import {useEffect,useMemo,useState} from "react";
 import{ArrowRight,BarChart3,Check,ChevronRight,Clock3,Download,LockKeyhole,MoreHorizontal,Pause,Plus,RotateCcw,Settings2,ShieldCheck,Sparkles,Target,Trash2,Upload,X,Moon,Sun}from"lucide-react";
