@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  ArrowLeft, ArrowRight, BarChart3, Check, ChevronRight, CircleHelp, Clock3,
-  Flame, Leaf, LockKeyhole, MoreHorizontal, Plus, RotateCcw, Settings2,
-  ShieldCheck, Sparkles, Timer, Trash2, X
+  ArrowRight, BarChart3, Check, ChevronRight, CircleHelp, Download,
+  Flame, Leaf, LockKeyhole, Plus, RotateCcw, Settings2, ShieldCheck,
+  Sparkles, Timer, Trash2, Upload, X
 } from "lucide-react";
 
 type Goal = {
@@ -41,6 +41,7 @@ export default function Home(){
   const [timer,setTimer]=useState(600);
   const [message,setMessage]=useState("");
   const [checked,setChecked]=useState(false);
+  const [importing,setImporting]=useState(false);
 
   useEffect(()=>{
     try{
@@ -76,7 +77,7 @@ export default function Home(){
 
   function flash(text:string){setMessage(text);setTimeout(()=>setMessage(""),2400)}
   function createGoal(label:string,icon:string,accent:string){
-    const goal:Goal={id:crypto.randomUUID(),label,icon,accent,startedAt:new Date().toISOString(),best:0,checkIns:0,resets:0,active:true};
+    const id=globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random().toString(36).slice(2)}`;\n    const goal:Goal={id,label,icon,accent,startedAt:new Date().toISOString(),best:0,checkIns:0,resets:0,active:true};
     setGoals(v=>[...v,goal]);setSelected(goal.id);setShowAdd(false);setOnboard(false);flash("Saved only on this device.");
   }
   function toggleCheckin(){
@@ -171,7 +172,9 @@ export default function Home(){
     {tab==="settings" && <section className="secondary-page">
       <div className="page-heading"><span className="label">SETTINGS</span><h2>Your data,<br/><span>your control.</span></h2><p>QUITify doesn't require an account or a cloud database.</p></div>
       <div className="settings-list glass-card">
-        <div className="setting-row"><div className="setting-icon"><ShieldCheck size={17}/></div><div><strong>Local-only storage</strong><p>Your goals and check-ins stay in this browser.</p></div><span className="status-dot"/></div>
+        <div className="setting-row"><div className="setting-icon"><ShieldCheck size={17}/></div><div><strong>Local-only storage</strong><p>Your goals and check-ins stay in this browser. Nothing here requires an account.</p></div><span className="status-dot"/></div>
+        <div className="setting-row"><div className="setting-icon"><Download size={17}/></div><div><strong>Back up your data</strong><p>Export your goals and check-ins as a small JSON file. The backup stays under your control.</p></div><button className="setting-action" onClick={exportData}>Export</button></div>
+        <div className="setting-row"><div className="setting-icon"><Upload size={17}/></div><div><strong>Restore a backup</strong><p>Import a QUITify JSON backup on this device. Existing local data will be replaced.</p></div><label className="setting-action">{importing?"Reading…":"Import"}<input type="file" accept="application/json,.json" hidden disabled={importing} onChange={e=>{const file=e.target.files?.[0];if(file) importData(file);e.currentTarget.value=""}}/></label></div>
         <div className="setting-row"><div className="setting-icon"><CircleHelp size={17}/></div><div><strong>Safety note</strong><p>For alcohol or other dependence, withdrawal can require medical support. QUITify is not medical treatment.</p></div></div>
         <button className="danger-row" onClick={eraseAll}><Trash2 size={17}/><span><strong>Clear all local data</strong><small>This cannot be undone.</small></span><ChevronRight size={16}/></button>
       </div>
