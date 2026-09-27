@@ -122,6 +122,41 @@ export default function Home(){
     });
     setGoals(v=>v.map(g=>g.id===current.id?{...g,checkIns:g.checkIns+(!checked?1:-1)}:g));
   }
+  function exportData(){
+    const payload={version:1,exportedAt:new Date().toISOString(),goals,checkins};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement("a");
+    link.href=url;
+    link.download="quitify-backup.json";
+    link.click();
+    URL.revokeObjectURL(url);
+    flash("Backup exported.");
+  }
+  async function importData(file:File){
+    setImporting(true);
+    try{
+      const parsed=JSON.parse(await file.text());
+      const importedGoals=safeGoals(JSON.stringify(parsed?.goals));
+      const importedCheckins=safeCheckins(JSON.stringify(parsed?.checkins));
+      if(parsed?.version!==1 || !importedGoals.length){
+        throw new Error("Invalid backup");
+      }
+      const goalIds=new Set(importedGoals.map(g=>g.id));
+      const cleanCheckins=importedCheckins.filter(c=>goalIds.has(c.goalId));
+      setGoals(importedGoals);
+      setCheckins(cleanCheckins);
+      setSelected(importedGoals[0].id);
+      setOnboard(false);
+      setTab("today");
+      flash("Backup restored.");
+    }catch{
+      flash("That file is not a valid QUITify backup.");
+    }finally{
+      setImporting(false);
+    }
+  }
+
   function resetGoal(){
     if(!current)return;
     setGoals(v=>v.map(g=>g.id===current.id?{...g,startedAt:new Date().toISOString(),best:Math.max(g.best,days),resets:g.resets+1}:g));
@@ -141,7 +176,7 @@ export default function Home(){
 
     <nav className="topbar">
       <button className="brand brand-button" onClick={()=>setTab("today")}><div className="brand-mark"><Leaf size={17}/></div><span>QUITify</span></button>
-      <div className="privacy-pill"><LockKeyhole size={13}/> Private by default</div>
+      <div className="privacy-pill"><LockKeyhole size={13}/> Local by default</div>
       <button className="icon-button" aria-label="Settings" onClick={()=>setTab("settings")}><Settings2 size={18}/></button>
     </nav>
 
@@ -149,7 +184,7 @@ export default function Home(){
       <section className="hero">
         <div className="eyebrow"><Sparkles size={14}/> Your reset, your pace</div>
         <h1>{greeting},<br/><span>keep going.</span></h1>
-        <p className="hero-copy">Less noise. More room for the next useful choice.</p>
+        <p className="hero-copy">A quiet place to notice patterns, protect your attention, and make the next useful choice.</p>
       </section>
 
       <section className="goal-strip">
@@ -160,7 +195,7 @@ export default function Home(){
       </section>
 
       {current && <section className="main-grid">
-        <article className="glass-card streak-card">
+        <article className="surface-card streak-card">
           <div className="card-top"><div><span className="label">CURRENT RUN</span><h2>{days}<small> days</small></h2></div>
             <div className="ring"><Flame size={18}/><strong>{Math.max(current.best,days)}</strong><span>best</span></div></div>
           <div className="progress-track"><div style={{width:`${Math.min(100,Math.max(7,days*4+8))}%`}}/></div>
@@ -172,40 +207,40 @@ export default function Home(){
           </div>
         </article>
 
-        <article className="glass-card focus-card"><div className="focus-orb">10</div>
+        <article className="surface-card focus-card"><div className="focus-orb">10</div>
           <div><div className="label">WHEN AN URGE HITS</div><h3>Make the next<br/>10 minutes easier.</h3>
           <p>Pause before acting. Change your surroundings. Give the urge time to move.</p></div>
           <button className="primary-button" onClick={startTimer}><Timer size={17}/> Start a 10-minute reset <ArrowRight size={16}/></button>
         </article>
 
-        <article className="glass-card stats-card">
-          <div className="section-heading"><div><span className="label">YOUR PATTERN</span><h3>Progress, not punishment.</h3></div><BarChart3 size={19}/></div>
+        <article className="surface-card stats-card">
+          <div className="section-heading"><div><span className="label">YOUR PATTERN</span><h3>Small signals. Useful progress.</h3></div><BarChart3 size={19}/></div>
           <div className="stat-row">
             <div><strong>{current.checkIns}</strong><span>check-ins</span></div><div><strong>{current.best}</strong><span>best run</span></div><div><strong>{current.resets}</strong><span>fresh starts</span></div>
           </div>
           <div className="week">{Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const key=dateKey(d);const done=checkins.some(c=>c.goalId===current.id&&c.date===key&&c.stayedOnTrack);return <div className="day" key={key}><span>{["S","M","T","W","T","F","S"][d.getDay()]}</span><i className={done?"done":""}>{done?<Check size={11}/>:null}</i></div>})}</div>
         </article>
 
-        <article className="glass-card principle-card"><div className="quote-mark">“</div><p>You don’t need to win forever. You only need to make the next useful choice.</p><span>QUITify principle 01</span></article>
+        <article className="surface-card principle-card"><div className="quote-mark">“</div><p>You don’t need to win forever. You only need to make the next useful choice.</p><span>QUITify principle 01</span></article>
       </section>}
 
-      {!current && <section className="empty-state glass-card"><div className="empty-icon"><Leaf size={22}/></div><span className="label">YOUR SPACE</span><h2>Choose what you want<br/>to change first.</h2><p>Keep it private. Keep it simple. You can add another goal whenever you’re ready.</p><button className="primary-button" onClick={()=>setShowAdd(true)}>Choose a goal <ArrowRight size={16}/></button></section>}
+      {!current && <section className="empty-state surface-card"><div className="empty-icon"><Leaf size={22}/></div><span className="label">YOUR SPACE</span><h2>Choose what you want<br/>to change first.</h2><p>Keep it private. Keep it simple. You can add another goal whenever you’re ready.</p><button className="primary-button" onClick={()=>setShowAdd(true)}>Choose a goal <ArrowRight size={16}/></button></section>}
 
-      {current && <section className="footer-actions"><button className="secondary-button" onClick={()=>setShowReset(true)}><RotateCcw size={16}/> Fresh start</button><div className="local-note"><ShieldCheck size={15}/><span>Stored only on this device</span></div></section>}
+      {current && <section className="footer-actions"><button className="secondary-button" onClick={()=>setShowReset(true)}><RotateCcw size={16}/> Fresh start</button><div className="local-note"><ShieldCheck size={15}/><span>Local by default</span></div></section>}
     </div>}
 
     {tab==="progress" && <section className="secondary-page">
-      <div className="page-heading"><span className="label">REFLECTION</span><h2>Your progress<br/><span>is the data.</span></h2><p>Look back without judging the person who was trying.</p></div>
+      <div className="page-heading"><span className="label">REFLECTION</span><h2>Notice what is changing.<br/><span>Keep what helps.</span></h2><p>A private record of what you noticed and what you chose.</p></div>
       {current?<div className="progress-layout">
-        <article className="glass-card big-number"><span className="label">CURRENT RUN</span><strong>{days}</strong><span>days</span><div className="mini-line"><i style={{width:`${Math.min(100,days*4+8)}%`}}/></div><div className="milestone"><div><span>Next milestone</span><b>{nextMilestone} days</b></div><span>{milestoneProgress}%</span></div></article>
-        <article className="glass-card history-card"><div className="progress-summary"><div><span className="label">LAST 7 DAYS</span><strong>{consistency}%</strong><span>on-track check-ins</span></div><div><span className="label">LOGGED</span><strong>{goalCheckins.length}</strong><span>total check-ins</span></div></div><span className="label">CHECK-IN HISTORY</span><div className="history-list">{goalCheckins.slice(-8).reverse().map(c=><div className="history-row" key={c.date}><span>{new Date(c.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</span><b className={c.stayedOnTrack?"positive":"neutral"}>{c.stayedOnTrack?"Stayed on track":"Logged"}</b></div>)}{!goalCheckins.length&&<p className="muted">Your check-ins will appear here.</p>}</div></article>
+        <article className="surface-card big-number"><span className="label">CURRENT RUN</span><strong>{days}</strong><span>days</span><div className="mini-line"><i style={{width:`${Math.min(100,days*4+8)}%`}}/></div><div className="milestone"><div><span>Next milestone</span><b>{nextMilestone} days</b></div><span>{milestoneProgress}%</span></div></article>
+        <article className="surface-card history-card"><div className="progress-summary"><div><span className="label">LAST 7 DAYS</span><strong>{consistency}%</strong><span>on-track check-ins</span></div><div><span className="label">LOGGED</span><strong>{goalCheckins.length}</strong><span>total check-ins</span></div></div><span className="label">CHECK-IN HISTORY</span><div className="history-list">{goalCheckins.slice(-8).reverse().map(c=><div className="history-row" key={c.date}><span>{new Date(c.date+"T12:00:00").toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"})}</span><b className={c.stayedOnTrack?"positive":"neutral"}>{c.stayedOnTrack?"Stayed on track":"Logged"}</b></div>)}{!goalCheckins.length&&<p className="muted">Your check-ins will appear here.</p>}</div></article>
       </div>
-      :<div className="glass-card empty-state"><h2>Nothing to measure yet.</h2><p>Choose a goal first and QUITify will keep the useful history locally.</p></div>}
+      :<div className="surface-card empty-state"><h2>Nothing to measure yet.</h2><p>Choose a goal first and QUITify will keep the useful history locally.</p></div>}
     </section>}
 
     {tab==="settings" && <section className="secondary-page">
       <div className="page-heading"><span className="label">SETTINGS</span><h2>Your data,<br/><span>your control.</span></h2><p>QUITify doesn't require an account or a cloud database.</p></div>
-      <div className="settings-list glass-card">
+      <div className="settings-list surface-card">
         <div className="setting-row"><div className="setting-icon"><ShieldCheck size={17}/></div><div><strong>Local-only storage</strong><p>Your goals and check-ins stay in this browser. Nothing here requires an account.</p></div><span className="status-dot"/></div>
         <div className="setting-row"><div className="setting-icon"><Download size={17}/></div><div><strong>Back up your data</strong><p>Export your goals and check-ins as a small JSON file. The backup stays under your control.</p></div><button className="setting-action" onClick={exportData}>Export</button></div>
         <div className="setting-row"><div className="setting-icon"><Upload size={17}/></div><div><strong>Restore a backup</strong><p>Import a QUITify JSON backup on this device. Existing local data will be replaced.</p></div><label className="setting-action">{importing?"Reading…":"Import"}<input type="file" accept="application/json,.json" hidden disabled={importing} onChange={e=>{const file=e.target.files?.[0];if(file) importData(file);e.currentTarget.value=""}}/></label></div>
@@ -222,25 +257,25 @@ export default function Home(){
 
     {message&&<div className="toast"><Check size={15}/>{message}</div>}
 
-    {showAdd&&<div className="modal-backdrop" onClick={()=>setShowAdd(false)}><div className="modal glass-card" onClick={e=>e.stopPropagation()}>
-      <button className="close" onClick={()=>setShowAdd(false)}><X size={18}/></button><span className="label">NEW GOAL</span><h2>What are you changing?</h2><p>Choose one. You can add another later.</p>
+    {showAdd&&<div className="modal-backdrop" onClick={()=>setShowAdd(false)}><div className="modal surface-card" onClick={e=>e.stopPropagation()}>
+      <button className="close" aria-label="Close goal picker" onClick={()=>setShowAdd(false)}><X size={18}/></button><span className="label">NEW GOAL</span><h2>What are you changing?</h2><p>Choose one. You can add another later.</p>
       <div className="option-grid">{goalOptions.map(([label,icon,accent])=><button key={label} onClick={()=>createGoal(label,icon,accent)}><span><i className={`option-icon ${accent}`}>{icon}</i>{label}</span><ChevronRight size={15}/></button>)}</div>
     </div></div>}
 
-    {showReset&&<div className="modal-backdrop" onClick={()=>setShowReset(false)}><div className="modal glass-card" onClick={e=>e.stopPropagation()}>
-      <button className="close" onClick={()=>setShowReset(false)}><X size={18}/></button><span className="label">NO SHAME</span><h2>Start a fresh run?</h2><p>Your previous best stays saved. A reset is information, not failure.</p>
+    {showReset&&<div className="modal-backdrop" onClick={()=>setShowReset(false)}><div className="modal surface-card" onClick={e=>e.stopPropagation()}>
+      <button className="close" aria-label="Close reset dialog" onClick={()=>setShowReset(false)}><X size={18}/></button><span className="label">NO SHAME</span><h2>Start a fresh run?</h2><p>Your previous best stays saved. A reset is information, not failure.</p>
       <div className="modal-actions"><button className="secondary-button" onClick={()=>setShowReset(false)}>Keep going</button><button className="primary-button" onClick={resetGoal}>Fresh start <ArrowRight size={16}/></button></div>
     </div></div>}
 
-    {showTimer&&<div className="modal-backdrop"><div className="timer-modal glass-card">
-      <button className="close" onClick={()=>setShowTimer(false)}><X size={18}/></button><span className="label">TEN MINUTE RESET</span>
+    {showTimer&&<div className="modal-backdrop" onClick={()=>setShowTimer(false)}><div className="timer-modal surface-card" onClick={e=>e.stopPropagation()}>
+      <button className="close" aria-label="Close timer" onClick={()=>setShowTimer(false)}><X size={18}/></button><span className="label">TEN MINUTE RESET</span>
       <div className="timer-orbit"><span>{mins}:{secs}</span><small>{timer===0?"Time is yours again.":"Breathe. Notice. Wait."}</small></div>
       <div className="timer-steps"><div><b>01</b><span>Put a little distance between you and the trigger.</span></div><div><b>02</b><span>Change rooms, posture, or what you're looking at.</span></div><div><b>03</b><span>When the timer ends, choose your next step.</span></div></div>
       <button className="primary-button full" onClick={()=>{setShowTimer(false);flash("You made space before making a choice.")}}>{timer===0?"Finish reset":"I'm ready to move on"} <ArrowRight size={16}/></button>
     </div></div>}
 
-    {onboard&&<div className="modal-backdrop"><div className="onboarding glass-card">
-      <div className="onboard-mark"><Leaf size={23}/></div><span className="label">WELCOME TO QUITIFY</span><h2>Make room<br/>for your life.</h2><p>No account. No public profile. No noisy feed. Just a private place to work on one change at a time.</p>
+    {onboard&&<div className="modal-backdrop"><div className="onboarding surface-card">
+      <div className="onboard-mark"><Leaf size={23}/></div><span className="label">WELCOME TO QUITIFY</span><h2>Make room<br/>for your life.</h2><p>No account. No public profile. No feed. QUITify keeps the experience focused on one change at a time.</p>
       <button className="primary-button full" onClick={()=>{setOnboard(false);setShowAdd(true)}}>Choose my first goal <ArrowRight size={16}/></button>
       <small>QUITify is a self-guided design case study, not medical treatment.</small>
     </div></div>}
