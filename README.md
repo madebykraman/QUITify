@@ -15,13 +15,13 @@ Changing a habit is already cognitively expensive. The interface should therefor
 - **Progress without punishment** — a reset does not erase the previous best.
 - **Private by default** — no login, no analytics requirement, local browser persistence.
 - **Familiar interaction grammar** — chips, cards, bottom actions, modal sheets, clear primary action.
-- **Glass as material, not decoration** — translucency and blur support hierarchy rather than becoming the whole visual identity.
+- **Solid surfaces, strong hierarchy** — paper, ink, borders, spacing, and restrained color do the visual work without decorative effects.
 
 ## Inspiration research
 
 The design direction was informed by public UX/UI case studies across recovery, habit tracking, and cessation products. Recurring patterns included streak/progress visibility, craving/urge support, journaling, milestones, and simple predictable navigation. Research also showed that many concept designs over-index on gamification, gradients, and dense dashboards.
 
-The Liquid Glass reference was used as a technical inspiration for layered translucency, depth, edge highlights, and motion-aware material treatment. QUITify uses its own composition, copy, colors, and interaction model rather than reproducing the reference.
+The visual system is intentionally independent of liquid-glass or frosted-glass patterns. Depth comes from spacing, typography, borders, surface contrast, and restrained shadows.
 
 ## Run locally
 
