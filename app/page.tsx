@@ -34,7 +34,20 @@ function daysSince(iso:string){
 function safeGoals(raw:string|null):Goal[]{
   try{
     const parsed=raw?JSON.parse(raw):[];
-    return Array.isArray(parsed)?parsed.filter((g:any)=>g&&typeof g.id==="string"&&typeof g.label==="string"&&typeof g.startedAt==="string"):[]; 
+    if(!Array.isArray(parsed)) return [];
+    return parsed
+      .filter((g:any)=>g&&typeof g.id==="string"&&typeof g.label==="string"&&typeof g.startedAt==="string")
+      .map((g:any)=>({
+        id:g.id,
+        label:g.label,
+        icon:typeof g.icon==="string"?g.icon:"•",
+        accent:typeof g.accent==="string"?g.accent:"neutral",
+        startedAt:g.startedAt,
+        best:Number.isFinite(g.best)?Math.max(0,Math.floor(g.best)):0,
+        checkIns:Number.isFinite(g.checkIns)?Math.max(0,Math.floor(g.checkIns)):0,
+        resets:Number.isFinite(g.resets)?Math.max(0,Math.floor(g.resets)):0,
+        active:g.active!==false
+      }));
   }catch{return []}
 }
 function safeCheckins(raw:string|null):Checkin[]{
@@ -216,7 +229,7 @@ export default function Home(){
         <article className="surface-card stats-card">
           <div className="section-heading"><div><span className="label">YOUR PATTERN</span><h3>Small signals. Useful progress.</h3></div><BarChart3 size={19}/></div>
           <div className="stat-row">
-            <div><strong>{current.checkIns}</strong><span>check-ins</span></div><div><strong>{current.best}</strong><span>best run</span></div><div><strong>{current.resets}</strong><span>fresh starts</span></div>
+            <div><strong>{current.checkIns}</strong><span>check-ins</span></div><div><strong>{Math.max(current.best,days)}</strong><span>best run</span></div><div><strong>{current.resets}</strong><span>fresh starts</span></div>
           </div>
           <div className="week">{Array.from({length:7},(_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));const key=dateKey(d);const done=checkins.some(c=>c.goalId===current.id&&c.date===key&&c.stayedOnTrack);return <div className="day" key={key}><span>{["S","M","T","W","T","F","S"][d.getDay()]}</span><i className={done?"done":""}>{done?<Check size={11}/>:null}</i></div>})}</div>
         </article>
