@@ -260,3 +260,6 @@ button:focus-visible{outline-color:color-mix(in srgb,var(--brand) 55%,white)!imp
 :root[data-theme="dark"] .landing-feature{background:#151821;border-color:#292d37}
 :root[data-theme="dark"] .landing-privacy{box-shadow:none}
 :root[data-theme="dark"] .landing-footer{border-color:rgba(255,255,255,.08)}
+
+.danger-confirm{border:1px solid rgba(180,75,69,.22);background:var(--redSoft);color:#a24d49;border-radius:12px;min-height:48px;padding:0 14px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font:700 12px var(--font-brand);cursor:pointer}
+:root[data-theme="dark"] .danger-confirm{background:#321d20;border-color:#5b3032;color:#f08b87}
