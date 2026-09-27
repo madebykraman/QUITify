@@ -12,7 +12,7 @@ const rc=(v:string|null):Checkin[]=>{try{const a=JSON.parse(v||"[]");return Arra
 export default function Home(){
 const[g,setG]=useState<Goal[]>([]),[c,setC]=useState<Checkin[]>([]),[ready,setReady]=useState(false),[sel,setSel]=useState(""),[tab,setTab]=useState<"today"|"progress"|"settings">("today"),[intro,setIntro]=useState(false),[step,setStep]=useState(0),[pick,setPick]=useState<(typeof opts)[number]|null>(null),[reason,setReason]=useState(""),[sheet,setSheet]=useState<"goal"|"pause"|"reset"|null>(null),[timer,setTimer]=useState(600),[toast,setToast]=useState("");
 const cur=g.find(x=>x.id===sel)||g[0],days=cur?ago(cur.startedAt):0,today=cur&&c.some(x=>x.goalId===cur.id&&x.date===dk()&&x.stayedOnTrack),week=useMemo(()=>Array.from({length:7},(_,i)=>{const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-6+i);return dk(d)}),[]);
-const wc=cur?week.filter(d=>c.some(x=>x.goalId===cur.id&&x.date===d&&x.stayedOnTrack)).length:0;
+const wc=cur?week.filter(d=>c.some(x=>x.goalId===cur.id&&x.date===d&&x.stayedOnTrack)).length:0; const todayLabel=new Date().toLocaleDateString(undefined,{weekday:"long"}).toUpperCase();
 useEffect(()=>{const a=rg(localStorage.getItem("quitify-goals")),b=rc(localStorage.getItem("quitify-checkins"));setG(a);setC(b);setSel(a[0]?.id||"");setIntro(!a.length);setReady(true)},[]);
 useEffect(()=>{if(ready)localStorage.setItem("quitify-goals",JSON.stringify(g))},[g,ready]);useEffect(()=>{if(ready)localStorage.setItem("quitify-checkins",JSON.stringify(c))},[c,ready]);
 useEffect(()=>{if(sheet!=="pause"||timer<1)return;const i=setInterval(()=>setTimer(v=>v-1),1000);return()=>clearInterval(i)},[sheet,timer]);
@@ -24,8 +24,8 @@ const fresh=()=>{if(!cur)return;setG(v=>v.map(x=>x.id===cur.id?{...x,startedAt:n
 const backup=()=>{const b=new Blob([JSON.stringify({version:3,exportedAt:new Date().toISOString(),goals:g,checkins:c},null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="quitify-backup.json";a.click();note("Backup exported.")};
 if(!ready)return <main className="loading"><span>Q</span><b>QUITify</b></main>;
 return <main className="app"><div className="shell">
-<header className="top"><button className="logo" onClick={()=>setTab("today")}><span>Q</span>QUITify</button><small><ShieldCheck size={13}/> On-device</small><button className="topbtn" onClick={()=>setTab("settings")}><Settings2 size={18}/></button></header>
-{tab==="today"&&<section className="page"><div className="heading"><div><p>THURSDAY · TODAY</p><h1>Make today count.</h1><span>One clear decision is enough.</span></div><button className="round" onClick={()=>setSheet("goal")}><Plus size={18}/></button></div>
+<header className="top"><button className="logo" onClick={()=>setTab("today")}><span>Q</span>QUITify</button><small><ShieldCheck size={13}/> Private on this device</small><button className="topbtn" onClick={()=>setTab("settings")}><Settings2 size={18}/></button></header>
+{tab==="today"&&<section className="page"><div className="heading"><div><p>{todayLabel} · TODAY</p><h1>Make today a little easier.</h1><span>One clear decision is enough.</span></div><button className="round" onClick={()=>setSheet("goal")}><Plus size={18}/></button></div>
 {cur?<div className="stack">
 <section className="focus"><div className="focusline"><i className={cur.accent}>{cur.icon}</i><div><small>Your focus</small><b>{cur.label}</b></div><button onClick={()=>setSheet("goal")}><MoreHorizontal size={18}/></button></div><div className="run"><div><strong>{days}</strong><span>day{days===1?"":"s"} in this run</span></div><div><small>Best</small><b>{Math.max(days,cur.best)} days</b></div></div><div className="track"><i style={{width:`${Math.min(100,Math.max(9,(days%7)/7*100))}%`}}/></div>
 </section>
