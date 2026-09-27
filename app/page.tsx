@@ -44,6 +44,8 @@ export default function Home(){
 
   useEffect(()=>{
     try{
+      if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{});
+      if ("caches" in window) caches.keys().then(keys=>Promise.all(keys.map(k=>caches.delete(k)))).catch(()=>{});
       const g=localStorage.getItem("quitify-goals");
       const c=localStorage.getItem("quitify-checkins");
       const savedGoals=g?JSON.parse(g):[];
@@ -137,7 +139,7 @@ export default function Home(){
           </div>
         </article>
 
-        <article className="glass-card focus-card">
+        <article className="glass-card focus-card"><div className="focus-orb">10</div>
           <div><div className="label">WHEN AN URGE HITS</div><h3>Make the next<br/>10 minutes easier.</h3>
           <p>Pause before acting. Change your surroundings. Give the urge time to move.</p></div>
           <button className="primary-button" onClick={startTimer}><Timer size={17}/> Start a 10-minute reset <ArrowRight size={16}/></button>
@@ -202,7 +204,7 @@ export default function Home(){
 
     {onboard&&<div className="modal-backdrop"><div className="onboarding glass-card">
       <div className="onboard-mark"><Leaf size={23}/></div><span className="label">WELCOME TO QUITIFY</span><h2>Make room<br/>for your life.</h2><p>No account. No public profile. No noisy feed. Just a private place to work on one change at a time.</p>
-      <button className="primary-button full" onClick={()=>setShowAdd(true)}>Choose my first goal <ArrowRight size={16}/></button>
+      <button className="primary-button full" onClick={()=>{setOnboard(false);setShowAdd(true)}}>Choose my first goal <ArrowRight size={16}/></button>
       <small>QUITify is a self-guided design case study, not medical treatment.</small>
     </div></div>}
   </main>;
