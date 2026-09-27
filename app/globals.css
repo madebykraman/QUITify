@@ -57,3 +57,64 @@ button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3p
 :root[data-theme="dark"] .toast{background:#f5f7fb;color:#101318}
 :root[data-theme="dark"] .handle{background:#3c444f}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+/* Product polish: progress, intervention, settings and calendar are deliberately more structured than the Today dashboard. */
+.logo span{background:#111317;color:#fff}
+.progress-stack{display:grid;gap:10px}
+.progress-hero{position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:space-between;min-height:168px;padding:20px;border-radius:20px;color:#fff;background:linear-gradient(135deg,#0d1016 0%,#18213b 58%,#3c5fe0 125%);box-shadow:0 18px 44px rgba(28,43,93,.18)}
+.progress-hero:after{content:"";position:absolute;right:-55px;top:-65px;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(133,158,255,.28),transparent 67%);pointer-events:none}
+.progress-hero p,.progress-section-head p,.milestone p{margin:0;color:rgba(255,255,255,.58);font-size:8px;font-weight:850;letter-spacing:.14em}
+.progress-hero strong{display:block;margin-top:12px;font-size:64px;line-height:.8;letter-spacing:-.09em}
+.progress-hero>div:first-child>span{display:block;margin-top:10px;color:rgba(255,255,255,.7);font-size:10px}
+.hero-best{text-align:right;position:relative;z-index:1}.hero-best small{display:block;color:rgba(255,255,255,.55);font-size:8px;font-weight:800}.hero-best b{display:block;margin-top:5px;font-size:13px}
+.week-progress,.history,.milestone{border:1px solid var(--line);background:var(--surface);border-radius:18px;box-shadow:var(--shadow)}
+.week-progress{padding:18px}.progress-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px}.progress-section-head p{color:var(--soft);font-size:8px}.progress-section-head h3{margin:6px 0 0;font-size:16px;line-height:1.12;letter-spacing:-.035em;max-width:260px}.progress-section-head>b{font-size:10px;color:var(--accent2)}
+.week-bars{height:96px;margin-top:18px;display:grid;grid-template-columns:repeat(7,1fr);gap:9px;align-items:end}
+.week-bars>div{height:100%;display:flex;flex-direction:column;justify-content:end;align-items:center;gap:7px}
+.week-bars i{display:block;width:100%;max-width:32px;height:18px;border-radius:9px 9px 5px 5px;background:var(--surface2);border:1px solid var(--line);transition:height .2s ease}
+.week-bars i.on{height:62px;background:linear-gradient(180deg,var(--accent2),var(--accent));border-color:transparent;box-shadow:0 7px 18px rgba(53,92,222,.16)}
+.week-bars i.current{height:30px;border-color:var(--accent);background:var(--accentSoft)}
+.week-bars small{color:var(--soft);font-size:8px}
+.progress-metrics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.progress-metrics>div{padding:16px;border:1px solid var(--line);background:var(--surface);border-radius:16px;box-shadow:var(--shadow)}
+.progress-metrics small,.progress-metrics span{display:block;color:var(--muted);font-size:8px}.progress-metrics b{display:block;margin:8px 0 3px;font-size:28px;letter-spacing:-.05em}
+.history{padding:18px}.history .progress-section-head>span{font-size:8px;color:var(--soft);padding-top:2px}
+.history-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:7px;margin-top:16px}
+.history-grid>div{position:relative;min-height:53px;padding:8px 6px;border:1px solid var(--line);border-radius:11px;background:var(--surface2)}
+.history-grid b{display:block;font-size:12px;line-height:1}.history-grid span{display:block;margin-top:6px;color:var(--soft);font-size:7px}.history-grid svg{position:absolute;right:6px;bottom:6px;color:var(--green)}
+.history-grid>div.on{background:var(--greenSoft);border-color:#bfe2cf}.history-grid>div.current{border-color:var(--accent);box-shadow:inset 0 0 0 1px rgba(53,92,222,.15)}
+.milestone{display:flex;align-items:center;gap:12px;padding:15px}.milestone-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:11px;background:var(--accentSoft);color:var(--accent)}.milestone p{color:var(--soft);font-size:7px}.milestone b,.milestone span{display:block}.milestone b{font-size:11px;margin-top:4px}.milestone span{font-size:8px;color:var(--muted);margin-top:3px}
+
+.settings{box-shadow:var(--shadow);border-radius:19px}
+.settings>button.theme-row{min-height:74px}
+.settings .theme-row>span:not(.switch){min-width:0}
+.settings .theme-row>span.switch{flex:0 0 44px;width:44px;height:25px;padding:2px;border-radius:99px;background:#dfe2dd;display:flex;align-items:center;justify-content:flex-start;box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.settings .theme-row>span.switch i{width:21px;height:21px;border-radius:50%;background:#fff;display:block;box-shadow:0 2px 6px rgba(0,0,0,.18);transition:transform .2s ease}
+.settings .theme-row>span.switch.on{background:var(--accent)}
+.settings .theme-row>span.switch.on i{transform:translateX(19px)}
+.settings>button:hover,.settings>label:hover,.theme-row:hover{background:var(--surface2)}
+.settings .danger{margin-top:0}
+.settings>button>i,.settings>label>i,.settings>div>i{background:linear-gradient(135deg,var(--surface2),var(--accentSoft));border:1px solid rgba(53,92,222,.05)}
+
+.sheet{padding:8px 20px 24px}
+.pause-screen{padding:4px 0 2px}
+.pause-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin:2px 0 18px}
+.pause-top p{margin:0;color:var(--soft);font-size:8px;font-weight:850;letter-spacing:.14em}
+.pause-top h2{margin:7px 0 0;font-size:27px;line-height:1.02;letter-spacing:-.055em}
+.pause-top>button{width:36px;height:36px;border:1px solid var(--line);background:var(--surface);border-radius:11px;display:grid;place-items:center;color:var(--muted)}
+.pause-clock{padding:22px 16px 18px;text-align:center;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,var(--surface2),var(--accentSoft));position:relative;overflow:hidden}
+.pause-clock:after{content:"";position:absolute;left:50%;top:-115px;transform:translateX(-50%);width:270px;height:270px;border-radius:50%;background:radial-gradient(circle,rgba(83,110,230,.15),transparent 66%);pointer-events:none}
+.clock-ring{width:142px;height:142px;margin:0 auto;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--accent) 0deg, var(--accent) 22deg, rgba(53,92,222,.12) 22deg 360deg);position:relative;box-shadow:0 15px 35px rgba(53,92,222,.12)}
+.clock-ring:before{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--surface)}
+.clock-ring span{position:relative;z-index:1;font-size:34px;font-weight:800;letter-spacing:-.07em}
+.pause-clock p{position:relative;z-index:1;max-width:330px;margin:15px auto 0;color:var(--muted);font-size:9px;line-height:1.5}
+.pause-steps{display:grid;gap:7px;margin:12px 0 14px}
+.pause-steps>div{display:flex;gap:11px;align-items:flex-start;padding:13px 12px;border:1px solid var(--line);background:var(--surface);border-radius:14px}
+.pause-steps>div>span{font-size:8px;font-weight:900;color:var(--accent);padding-top:2px}.pause-steps b,.pause-steps small{display:block}.pause-steps b{font-size:10px}.pause-steps small{margin-top:4px;color:var(--muted);font-size:8px;line-height:1.4}
+.pause-done{width:100%;min-height:46px}
+@media(max-width:380px){.progress-hero{min-height:154px;padding:17px}.progress-hero strong{font-size:57px}.clock-ring{width:128px;height:128px}.pause-top h2{font-size:24px}}
+:root[data-theme="dark"] .progress-hero{box-shadow:0 20px 50px rgba(0,0,0,.35)}
+:root[data-theme="dark"] .settings .theme-row>span.switch{background:#343b46}
+:root[data-theme="dark"] .settings .theme-row>span.switch.on{background:var(--accent)}
+:root[data-theme="dark"] .pause-clock{background:linear-gradient(145deg,#171b25,#1a2441)}
