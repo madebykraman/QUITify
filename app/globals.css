@@ -1,6 +1,5 @@
-/* QUITify Brand Type System v1.0 — deliberate web typography, not device-local typography. */
-@font-face{font-family:"QUITify Geist";font-style:normal;font-weight:100 900;font-display:swap;src:url("https://cdn.jsdelivr.net/fontsource/fonts/geist-sans:vf@5.3.0/latin-wght-normal.woff2") format("woff2-variations");}
-:root{--font-brand:"QUITify Geist",ui-sans-serif,system-ui,sans-serif;--type-display:clamp(2.1rem,8vw,3rem);--type-title:1.55rem;--type-body:.9375rem;--type-small:.8125rem;--type-caption:.6875rem;--tracking-display:-.055em;--tracking-label:.12em}
+/* QUITify global typography — final brand stack is declared in product-system.css. */
+:root{--font-brand:"Satoshi",ui-sans-serif,system-ui,sans-serif;--font-display:"Cabinet Grotesk",ui-sans-serif,system-ui,sans-serif;--type-display:clamp(2.1rem,8vw,3rem);--type-title:1.55rem;--type-body:.9375rem;--type-small:.8125rem;--type-caption:.6875rem;--tracking-display:-.055em;--tracking-label:.12em}
 html,body{font-family:var(--font-brand)!important;font-optical-sizing:auto;font-synthesis:none}body{letter-spacing:-.012em}h1,h2,h3,b,strong,button{font-family:var(--font-brand)}
 :root{
 --bg:#f7f7f5;--surface:#fff;--surface2:#f3f4f2;--ink:#171816;--muted:#74776f;--soft:#a3a69e;
@@ -17,8 +16,8 @@ html,body{font-family:var(--font-brand)!important;font-optical-sizing:auto;font-
 --heroA:#090b0f;--heroB:#171d34;--heroC:#4665e6;--onHero:#fff;--onHeroMuted:rgba(255,255,255,.68);
 }
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;transition:background-color .22s ease,color .22s ease}html{color-scheme:light}html[data-theme="dark"]{color-scheme:dark}::selection{background:rgba(53,92,222,.2)}
-button{font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3px solid #c8d2ff;outline-offset:2px}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--font-brand),ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased;transition:background-color .22s ease,color .22s ease}html{color-scheme:light}html[data-theme="dark"]{color-scheme:dark}::selection{background:rgba(53,92,222,.2)}
+button{font-family:var(--font-brand),ui-sans-serif,system-ui,sans-serif;font:inherit;color:inherit;cursor:pointer}button:focus-visible{outline:3px solid #c8d2ff;outline-offset:2px}
 .app{min-height:100vh;padding:0 16px 104px;position:relative;overflow:hidden}.app:before{content:"";position:fixed;z-index:-1;pointer-events:none;inset:-25vh -20vw auto auto;width:65vw;height:65vw;max-width:720px;max-height:720px;background:radial-gradient(circle at 50% 50%,rgba(75,103,220,.10),transparent 66%);filter:blur(10px)}.shell{width:min(100%,680px);margin:0 auto}
 .loading{min-height:100vh;display:grid;place-content:center;text-align:center;gap:10px}.loading>span{width:42px;height:42px;display:grid;place-items:center;margin:auto;border-radius:12px;background:var(--ink);color:#fff;font-weight:850}.loading>b{font-size:14px}
 
