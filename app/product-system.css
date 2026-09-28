@@ -480,3 +480,25 @@ button{border-radius:10px!important}
   .options-v2,.reasons-v2{grid-template-columns:1fr 1fr!important}
 }
 @media(max-width:390px){.home-heading h1,.heading h1{font-size:35px}.momentum-bottom{gap:16px}.momentum-bottom>div:first-child b{font-size:45px}.options-v2,.reasons-v2{grid-template-columns:1fr!important}}
+
+/* Platform typography: resolve the requested native family from the browser platform. */
+:root{
+  --font-platform:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif;
+}
+:root[data-platform="android"]{
+  --font-platform:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif;
+}
+:root[data-platform="ios"]{
+  --font-platform:"SF Pro Display","SF Pro Text",-apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;
+}
+:root[data-platform="other"]{
+  --font-platform:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+html,body,button,input,textarea,select{
+  font-family:var(--font-platform)!important;
+  font-synthesis:none;
+  font-kerning:normal;
+}
+h1,h2,h3,h4,h5,h6,strong,b,button,.logo,.topstatus,.nav button{
+  font-family:var(--font-platform)!important;
+}
