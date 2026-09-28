@@ -1,11 +1,8 @@
-/* RECLAIM global foundation — product styles live in product-system.css */
-:root{
-  --font-platform:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif;
-  color-scheme:light dark;
-}
+/* RECLAIM SPACE global foundation */
+:root{--font-platform:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif;color-scheme:light dark}
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;min-height:100%;font-family:var(--font-platform),sans-serif}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{margin:0;padding:0;min-height:100%;font-family:var(--font-platform)!important}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-behavior:smooth}
 body{background:#07090e;color:#f6f7fb}
 button,input,textarea,select{font:inherit}
 button{cursor:pointer}
