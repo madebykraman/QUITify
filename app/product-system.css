@@ -397,3 +397,60 @@ h1,h2,h3,h4,.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps 
 .on-screen h1{font-weight:700!important;letter-spacing:-.04em!important;line-height:1.02!important}
 .home-heading h1,.heading h1{font-weight:700;letter-spacing:-.045em;line-height:1.04}
 .momentum-copy h2,.check h2,.progress-section-head h3{font-weight:650;letter-spacing:-.035em}
+
+
+/* Final release pass: navigation clearance, compact-screen rhythm and milestones. */
+.app{
+  padding-bottom:calc(176px + env(safe-area-inset-bottom))!important;
+  overflow:visible;
+}
+.nav{
+  z-index:50;
+  bottom:calc(12px + env(safe-area-inset-bottom))!important;
+  min-height:64px;
+  padding:5px;
+  background:rgba(255,255,255,.97);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.nav button{min-height:48px;gap:4px}
+.nav span{font-size:10px;line-height:1.2}
+:root[data-theme="dark"] .nav{
+  background:rgba(18,21,26,.97);
+  border-color:#2b323c;
+}
+.page{min-width:0}
+.progress-stack,.stack,.settings-wrap{min-width:0}
+.milestone-steps{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex-wrap:wrap;max-width:44%}
+.milestone-steps i{
+  width:27px;height:27px;flex:0 0 27px;border-radius:9px;
+  display:grid;place-items:center;font-style:normal;font-size:10px;font-weight:750;
+  color:var(--muted);background:var(--surface2);border:1px solid var(--line);
+}
+.milestone-steps i.reached{background:var(--greenSoft);border-color:rgba(46,139,104,.25);color:var(--green)}
+:root[data-theme="dark"] .milestone-steps i.reached{background:#142d23;color:#72d5a8;border-color:#28513e}
+.sheet{padding-bottom:calc(22px + env(safe-area-inset-bottom));}
+.overlay{z-index:70}
+.toast{z-index:90;max-width:calc(100vw - 32px);white-space:normal;text-align:center}
+button:disabled{cursor:not-allowed;opacity:.48}
+@media(max-width:640px){
+  .app{padding-left:16px;padding-right:16px;padding-bottom:calc(176px + env(safe-area-inset-bottom))!important}
+  .nav{width:min(92vw,370px);height:64px}
+  .nav span{font-size:10px}
+  .momentum-bottom{gap:10px}
+  .momentum-best span{font-size:9px}
+  .weekrow{gap:3px}
+  .weekrow i{width:min(34px,8vw);height:min(34px,8vw);border-radius:11px}
+  .milestone{gap:10px}
+  .milestone-steps{max-width:42%;gap:4px}
+  .milestone-steps i{width:24px;height:24px;flex-basis:24px;font-size:9px}
+}
+@media(max-width:360px){
+  .app{padding-left:12px;padding-right:12px}
+  .momentum-bottom{gap:7px}
+  .momentum-best b{font-size:13px}
+  .milestone-steps{max-width:40%}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
