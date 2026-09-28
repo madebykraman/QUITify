@@ -54,7 +54,7 @@ if(landing)return <main className="landing-page">
     </div>
   </section>
   <section className="landing-strip"><span>Designed around one simple loop</span><b>Notice → Pause → Choose → Check in → See progress</b></section>
-  <section className="landing-section landing-how" id="how">
+  <section className="landing-section" id="how">
     <div className="landing-section-head"><p>HOW IT WORKS</p><h2>Small enough to use<br/>when it actually matters.</h2></div>
     <div className="landing-steps">
       <article><i>01</i><div><b>Choose one focus</b><span>Start with the habit you want more control over. Add context only when it helps.</span></div></article>
