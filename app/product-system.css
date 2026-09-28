@@ -1417,3 +1417,327 @@ h1,h2,h3,h4,h5,h6,b,strong,button,.logo,.nav,.top{
   .focus-card-best b{font-size:14px}
   .pause-scene{min-height:410px!important}
 }
+
+
+/* ============================================================
+   QUITify v8 — contrast, hierarchy, focus-card and dock cleanup
+   Palette:
+   ink       #080B12
+   surface   #111722
+   elevated  #171F2C
+   text      #F5F7FA
+   secondary #B9C1CD
+   muted     #858F9F
+   line      #2A3443
+   violet    #8F82FF
+   coral     #FFB19B
+   mint      #9BE0BE
+   ============================================================ */
+:root{
+  --q-bg:#F5F7FA;
+  --q-surface:#FFFFFF;
+  --q-elevated:#EEF1F5;
+  --q-text:#10141B;
+  --q-secondary:#4F5A6A;
+  --q-muted:#707B8C;
+  --q-line:#D8DEE7;
+  --q-violet:#6558E8;
+  --q-violet-soft:#EAE7FF;
+  --q-coral:#FF9F88;
+  --q-mint:#2E8B68;
+}
+:root[data-theme="dark"]{
+  --q-bg:#080B12;
+  --q-surface:#111722;
+  --q-elevated:#171F2C;
+  --q-text:#F5F7FA;
+  --q-secondary:#B9C1CD;
+  --q-muted:#858F9F;
+  --q-line:#2A3443;
+  --q-violet:#9B8FFF;
+  --q-violet-soft:#27234F;
+  --q-coral:#FFB19B;
+  --q-mint:#9BE0BE;
+}
+
+html,body{background:var(--q-bg)!important;color:var(--q-text)!important}
+body,button,input,textarea,select{font-family:var(--font-platform)!important}
+.app{
+  background:
+    radial-gradient(720px 420px at 100% -5%,rgba(155,143,255,.08),transparent 68%),
+    radial-gradient(560px 420px at -10% 44%,rgba(255,177,155,.045),transparent 70%),
+    var(--q-bg)!important;
+  color:var(--q-text)!important;
+}
+.shell{min-height:100dvh}
+.page{color:var(--q-text)!important}
+.home-heading{margin-bottom:18px!important}
+.home-heading p,.heading p,.sectiontop p,.progress-section-head p,.milestone p,.settings-label{
+  color:var(--q-muted)!important;
+}
+.home-heading h1,.heading h1{color:var(--q-text)!important;letter-spacing:-.045em}
+.home-heading>div>span,.heading>div>span{color:var(--q-secondary)!important}
+.home-add{
+  width:42px!important;height:42px!important;
+  background:var(--q-elevated)!important;
+  color:var(--q-text)!important;
+  border:1px solid var(--q-line)!important;
+  box-shadow:none!important;
+}
+.home-add:hover,.home-add:focus-visible{background:var(--q-surface)!important}
+
+.focus-carousel{margin-bottom:24px!important}
+.focus-carousel-head{margin-bottom:10px!important}
+.focus-carousel-head p{color:var(--q-muted)!important;font-size:10px!important;letter-spacing:.17em!important}
+.focus-carousel-head span{color:var(--q-secondary)!important;font-size:12px!important}
+.focus-carousel-count{color:var(--q-text)!important;font-size:12px!important}
+.focus-carousel-track{
+  gap:10px!important;
+  padding:0 0 5px!important;
+  overscroll-behavior-x:contain!important;
+}
+.focus-card{
+  flex:0 0 100%!important;
+  min-height:278px!important;
+  height:278px!important;
+  box-sizing:border-box!important;
+  padding:25px!important;
+  border:1px solid #344052!important;
+  border-radius:24px!important;
+  background:
+    radial-gradient(340px 230px at 91% 3%,rgba(255,177,155,.25),transparent 72%),
+    radial-gradient(430px 270px at 100% 100%,rgba(126,113,255,.26),transparent 70%),
+    linear-gradient(145deg,#151E2C 0%,#111925 56%,#151B2B 100%)!important;
+  box-shadow:0 18px 42px rgba(0,0,0,.22)!important;
+  opacity:1!important;
+}
+.focus-card-glow{
+  width:230px!important;height:230px!important;
+  right:-120px!important;top:-120px!important;
+  background:rgba(255,255,255,.045)!important;
+}
+.focus-card-top{gap:14px!important}
+.focus-card .eyebrow{
+  color:#AEB8C6!important;
+  font-size:10px!important;
+  letter-spacing:.17em!important;
+}
+.focus-card h2{
+  margin:10px 0 8px!important;
+  color:#F8FAFC!important;
+  font-size:31px!important;
+  line-height:1.04!important;
+  letter-spacing:-.055em!important;
+}
+.focus-card p{
+  max-width:330px!important;
+  color:#C5CCD6!important;
+  font-size:14px!important;
+  line-height:1.45!important;
+}
+.focus-card-badge{
+  width:58px!important;height:58px!important;flex-basis:58px!important;
+  border-radius:17px!important;
+  background:rgba(255,255,255,.055)!important;
+  border:1px solid rgba(255,255,255,.11)!important;
+}
+.focus-card-badge i{
+  width:38px!important;height:38px!important;
+  border-radius:12px!important;
+  background:#9BE0BE!important;
+  color:#0B2117!important;
+}
+.focus-card-rule{
+  margin:26px 0 21px!important;
+  background:#344052!important;
+}
+.focus-card-bottom{gap:18px!important}
+.focus-card-bottom>div:first-child{min-width:64px!important}
+.focus-card-bottom b{
+  color:#FFFFFF!important;
+  font-size:48px!important;
+  line-height:.9!important;
+}
+.focus-card-bottom span{
+  color:#9FA9B7!important;
+  font-size:11px!important;
+  margin-top:7px!important;
+}
+.focus-card-ring{
+  width:58px!important;height:58px!important;flex-basis:58px!important;
+  background:conic-gradient(var(--q-coral) var(--ring),#303949 var(--ring))!important;
+}
+.focus-card-ring:after{background:#151D2A!important}
+.focus-card-ring span{color:#F6F8FB!important}
+.focus-card-ring small{color:#AAB3BF!important}
+.focus-card-best{min-width:92px!important}
+.focus-card-best span{
+  color:#8994A3!important;
+  font-size:9px!important;
+  letter-spacing:.08em!important;
+}
+.focus-card-best b{
+  color:#F5F7FA!important;
+  font-size:15px!important;
+}
+.focus-dots{margin-top:9px!important}
+.focus-dots i{background:#303949!important}
+.focus-dots i.active{background:var(--q-violet)!important}
+.focus-add-link{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  margin:11px auto 0!important;
+  padding:7px 10px!important;
+  border:0!important;
+  background:transparent!important;
+  color:#A99FFF!important;
+  font-size:12px!important;
+  font-weight:700!important;
+}
+.focus-add-link:hover,.focus-add-link:focus-visible{background:rgba(155,143,255,.08)!important;color:#C2BAFF!important}
+
+/* The carousel now owns the focus summary. Do not repeat it as a second hero. */
+.momentum-hero{display:none!important}
+
+/* Cards below the focus use one surface grammar and predictable contrast. */
+:root[data-theme="dark"] .today-insight,
+:root[data-theme="dark"] .check,
+:root[data-theme="dark"] .week,
+:root[data-theme="dark"] .settings,
+:root[data-theme="dark"] .progress-metrics>div,
+:root[data-theme="dark"] .week-progress,
+:root[data-theme="dark"] .history,
+:root[data-theme="dark"] .milestone,
+:root[data-theme="dark"] .insight-chart,
+:root[data-theme="dark"] .insight-callout,
+:root[data-theme="dark"] .trigger-card,
+:root[data-theme="dark"] .thought-card{
+  background:var(--q-surface)!important;
+  color:var(--q-text)!important;
+  border-color:var(--q-line)!important;
+  box-shadow:none!important;
+}
+.today-insight,.check,.week,.settings,.progress-metrics>div,.week-progress,.history,.milestone{
+  border-radius:20px!important;
+}
+.today-insight b,.check h2,.check em b,.sectiontop h3,.progress-section-head h3,.milestone b,
+.settings b,.settings span,.settings em{
+  color:var(--q-text)!important;
+}
+.today-insight span,.checkcopy,.check em small,.weeklegend,.settings small,.milestone span,
+.progress-section-head>span{
+  color:var(--q-secondary)!important;
+}
+.check>button:first-of-type,.settings>button,.settings>label,.settings>div{
+  background:var(--q-elevated)!important;
+  color:var(--q-text)!important;
+  border-color:var(--q-line)!important;
+}
+.check>button:first-of-type:hover,.settings>button:hover,.settings>label:hover{
+  background:var(--q-surface)!important;
+}
+:root[data-theme="dark"] .weekrow i{
+  background:var(--q-elevated)!important;
+  border-color:var(--q-line)!important;
+}
+:root[data-theme="dark"] .weekrow i.on{
+  background:var(--q-mint)!important;
+  color:#092116!important;
+}
+
+/* Bottom dock: no hover-state painting, no green selection block, tighter geometry. */
+.nav{
+  width:min(94vw,500px)!important;
+  height:66px!important;
+  padding:4px!important;
+  gap:2px!important;
+  background:rgba(10,14,21,.97)!important;
+  border:1px solid #2F3948!important;
+  border-radius:20px!important;
+  box-shadow:0 12px 32px rgba(0,0,0,.30)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+}
+.nav button{
+  min-width:0!important;
+  width:100%!important;
+  height:56px!important;
+  border-radius:15px!important;
+  background:transparent!important;
+  color:#919CAB!important;
+  box-shadow:none!important;
+  transition:none!important;
+}
+.nav button svg{color:currentColor!important}
+.nav button span{color:currentColor!important;font-size:10px!important;font-weight:650!important}
+.nav button.active{
+  background:var(--q-coral)!important;
+  color:#241714!important;
+  box-shadow:none!important;
+}
+.nav button.active span,.nav button.active svg{color:#241714!important}
+@media (hover:hover){
+  .nav button:hover:not(.active){background:transparent!important;color:#B4BDC9!important}
+}
+@media (hover:none){
+  .nav button:hover{background:transparent!important}
+}
+.nav button:focus-visible{
+  outline:2px solid var(--q-violet)!important;
+  outline-offset:-2px!important;
+}
+:root[data-theme="light"] .nav{
+  background:rgba(255,255,255,.97)!important;
+  border-color:#D6DCE5!important;
+  box-shadow:0 12px 30px rgba(35,45,60,.14)!important;
+}
+:root[data-theme="light"] .nav button{color:#697587!important}
+:root[data-theme="light"] .nav button.active{background:#FFAD97!important;color:#241714!important}
+:root[data-theme="light"] .nav button.active span,:root[data-theme="light"] .nav button.active svg{color:#241714!important}
+
+@media(max-width:430px){
+  .nav{
+    width:calc(100vw - 24px)!important;
+    height:64px!important;
+    border-radius:19px!important;
+  }
+  .nav button{height:54px!important;border-radius:14px!important}
+  .nav button span{font-size:9px!important}
+  .nav button svg{width:18px!important;height:18px!important}
+}
+
+/* Fixed dock gets a real breathing zone rather than sitting directly on cards. */
+@media(max-width:899px){
+  .app{padding-bottom:calc(110px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
+  .page{padding-bottom:28px!important}
+  .stack{padding-bottom:54px!important}
+  .nav{bottom:calc(10px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
+}
+
+/* Stronger typography rhythm. */
+.home-heading h1,.heading h1{font-weight:700!important}
+.today-insight p,.checkintro p,.sectiontop p,.progress-section-head p,.milestone p{
+  font-size:10px!important;
+  font-weight:800!important;
+  letter-spacing:.15em!important;
+}
+.check h2,.sectiontop h3,.progress-section-head h3{letter-spacing:-.025em!important}
+.checkcopy{font-size:13px!important;line-height:1.5!important}
+
+/* Pause and settings use the same contrast contract. */
+.pause-page .pause-top h1,.pause-page .pause-top p{color:var(--q-text)!important}
+.pause-page .pause-top>div>span{color:var(--q-secondary)!important}
+.pause-page .pause-top>button{
+  background:var(--q-elevated)!important;
+  color:var(--q-text)!important;
+  border-color:var(--q-line)!important;
+}
+.pause-list{
+  background:var(--q-surface)!important;
+  color:var(--q-text)!important;
+  border-color:var(--q-line)!important;
+}
+.pause-list>div{color:var(--q-text)!important;border-color:var(--q-line)!important}
+.pause-list svg{color:var(--q-mint)!important}
