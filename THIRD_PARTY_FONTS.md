@@ -1,18 +1,12 @@
-# Third-party font licenses
+# Typography
 
-QUITify self-hosts these open-source typefaces.
+RECLAIM uses **Google Sans** as its single product typeface.
 
-## Work Sans
-- Source: https://github.com/weiweihuanghuang/Work-Sans
-- Usage: primary UI, body, labels, controls
-- License: SIL Open Font License 1.1
-- Local asset: /public/fonts/WorkSans-Variable.ttf
+- Package: `@fontsource/google-sans`
+- Weights used: 400, 500, 600, 700
+- Loading: self-contained through the package import in `app/layout.tsx`
+- Usage: product UI, headings, navigation, onboarding, landing, controls, and data views
 
-## Cotham Sans
-- Source: https://github.com/sebsan/Cotham
-- Designer: loveletters.be
-- Usage: landing/presentation and onboarding display headings
-- License: SIL Open Font License 1.1
-- Local asset: /public/fonts/CothamSans.otf
+The previous Work Sans and Cotham assets were retired during the RECLAIM rebrand. No legacy font files remain in `public/fonts`.
 
-The corresponding license texts are stored in /public/fonts/licenses/.
+The typography rule is intentionally simple: one family, a small weight range, and semantic hierarchy instead of switching display families between surfaces.
