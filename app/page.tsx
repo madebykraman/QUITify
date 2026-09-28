@@ -95,6 +95,11 @@ return <main className="app"><div className="shell">
     <span>{tab==="today"?"TODAY":tab.toUpperCase()}</span>
     <b>{tab==="today"?todayLabel:tab==="pause"?"TEN MINUTE RESET":tab==="progress"?"YOUR CONSISTENCY":tab==="insights"?"YOUR PATTERNS":"YOUR SPACE"}</b>
   </div>
+  {cur&&<button className="top-focus" aria-label={`Current focus: ${cur.label}`} onClick={()=>setTab("today")}>
+    <span className={`top-focus-icon ${cur.accent}`}>{cur.icon}</span>
+    <span className="top-focus-copy"><small>CURRENT FOCUS</small><b>{cur.label}</b></span>
+    <strong>{days}<small>d</small></strong>
+  </button>}
   <div className="top-actions">
     <div className="topstatus"><ShieldCheck size={15}/><span>Private</span></div>
     <button className="topbtn" aria-label="Open settings" onClick={()=>setTab("settings")}><Settings2 size={19}/></button>
@@ -121,6 +126,25 @@ return <main className="app"><div className="shell">
 </div></main>
 }
 function Empty({onClick,text}:{onClick:()=>void;text:string}){return <section className="empty"><i><Target size={24}/></i><p>START HERE</p><h2>{text}</h2><span>One goal, one day, one check-in at a time.</span><button className="primary" onClick={onClick}>Choose my focus <ArrowRight size={16}/></button></section>}
+function FocusScene({label,active,marked}:{label:string;active:boolean;marked:boolean}){
+const key=label.toLowerCase();
+let kind="default";
+if(/smok|nicotine/.test(key))kind="smoking";
+else if(/doomscroll|social media/.test(key))kind="scroll";
+else if(/vap/.test(key))kind="vaping";
+else if(/alcohol/.test(key))kind="alcohol";
+else if(/sugar|junk/.test(key))kind="sugar";
+else if(/gaming/.test(key))kind="gaming";
+return <div className={`focus-scene focus-scene-${kind} ${active?"is-active":""} ${marked?"is-marked":""}`} aria-hidden="true">
+  {kind==="smoking"&&<><span className="scene-stick"><i/></span><span className="scene-stop">STOP</span><span className="scene-smoke s1"/><span className="scene-smoke s2"/><span className="scene-smoke s3"/></>}
+  {kind==="scroll"&&<><span className="scene-feed f1"/><span className="scene-feed f2"/><span className="scene-feed f3"/><span className="scene-scroll-line"/><span className="scene-pause">Ⅱ</span></>}
+  {kind==="vaping"&&<><span className="scene-vape"/><span className="scene-vapor v1"/><span className="scene-vapor v2"/><span className="scene-vapor v3"/></>}
+  {kind==="alcohol"&&<><span className="scene-glass"><i/></span><span className="scene-wave w1"/><span className="scene-wave w2"/><span className="scene-stop">PAUSE</span></>}
+  {kind==="sugar"&&<><span className="scene-cube c1"/><span className="scene-cube c2"/><span className="scene-cube c3"/><span className="scene-stop">CHOOSE</span></>}
+  {kind==="gaming"&&<><span className="scene-controller"><i/><b/></span><span className="scene-pulse p1"/><span className="scene-pulse p2"/></>}
+  {kind==="default"&&<><span className="scene-orbit o1"/><span className="scene-orbit o2"/><span className="scene-core">R</span><span className="scene-stop">RESET</span></>}
+</div>
+}
 function FocusCarousel({goals,currentId,checkins,onSelect}:{goals:Goal[];currentId:string;checkins:Checkin[];onSelect:(id:string)=>void}){
 const trackRef=useRef<HTMLDivElement>(null);
 useEffect(()=>{
@@ -135,7 +159,7 @@ return <section className="focus-carousel" aria-label="Your focuses">
   <div className="focus-carousel-head"><div><p>TODAY’S FOCUSES</p><span>Swipe cards to switch</span></div><span className="focus-carousel-count">{goals.length?activeIndex+1:0} of {goals.length}</span></div>
   <div ref={trackRef} className="focus-carousel-track" onScroll={e=>{const el=e.currentTarget;const cards=[...el.querySelectorAll<HTMLElement>("[data-goal-id]")];if(!cards.length)return;const center=el.scrollLeft+el.clientWidth/2;let nearest=cards[0],distance=Infinity;cards.forEach(card=>{const d=Math.abs(card.offsetLeft+card.offsetWidth/2-center);if(d<distance){distance=d;nearest=card}});const id=nearest.dataset.goalId;if(id&&id!==currentId)onSelect(id)}}>
     {goals.map(goal=>{const days=streakFor(checkins,goal.id,goal.startedAt),best=Math.max(goal.best,bestStreakFor(checkins,goal.id)),weekRun=days===0?0:(days%7||7),marked=checkins.some(x=>x.goalId===goal.id&&x.date===dk()&&x.stayedOnTrack);return <article key={goal.id} data-goal-id={goal.id} className={goal.id===currentId?"focus-card selected":"focus-card"} aria-label={goal.id===currentId?goal.label+" active focus":"Switch to "+goal.label} onClick={()=>onSelect(goal.id)}>
-      <div className="focus-card-glow"/>{goal.id===currentId&&<span className="focus-active-chip">ACTIVE</span>}<div className="focus-card-top"><div><span className="eyebrow">TODAY’S FOCUS</span><h2>{goal.label}</h2><p>{goal.reason||"One clear choice is enough for today."}</p></div><div className="focus-card-badge"><i className={goal.accent}>{goal.icon}</i></div></div>
+      <div className="focus-card-glow"/>{goal.id===currentId&&<span className="focus-active-chip">ACTIVE</span>}<div className="focus-card-top"><div><span className="eyebrow">TODAY’S FOCUS</span><h2>{goal.label}</h2><p>{goal.reason||"One clear choice is enough for today."}</p></div><FocusScene label={goal.label} active={goal.id===currentId} marked={marked}/></div>
       <div className="focus-card-rule"/><div className="focus-card-bottom"><div><b>{days}</b><span>current run</span></div><div className="focus-card-ring" style={{"--ring":(Math.min(100,(weekRun/7)*100)+"%")} as React.CSSProperties}><span>{weekRun}<small>/7</small></span></div><div className="focus-card-best"><span>PERSONAL BEST</span><b>{best} days</b></div><div className={marked?"focus-card-status recorded":"focus-card-status"}>{marked?"✓ Recorded":"Today"}</div></div>
     </article>})}
   </div>
