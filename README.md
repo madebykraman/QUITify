@@ -2,26 +2,67 @@
 
 **Make room for your life.**
 
-RECLAIM is a design-first, offline/local-data habit-change case study. The product is intentionally private: core progress data lives in the browser's local storage instead of a required account or cloud database.
+RECLAIM is a design-first, local-first habit-change product prototype. It is built around one behavioral loop: notice the pattern, create a pause, choose the next action, check in, and look back without punishment.
 
 ## Product thesis
 
-Changing a habit is already cognitively expensive. The interface should therefore reduce decisions, avoid shame, keep the next useful action visible, and make progress legible without turning the experience into a noisy analytics dashboard.
+Changing a habit is cognitively expensive. RECLAIM therefore keeps the current focus visible, makes the daily action obvious, preserves history through fresh starts, and avoids gamification that turns behavior change into a score-chasing exercise.
 
-## RECLAIM / SPACE design language
+## RECLAIM / SPACE
 
-- **Calm over clinical** — warm neutrals, soft green, restrained violet, generous whitespace.
-- **One thing at a time** — the current goal and current run lead the hierarchy.
-- **Progress without punishment** — a reset does not erase the previous best.
-- **Private by default** — no login, no analytics requirement, local browser persistence.
-- **Familiar interaction grammar** — chips, cards, bottom actions, modal sheets, clear primary action.
-- **Solid surfaces, strong hierarchy** — paper, ink, borders, spacing, and restrained color do the visual work without decorative effects.
+The current visual language is built around:
 
-## Inspiration research
+- **One focus, one scene** — each focus is represented by a behavior-specific visual scene rather than a generic category icon.
+- **Expressive, not decorative** — motion communicates active state, a recorded check-in, or an intervention.
+- **Progress without punishment** — current run, personal best, weekly consistency, recent history, and fresh starts remain legible without XP, leaderboards, or fake achievement economies.
+- **Private by default** — goals, check-ins, and preferences are stored locally in the browser; there is no account requirement.
+- **One type system** — Google Sans is the single product typeface across landing, onboarding, Today, Progress, Pause, Insights, and Settings.
+- **Familiar navigation** — five persistent destinations: Today, Progress, Pause, Insights, and Settings.
+- **Responsive by construction** — mobile bottom navigation, desktop navigation rail, fixed contextual top bar, safe-area handling, keyboard focus, and reduced-motion support.
 
-The design direction was informed by public UX/UI case studies across recovery, habit tracking, and cessation products. Recurring patterns included streak/progress visibility, craving/urge support, journaling, milestones, and simple predictable navigation. Research also showed that many concept designs over-index on gamification, gradients, and dense dashboards.
+## Core experience
 
-The visual system is intentionally independent of liquid-glass or frosted-glass patterns. Depth comes from spacing, typography, borders, surface contrast, and restrained shadows.
+### Today
+The current focus leads the page. Users can swipe between focus cards, see a behavior-specific scene, check in for the day, review the last seven days, and start a fresh run without deleting history.
+
+### Progress
+Shows the current run, personal best, weekly consistency, 14-day history, total check-ins, fresh starts, and milestones.
+
+### Pause
+A timestamp-driven ten-minute intervention. The timer is based on elapsed wall-clock time rather than render ticks, so it remains accurate when the tab is backgrounded.
+
+### Insights
+Uses only recorded check-ins. The screen deliberately avoids fabricated mood/trigger data and instead shows a real 14-day rhythm, a 28-day weekday pattern, check-in history, and fresh-start context.
+
+### Settings
+Controls appearance, backup/restore, privacy information, and local-data deletion.
+
+## Data model
+
+The app persists:
+
+- `reclaim-goals`
+- `reclaim-checkins`
+- `reclaim-theme`
+
+Existing QUITify storage keys are read once as a compatibility migration path. New writes use RECLAIM keys.
+
+Backups are JSON files containing goals, check-ins, product name, version, and export timestamp.
+
+## Quality bar
+
+Every feature is reviewed against:
+
+1. Real user value.
+2. Cognitive-load impact.
+3. Familiar interaction patterns.
+4. Two-second hierarchy.
+5. Mobile usability.
+6. Desktop usability.
+7. Keyboard and reduced-motion accessibility.
+8. Data integrity and reversibility.
+9. Visual identity consistency.
+10. Whether the feature strengthens the core behavioral loop.
 
 ## Run locally
 
@@ -34,8 +75,8 @@ Then open http://localhost:3000.
 
 ## Deployment
 
-The app is designed to deploy directly to Vercel as a standard Next.js project.
+The app is a standard Next.js project and is intended for Vercel deployment.
 
 ## Privacy note
 
-This is a design/case-study prototype, not medical treatment. It should not replace professional support, especially where withdrawal or dependence can create medical risk.
+RECLAIM is a product/design prototype, not medical treatment. It should not replace professional support, especially where withdrawal or dependence can create medical risk.
