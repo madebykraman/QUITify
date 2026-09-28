@@ -1041,3 +1041,379 @@ h1,h2,h3,h4,h5,h6,strong,b,button,.logo,.topstatus,.nav button{
 .pause-scene{border-radius:24px!important;min-height:430px!important}
 .pause-page-done{min-height:50px!important;border-radius:15px!important}
 
+
+
+
+/* ============================================================
+   QUITify v7 — final mobile interaction layer
+   ============================================================ */
+:root{
+  --q-bg:#f5f6f8;
+  --q-surface:#ffffff;
+  --q-surface2:#eef1f5;
+  --q-text:#10131a;
+  --q-secondary:#4e5868;
+  --q-muted:#687384;
+  --q-line:#d9dee7;
+  --q-accent:#665be6;
+  --q-accent2:#8479f4;
+  --q-green:#2e8b68;
+  --q-green-soft:#e7f5ee;
+  --q-danger:#c4514b;
+}
+:root[data-theme="dark"]{
+  --q-bg:#070a10;
+  --q-surface:#111722;
+  --q-surface2:#19212e;
+  --q-text:#f7f8fa;
+  --q-secondary:#c1c6cf;
+  --q-muted:#a8afbb;
+  --q-line:#303847;
+  --q-accent:#9a8cff;
+  --q-accent2:#b3aaff;
+  --q-green:#91d5b1;
+  --q-green-soft:#18372b;
+  --q-danger:#ff918b;
+}
+
+/* The bundled Google Sans is the web fallback on non-Apple platforms.
+   Apple platforms resolve to the system SF Pro stack. */
+html,body,button,input,textarea,select{
+  font-family:var(--font-platform)!important;
+  color:var(--q-text);
+}
+body{background:var(--q-bg)!important}
+h1,h2,h3,h4,h5,h6,b,strong,button,.logo,.nav,.top{
+  font-family:var(--font-platform)!important;
+}
+.app{
+  background:
+    radial-gradient(900px 500px at 90% -5%,rgba(113,100,240,.16),transparent 64%),
+    radial-gradient(700px 500px at 0% 55%,rgba(255,164,143,.08),transparent 64%),
+    var(--q-bg)!important;
+  color:var(--q-text)!important;
+}
+.top{
+  background:color-mix(in srgb,var(--q-bg) 92%,transparent)!important;
+  border-bottom:1px solid var(--q-line)!important;
+}
+.logo,.logo strong{color:var(--q-text)!important}
+.topstatus,.topbtn{
+  color:var(--q-text)!important;
+  background:var(--q-surface)!important;
+  border-color:var(--q-line)!important;
+}
+.home-heading p,.heading p,.sectiontop p,.progress-section-head p,.milestone p,.settings-label{
+  color:var(--q-muted)!important;
+}
+.home-heading h1,.heading h1{
+  color:var(--q-text)!important;
+}
+.home-heading span,.heading>div>span{
+  color:var(--q-secondary)!important;
+}
+.home-add{
+  background:var(--q-text)!important;
+  color:var(--q-bg)!important;
+}
+
+/* Main Today focus is now the carousel itself. */
+.focus-carousel{margin:0 0 18px;min-width:0}
+.focus-carousel-head{display:flex;align-items:flex-end;justify-content:space-between;margin:0 2px 9px}
+.focus-carousel-head p{margin:0;color:var(--q-muted)!important;font-size:10px;font-weight:800;letter-spacing:.14em}
+.focus-carousel-head span{display:block;margin-top:3px;color:var(--q-muted)!important;font-size:11px}
+.focus-carousel-count{font-weight:700!important;color:var(--q-secondary)!important}
+.focus-carousel-track{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  overscroll-behavior-x:contain;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+  padding:1px 1px 8px;
+}
+.focus-carousel-track::-webkit-scrollbar{display:none}
+.focus-card{
+  position:relative;
+  flex:0 0 100%;
+  min-width:0;
+  min-height:300px;
+  overflow:hidden;
+  scroll-snap-align:center;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:26px;
+  padding:24px;
+  color:#fff!important;
+  background:
+    radial-gradient(300px 220px at 84% 7%,rgba(255,190,174,.70),transparent 68%),
+    radial-gradient(420px 260px at 98% 94%,rgba(116,101,245,.66),transparent 70%),
+    linear-gradient(145deg,#172233 0%,#222a3c 48%,#51499a 100%);
+  box-shadow:0 20px 48px rgba(0,0,0,.28);
+  cursor:pointer;
+  transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease;
+}
+.focus-card:not(.selected){opacity:.96}
+.focus-card:active{transform:scale(.992)}
+.focus-card-glow{position:absolute;width:240px;height:240px;right:-100px;top:-100px;border-radius:50%;background:rgba(255,255,255,.10);pointer-events:none}
+.focus-card-top,.focus-card-bottom{position:relative;z-index:1;display:flex}
+.focus-card-top{align-items:flex-start;justify-content:space-between;gap:18px}
+.focus-card-top>div:first-child{min-width:0}
+.focus-card .eyebrow{display:block;color:rgba(255,255,255,.74)!important;font-size:10px;font-weight:800;letter-spacing:.15em}
+.focus-card h2{margin:12px 0 7px;color:#fff!important;font-size:30px;line-height:1;letter-spacing:-.055em}
+.focus-card p{margin:0;color:rgba(255,255,255,.78)!important;font-size:14px}
+.focus-card-badge{width:72px;height:72px;flex:0 0 72px;display:grid;place-items:center;border-radius:21px;background:rgba(20,22,31,.24);border:1px solid rgba(255,255,255,.12)}
+.focus-card-badge i{width:43px;height:43px;display:grid;place-items:center;border-radius:13px;background:#194c3a!important;color:#eafff4!important;font-style:normal;font-weight:900;font-size:14px}
+.focus-card-rule{position:relative;z-index:1;height:1px;background:rgba(255,255,255,.42);margin:28px 0 24px}
+.focus-card-bottom{align-items:flex-end;gap:20px}
+.focus-card-bottom>div:first-child{display:flex;flex-direction:column;min-width:72px}
+.focus-card-bottom b{color:#fff!important;font-size:54px;line-height:.78;letter-spacing:-.08em}
+.focus-card-bottom span{color:rgba(255,255,255,.72)!important;font-size:11px;margin-top:8px}
+.focus-card-ring{
+  width:62px;height:62px;flex:0 0 62px;display:grid;place-items:center;border-radius:50%;
+  background:conic-gradient(#ffc0aa var(--ring),rgba(255,255,255,.17) 0);
+  position:relative;
+}
+.focus-card-ring:after{content:"";position:absolute;inset:7px;border-radius:50%;background:#31394b}
+.focus-card-ring span{position:relative;z-index:1;color:#fff!important;font-size:16px;font-weight:800}
+.focus-card-ring small{font-size:9px;color:rgba(255,255,255,.65)!important}
+.focus-card-best{margin-left:auto;text-align:right;min-width:88px}
+.focus-card-best span{display:block;color:rgba(255,255,255,.62)!important;font-size:9px;letter-spacing:.05em}
+.focus-card-best b{display:block;margin-top:8px;color:#fff!important;font-size:16px;line-height:1}
+.focus-card-status{display:none}
+.focus-card-status.recorded{color:#b7f0d0!important}
+.focus-add-card{
+  flex:0 0 88%;
+  min-height:180px;
+  align-self:stretch;
+  scroll-snap-align:center;
+  border:1px dashed var(--q-line);
+  border-radius:24px;
+  background:var(--q-surface)!important;
+  color:var(--q-text)!important;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:7px;
+  padding:24px;
+  text-align:left;
+}
+.focus-add-card svg{color:var(--q-accent)}
+.focus-add-card b{font-size:18px}
+.focus-add-card span{font-size:12px;color:var(--q-secondary)!important}
+.focus-dots{display:flex;justify-content:center;gap:5px;margin-top:5px}
+.focus-dots i{width:5px;height:5px;border-radius:99px;background:var(--q-line);transition:width .2s ease,background .2s ease}
+.focus-dots i.active{width:18px;background:var(--q-accent)}
+
+/* Dark contrast: no legacy black-on-dark text survives. */
+:root[data-theme="dark"] .today-insight,
+:root[data-theme="dark"] .check,
+:root[data-theme="dark"] .week,
+:root[data-theme="dark"] .settings,
+:root[data-theme="dark"] .progress-metrics>div,
+:root[data-theme="dark"] .week-progress,
+:root[data-theme="dark"] .history,
+:root[data-theme="dark"] .milestone{
+  background:var(--q-surface)!important;
+  color:var(--q-text)!important;
+  border-color:var(--q-line)!important;
+}
+:root[data-theme="dark"] .today-insight b,
+:root[data-theme="dark"] .check h2,
+:root[data-theme="dark"] .check em b,
+:root[data-theme="dark"] .sectiontop h3,
+:root[data-theme="dark"] .progress-section-head h3,
+:root[data-theme="dark"] .milestone b,
+:root[data-theme="dark"] .settings b,
+:root[data-theme="dark"] .settings span,
+:root[data-theme="dark"] .settings em{
+  color:var(--q-text)!important;
+}
+:root[data-theme="dark"] .today-insight span,
+:root[data-theme="dark"] .checkcopy,
+:root[data-theme="dark"] .check em small,
+:root[data-theme="dark"] .weeklegend,
+:root[data-theme="dark"] .settings small,
+:root[data-theme="dark"] .milestone span,
+:root[data-theme="dark"] .progress-section-head>span{
+  color:var(--q-secondary)!important;
+}
+:root[data-theme="dark"] .check>button:first-of-type,
+:root[data-theme="dark"] .settings>button,
+:root[data-theme="dark"] .settings>label,
+:root[data-theme="dark"] .settings>div{
+  background:var(--q-surface2)!important;
+  color:var(--q-text)!important;
+  border-color:var(--q-line)!important;
+}
+:root[data-theme="dark"] .check>button:first-of-type i{
+  border-color:#657080!important;
+}
+:root[data-theme="dark"] .weekrow i{background:var(--q-surface2)!important;border-color:var(--q-line)!important}
+:root[data-theme="dark"] .weekrow i.on{background:var(--q-green)!important;color:#092116!important}
+:root[data-theme="dark"] .settings>div>i,
+:root[data-theme="dark"] .settings>button>i,
+:root[data-theme="dark"] .settings>label>i{
+  background:#202a39!important;color:#cbd2dd!important;border-color:#303a49!important;
+}
+:root[data-theme="dark"] .settings .switch{background:#4a5361!important}
+:root[data-theme="dark"] .settings .switch.on{background:var(--q-accent)!important}
+:root[data-theme="dark"] .settings .switch i{background:#fff!important}
+
+/* Light mode is a complete alternate surface system. */
+:root[data-theme="light"] .app{background:linear-gradient(180deg,#f8f9fb 0%,#eef1f6 100%)!important}
+:root[data-theme="light"] .top{background:rgba(248,249,251,.96)!important}
+:root[data-theme="light"] .check,
+:root[data-theme="light"] .week,
+:root[data-theme="light"] .settings,
+:root[data-theme="light"] .today-insight,
+:root[data-theme="light"] .progress-metrics>div,
+:root[data-theme="light"] .week-progress,
+:root[data-theme="light"] .history,
+:root[data-theme="light"] .milestone{
+  background:#fff!important;color:#10131a!important;border-color:#d9dee7!important;
+}
+:root[data-theme="light"] .check h2,
+:root[data-theme="light"] .check em b,
+:root[data-theme="light"] .sectiontop h3,
+:root[data-theme="light"] .progress-section-head h3,
+:root[data-theme="light"] .milestone b,
+:root[data-theme="light"] .settings b{
+  color:#10131a!important;
+}
+:root[data-theme="light"] .checkcopy,
+:root[data-theme="light"] .check em small,
+:root[data-theme="light"] .settings small,
+:root[data-theme="light"] .milestone span{
+  color:#566171!important;
+}
+:root[data-theme="light"] .check>button:first-of-type,
+:root[data-theme="light"] .settings>button,
+:root[data-theme="light"] .settings>label,
+:root[data-theme="light"] .settings>div{
+  background:#f8f9fb!important;color:#10131a!important;border-color:#e0e4ea!important;
+}
+:root[data-theme="light"] .settings .switch{background:#cfd5df!important}
+:root[data-theme="light"] .settings .switch.on{background:#766be8!important}
+:root[data-theme="light"] .focus-add-card{background:#fff!important}
+
+/* Pause is a functional destination, not a decorative hero. */
+.pause-page{color:var(--q-text)!important}
+.pause-page .pause-top p{color:var(--q-muted)!important}
+.pause-page .pause-top h1{color:var(--q-text)!important}
+.pause-page .pause-top>div>span{color:var(--q-secondary)!important}
+.pause-page .pause-top>button{
+  background:var(--q-surface)!important;
+  color:var(--q-text)!important;
+  border:1px solid var(--q-line)!important;
+}
+.pause-scene{
+  position:relative!important;
+  min-height:440px!important;
+  overflow:hidden!important;
+  border:1px solid var(--q-line)!important;
+  background:
+    radial-gradient(500px 260px at 70% 0%,rgba(255,188,171,.55),transparent 70%),
+    linear-gradient(155deg,#a9b1bd 0%,#737e91 38%,#182130 68%,#080b11 100%)!important;
+}
+.pause-ring{
+  width:250px!important;height:250px!important;
+  background:conic-gradient(#ffc0aa calc((600 - var(--pause-left,600))/600*360deg),rgba(255,255,255,.25) 0)!important;
+}
+.pause-ring:before{background:rgba(28,34,47,.94)!important}
+.pause-ring span{color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.pause-main{
+  width:64px!important;height:64px!important;
+  bottom:104px!important;
+  background:#080b11!important;color:#fff!important;
+  border:1px solid rgba(255,255,255,.14)!important;
+}
+.pause-scene p{
+  bottom:24px!important;
+  color:#fff!important;
+  background:rgba(8,11,17,.78)!important;
+  border-color:rgba(255,255,255,.18)!important;
+}
+.pause-list{
+  background:var(--q-surface)!important;
+  color:var(--q-text)!important;
+  border:1px solid var(--q-line)!important;
+  border-radius:22px!important;
+  overflow:hidden!important;
+}
+.pause-list>div{color:var(--q-text)!important;border-color:var(--q-line)!important;padding:18px 18px!important;font-size:14px!important}
+.pause-list svg{color:var(--q-green)!important}
+.pause-page-done{margin-bottom:20px!important}
+
+/* Bottom navigation: 5 real destinations, no horizontal clipping. */
+.nav{
+  width:min(96vw,520px)!important;
+  height:72px!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:2px!important;
+  padding:5px!important;
+  background:rgba(12,16,23,.97)!important;
+  border:1px solid #343c4a!important;
+  box-shadow:0 14px 38px rgba(0,0,0,.34)!important;
+}
+.nav button{min-width:0!important;width:100%!important;color:#aeb6c2!important}
+.nav button.active{background:#275943!important;color:#dffff0!important;box-shadow:inset 0 0 0 1px rgba(157,232,192,.15)!important}
+.nav button.active span,.nav button.active svg{color:#dffff0!important}
+.nav button span{font-size:10px!important;white-space:nowrap!important}
+.nav-short{display:inline!important}.nav-long{display:none!important}
+:root[data-theme="light"] .nav{background:rgba(255,255,255,.98)!important;border-color:#d4dae4!important;box-shadow:0 14px 38px rgba(40,48,65,.16)!important}
+:root[data-theme="light"] .nav button{color:#687384!important}
+:root[data-theme="light"] .nav button.active{background:#e6e2ff!important;color:#554bd0!important}
+:root[data-theme="light"] .nav button.active span,:root[data-theme="light"] .nav button.active svg{color:#554bd0!important}
+@media(min-width:900px){
+  .nav{width:252px!important;height:100dvh!important;grid-template-columns:1fr!important}
+  .nav-short{display:none!important}.nav-long{display:inline!important}
+}
+@media(max-width:430px){
+  .nav{width:calc(100vw - 20px)!important;height:68px!important}
+  .nav button span{font-size:8px!important}
+  .nav button svg{width:17px!important;height:17px!important}
+}
+
+/* Keep Safari's visual viewport/browser chrome from pushing the dock into the toolbar. */
+:root{--vv-bottom:0px}
+@media(max-width:899px){
+  .nav{bottom:calc(10px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
+  .app{padding-bottom:calc(120px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
+}
+
+/* Onboarding uses the same contrast grammar as the app, not the legacy light modal. */
+.onboarding-modal{background:#070a10!important}
+.onboarding-modal .onboard-v2{background:
+  radial-gradient(650px 430px at 78% 16%,rgba(255,180,158,.22),transparent 66%),
+  radial-gradient(550px 500px at 90% 82%,rgba(113,99,246,.18),transparent 70%),
+  linear-gradient(145deg,#070a10,#0e1420 54%,#151a25)!important;color:#fff!important}
+.on-screen h1{color:#fff!important}
+.on-lead{color:#c4cad3!important}
+.on-kicker{color:#ffb09a!important}
+.on-preview,.options-v2 button,.reasons-v2 button{
+  background:rgba(17,23,34,.94)!important;
+  color:#fff!important;
+  border-color:#354052!important;
+}
+.options-v2 button>span,.reasons-v2 button>span{color:#fff!important}
+.options-v2 button.selected,.reasons-v2 button.selected{
+  background:#29255b!important;border-color:#9185ff!important;
+}
+.on-primary{background:linear-gradient(135deg,#ffb39d,#ff8f83)!important;color:#1d1411!important}
+
+/* Hide the old Today-only moment affordance if any legacy markup survives. */
+.moment{display:none!important}
+
+@media(max-width:600px){
+  .focus-card{min-height:292px;padding:21px}
+  .focus-card h2{font-size:28px}
+  .focus-card-bottom{gap:13px}
+  .focus-card-bottom b{font-size:48px}
+  .focus-card-ring{width:56px;height:56px;flex-basis:56px}
+  .focus-card-best{min-width:76px}
+  .focus-card-best b{font-size:14px}
+  .pause-scene{min-height:410px!important}
+}
