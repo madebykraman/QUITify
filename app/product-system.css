@@ -1741,3 +1741,368 @@ body,button,input,textarea,select{font-family:var(--font-platform)!important}
 }
 .pause-list>div{color:var(--q-text)!important;border-color:var(--q-line)!important}
 .pause-list svg{color:var(--q-mint)!important}
+
+
+/* ============================================================
+   QUITify v9 — semantic color system + native bottom tabs
+   Based on platform semantic-color principles:
+   primary / secondary / tertiary text, layered surfaces,
+   restrained brand color, explicit selected states.
+   ============================================================ */
+
+:root{
+  --q-bg:#F6F7F9;
+  --q-surface:#FFFFFF;
+  --q-elevated:#F0F2F5;
+  --q-text:#111318;
+  --q-secondary:#46505F;
+  --q-muted:#667181;
+  --q-line:#D9DEE6;
+  --q-accent:#6258E8;
+  --q-accent-soft:#EEECFF;
+  --q-coral:#E9795F;
+  --q-mint:#2E8767;
+  --q-success-soft:#E5F4EC;
+}
+:root[data-theme="dark"]{
+  --q-bg:#090C12;
+  --q-surface:#11161E;
+  --q-elevated:#181E27;
+  --q-text:#F7F8FA;
+  --q-secondary:#C0C7D1;
+  --q-muted:#929CAB;
+  --q-line:#2B3441;
+  --q-accent:#A69AFF;
+  --q-accent-soft:#2A2650;
+  --q-coral:#FFB09A;
+  --q-mint:#93D8B7;
+  --q-success-soft:#17352A;
+}
+
+html,body{background:var(--q-bg)!important;color:var(--q-text)!important}
+.app{
+  background:
+    radial-gradient(720px 420px at 100% -8%,rgba(98,88,232,.055),transparent 68%),
+    var(--q-bg)!important;
+  color:var(--q-text)!important;
+}
+:root[data-theme="light"] .app{
+  background:linear-gradient(180deg,#F8F9FB 0%,#F3F5F7 100%)!important;
+}
+
+/* Text hierarchy: no gray-on-gray body copy. */
+.home-heading h1,.heading h1,.home-heading p,.heading p{color:var(--q-text)!important}
+.home-heading>div>span,.heading>div>span{color:var(--q-secondary)!important}
+.today-insight p,.checkintro p,.sectiontop p,.progress-section-head p,.milestone p,.settings-label{
+  color:var(--q-muted)!important;
+}
+.today-insight b,.check h2,.check em b,.sectiontop h3,.progress-section-head h3,
+.milestone b,.settings b,.settings span,.settings em{color:var(--q-text)!important}
+.today-insight span,.checkcopy,.check em small,.weeklegend,.settings small,.milestone span,
+.progress-section-head>span{color:var(--q-secondary)!important}
+
+/* Focus carousel: the neighboring card is intentionally visible.
+   That makes the horizontal gesture discoverable without a tutorial. */
+.focus-carousel-head{align-items:center!important}
+.focus-carousel-head>div>span{
+  color:var(--q-secondary)!important;
+  font-size:12px!important;
+  font-weight:550!important;
+}
+.focus-carousel-count{
+  color:var(--q-muted)!important;
+  font-size:11px!important;
+  font-weight:750!important;
+  white-space:nowrap!important;
+}
+.focus-carousel-track{
+  gap:10px!important;
+  padding:0 0 4px!important;
+  scroll-snap-type:x mandatory!important;
+  scroll-padding-left:0!important;
+}
+.focus-card{
+  flex:0 0 calc(100% - 32px)!important;
+  min-height:278px!important;
+  height:278px!important;
+  padding:24px!important;
+  border:1px solid var(--q-line)!important;
+  border-radius:24px!important;
+  background:var(--q-surface)!important;
+  box-shadow:0 10px 30px rgba(10,14,22,.08)!important;
+  color:var(--q-text)!important;
+  scroll-snap-align:start!important;
+  scroll-snap-stop:always!important;
+  transition:border-color .16s ease,transform .16s ease,opacity .16s ease,box-shadow .16s ease!important;
+}
+:root[data-theme="dark"] .focus-card{
+  background:
+    radial-gradient(320px 220px at 100% 0%,rgba(166,154,255,.10),transparent 72%),
+    var(--q-surface)!important;
+  box-shadow:0 16px 36px rgba(0,0,0,.22)!important;
+}
+.focus-card:not(.selected){
+  opacity:.72!important;
+  transform:scale(.985)!important;
+}
+.focus-card.selected{
+  opacity:1!important;
+  border-color:var(--q-accent)!important;
+  box-shadow:0 12px 34px rgba(98,88,232,.13)!important;
+}
+:root[data-theme="dark"] .focus-card.selected{
+  border-color:#8578F5!important;
+  box-shadow:0 14px 38px rgba(91,79,220,.18)!important;
+}
+.focus-card-glow{display:none!important}
+.focus-active-chip{
+  position:absolute!important;
+  top:18px!important;
+  right:18px!important;
+  z-index:3!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  min-height:25px!important;
+  padding:0 9px!important;
+  border-radius:999px!important;
+  background:var(--q-accent-soft)!important;
+  color:var(--q-accent)!important;
+  border:1px solid color-mix(in srgb,var(--q-accent) 20%,transparent)!important;
+  font-size:9px!important;
+  font-weight:850!important;
+  letter-spacing:.08em!important;
+}
+.focus-card-top{position:relative!important;z-index:2!important}
+.focus-card-top>div:first-child{padding-right:76px!important}
+.focus-card .eyebrow{
+  color:var(--q-muted)!important;
+  font-size:10px!important;
+  font-weight:800!important;
+  letter-spacing:.16em!important;
+}
+.focus-card h2{
+  color:var(--q-text)!important;
+  font-size:30px!important;
+  letter-spacing:-.045em!important;
+}
+.focus-card p{
+  color:var(--q-secondary)!important;
+  font-size:14px!important;
+  line-height:1.45!important;
+}
+.focus-card-badge{
+  position:absolute!important;
+  top:0!important;
+  right:0!important;
+  width:50px!important;height:50px!important;flex-basis:50px!important;
+  border-radius:15px!important;
+  background:var(--q-elevated)!important;
+  border:1px solid var(--q-line)!important;
+}
+.focus-card-badge i{
+  width:34px!important;height:34px!important;
+  background:var(--q-success-soft)!important;
+  color:var(--q-mint)!important;
+  border-radius:10px!important;
+}
+.focus-card-rule{background:var(--q-line)!important}
+.focus-card-bottom b{color:var(--q-text)!important}
+.focus-card-bottom span{color:var(--q-muted)!important}
+.focus-card-ring{
+  background:conic-gradient(var(--q-accent) var(--ring),var(--q-elevated) var(--ring))!important;
+}
+.focus-card-ring:after{background:var(--q-surface)!important}
+.focus-card-ring span{color:var(--q-text)!important}
+.focus-card-ring small{color:var(--q-muted)!important}
+.focus-card-best span{color:var(--q-muted)!important}
+.focus-card-best b{color:var(--q-text)!important}
+.focus-dots i{background:var(--q-line)!important}
+.focus-dots i.active{background:var(--q-accent)!important}
+.focus-add-link{
+  margin:9px auto 0!important;
+  color:var(--q-accent)!important;
+  background:transparent!important;
+  border:0!important;
+  font-size:12px!important;
+  font-weight:750!important;
+}
+.focus-add-link:hover,.focus-add-link:focus-visible{
+  color:var(--q-accent)!important;
+  background:var(--q-accent-soft)!important;
+}
+@media(max-width:600px){
+  .focus-card{
+    flex-basis:calc(100% - 28px)!important;
+    min-height:274px!important;
+    height:274px!important;
+  }
+  .focus-card h2{font-size:28px!important}
+}
+
+/* Every content card uses the same surface relationship. */
+.today-insight,.check,.week,.week-progress,.history,.milestone,.settings,
+.progress-metrics>div,.insight-chart,.insight-callout,.trigger-card,.thought-card{
+  background:var(--q-surface)!important;
+  color:var(--q-text)!important;
+  border:1px solid var(--q-line)!important;
+  box-shadow:none!important;
+}
+.today-insight,.check,.week,.week-progress,.history,.milestone,.settings,
+.progress-metrics>div,.insight-chart,.insight-callout,.trigger-card,.thought-card{
+  border-radius:20px!important;
+}
+.check>button:first-of-type,.settings>button,.settings>label,.settings>div{
+  background:var(--q-elevated)!important;
+  color:var(--q-text)!important;
+  border-color:var(--q-line)!important;
+}
+.check>button:first-of-type:hover,.settings>button:hover,.settings>label:hover{
+  background:var(--q-surface)!important;
+}
+:root[data-theme="dark"] .weekrow i{
+  background:var(--q-elevated)!important;
+  border-color:var(--q-line)!important;
+}
+:root[data-theme="dark"] .weekrow i.on{
+  background:var(--q-mint)!important;
+  color:#092116!important;
+}
+
+/* ------------------------------------------------------------
+   Mobile navigation: platform-style bottom tab bar.
+   It is no longer a floating pill sitting on top of content.
+   ------------------------------------------------------------ */
+@media(max-width:899px){
+  .nav{
+    position:fixed!important;
+    left:0!important;
+    right:0!important;
+    bottom:0!important;
+    top:auto!important;
+    width:100%!important;
+    height:calc(70px + env(safe-area-inset-bottom))!important;
+    box-sizing:border-box!important;
+    padding:7px 8px env(safe-area-inset-bottom)!important;
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:4px!important;
+    border:0!important;
+    border-top:1px solid var(--q-line)!important;
+    border-radius:0!important;
+    background:rgba(255,255,255,.96)!important;
+    box-shadow:0 -8px 26px rgba(25,31,42,.08)!important;
+    backdrop-filter:blur(22px)!important;
+    -webkit-backdrop-filter:blur(22px)!important;
+    z-index:50!important;
+    overflow:visible!important;
+  }
+  :root[data-theme="dark"] .nav{
+    background:rgba(11,15,22,.96)!important;
+    box-shadow:0 -8px 30px rgba(0,0,0,.28)!important;
+  }
+  .nav button{
+    min-width:0!important;
+    width:100%!important;
+    height:56px!important;
+    min-height:56px!important;
+    padding:5px 2px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:3px!important;
+    border-radius:14px!important;
+    background:transparent!important;
+    color:#667181!important;
+    box-shadow:none!important;
+    transition:none!important;
+    transform:none!important;
+  }
+  .nav button svg{
+    width:20px!important;height:20px!important;
+    color:currentColor!important;
+  }
+  .nav button span{
+    display:block!important;
+    color:currentColor!important;
+    font-size:10px!important;
+    line-height:1.1!important;
+    font-weight:650!important;
+  }
+  .nav button.active{
+    background:var(--q-accent-soft)!important;
+    color:var(--q-accent)!important;
+    box-shadow:none!important;
+  }
+  .nav button.active span,.nav button.active svg{color:var(--q-accent)!important}
+  .nav button:active{transform:none!important;background:var(--q-elevated)!important}
+  .nav button.active:active{background:var(--q-accent-soft)!important}
+  @media(hover:hover){
+    .nav button:hover{background:transparent!important;color:#667181!important}
+    .nav button.active:hover{background:var(--q-accent-soft)!important;color:var(--q-accent)!important}
+  }
+  .nav button:focus-visible{
+    outline:2px solid var(--q-accent)!important;
+    outline-offset:-2px!important;
+  }
+  .nav-short{display:inline!important}
+  .nav-long{display:none!important}
+  .app{
+    padding-bottom:calc(88px + env(safe-area-inset-bottom))!important;
+  }
+  .page{padding-bottom:28px!important}
+  .stack{padding-bottom:20px!important}
+}
+
+/* Light/dark tab bar variants. */
+:root[data-theme="light"] .nav button{color:#657080!important}
+:root[data-theme="dark"] .nav button{color:#9AA4B2!important}
+:root[data-theme="light"] .nav button.active{color:#5146D2!important;background:#EEECFF!important}
+:root[data-theme="dark"] .nav button.active{color:#B0A7FF!important;background:#2A2650!important}
+:root[data-theme="light"] .nav button.active span,:root[data-theme="light"] .nav button.active svg{color:#5146D2!important}
+:root[data-theme="dark"] .nav button.active span,:root[data-theme="dark"] .nav button.active svg{color:#B0A7FF!important}
+
+/* Desktop keeps the established sidebar, but adopts the same semantic palette. */
+@media(min-width:900px){
+  .nav{
+    position:fixed!important;
+    left:0!important;
+    top:0!important;
+    right:auto!important;
+    bottom:0!important;
+    width:252px!important;
+    height:100dvh!important;
+    padding:34px 20px!important;
+    box-sizing:border-box!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:stretch!important;
+    justify-content:flex-start!important;
+    gap:8px!important;
+    border:0!important;
+    border-right:1px solid var(--q-line)!important;
+    border-radius:0!important;
+    background:var(--q-surface)!important;
+    box-shadow:none!important;
+    backdrop-filter:none!important;
+  }
+  :root[data-theme="dark"] .nav{background:#0D1219!important}
+  .nav button{
+    background:transparent!important;
+    color:var(--q-secondary)!important;
+    box-shadow:none!important;
+    border-radius:14px!important;
+  }
+  .nav button.active{
+    background:var(--q-accent-soft)!important;
+    color:var(--q-accent)!important;
+  }
+  .nav button.active span,.nav button.active svg{color:var(--q-accent)!important}
+}
+
+/* Never use the visual-viewport compensation to move the dock.
+   Safari browser chrome is not application content. */
+@media(max-width:899px){
+  .nav{bottom:0!important}
+  .app{padding-bottom:calc(88px + env(safe-area-inset-bottom))!important}
+}
