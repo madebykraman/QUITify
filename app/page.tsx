@@ -28,7 +28,7 @@ useEffect(()=>{if(!pauseRunning||pauseStartedAt===null)return;const tick=()=>{co
 useEffect(()=>{const f=(e:KeyboardEvent)=>{if(e.key==="Escape"){setSheet(null);setIntro(false)}};addEventListener("keydown",f);return()=>removeEventListener("keydown",f)},[]);
 const note=(s:string)=>{setToast(s);setTimeout(()=>setToast(""),2200)};
 const toggleTheme=()=>{setDark(v=>{const next=!v;document.documentElement.dataset.theme=next?"dark":"light";return next})};
-const openPause=()=>{const started=Date.now();setTimer(600);setPauseStartedAt(started);setPauseRunning(true);setTab("pause")};
+const openPause=()=>{setTab("pause");if(timer===600&&!pauseRunning&&pauseStartedAt===null){setPauseStartedAt(Date.now());setPauseRunning(true)}};
 const create=(o:(typeof opts)[number],r="")=>{if(g.some(x=>x.label===o[0])){const existing=g.find(x=>x.label===o[0]);if(existing)setSel(existing.id);setSheet(null);setTab("today");note("Focus selected.");return}const id=crypto?.randomUUID?.()||Date.now().toString();setG(v=>[...v,{id,label:o[0],icon:o[1],accent:o[2],startedAt:dk(),best:0,checkIns:0,resets:0,active:true,reason:r}]);setSel(id);setIntro(false);setSheet(null);setTab("today");note("Focus added.")};
 const selectGoal=(id:string)=>{setSel(id);setSheet(null);setTab("today");note("Focus changed.")};
 const check=()=>{if(!cur)return;const d=dk(),n=!today;setC(v=>[...v.filter(x=>!(x.goalId===cur.id&&x.date===d)),{goalId:cur.id,date:d,stayedOnTrack:n}]);note(n?"Today is checked in.":"Today's check-in was removed.")};
