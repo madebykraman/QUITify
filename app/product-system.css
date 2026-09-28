@@ -275,7 +275,7 @@ h1,h2,h3,.heading h1,.home-heading h1,.momentum-copy h2,.on-screen h1,.landing-p
 html,body{font-family:var(--font-brand),ui-sans-serif,system-ui,sans-serif!important;font-synthesis:weight style;font-kerning:normal}
 .app,.landing-page{min-height:100dvh}
 .heading h1,.home-heading h1,.momentum-copy h2,.progress-section-head h3,.check h2,.week h3,.settings b,.nav button,.top,.topstatus{font-family:var(--font-brand)!important}
-.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps b,.on-screen h1{font-family:"Cotham","Work Sans",ui-sans-serif,sans-serif!important;font-weight:400!important}
+.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps b,.on-screen h1{font-family:"Google Sans Flex","Google Sans",ui-sans-serif,sans-serif!important;font-weight:400!important}
 .landing-hero h1{letter-spacing:-.035em;line-height:.94}
 .landing-section-head h2{letter-spacing:-.035em}
 .on-screen h1{letter-spacing:-.025em}
@@ -344,3 +344,13 @@ button:focus-visible,a:focus-visible,label[role="button"]:focus-visible{outline-
   .home-heading h1,.heading h1{font-size:clamp(30px,8.5vw,36px)}
   .momentum-copy h2{font-size:clamp(21px,6vw,25px)}
 }
+
+
+/* Google Sans Flex brand system + final mobile viewport audit */
+:root{--font-brand:"Google Sans Flex","Google Sans",ui-sans-serif,system-ui,sans-serif;--font-display:"Google Sans Flex","Google Sans",ui-sans-serif,system-ui,sans-serif}
+html,body,button,input,textarea,select{font-family:var(--font-brand),ui-sans-serif,system-ui,sans-serif!important;font-optical-sizing:auto;font-kerning:normal}
+h1,h2,h3,h4,.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps b,.on-screen h1,.momentum-bottom>div:first-child b,.progress-hero strong{font-family:var(--font-display),ui-sans-serif,system-ui,sans-serif!important}
+.progress-hero,.progress-hero strong,.progress-hero span,.progress-hero .hero-best small,.progress-hero .hero-best b{color:#fff!important}
+.app{padding-bottom:calc(148px + env(safe-area-inset-bottom))}
+.nav{bottom:calc(12px + env(safe-area-inset-bottom))}
+@media(max-width:560px){.app{padding-bottom:calc(156px + env(safe-area-inset-bottom))}}
