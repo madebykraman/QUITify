@@ -1,7 +1,7 @@
 "use client";
 import "./product-system.css";
 import {useEffect,useMemo,useState} from "react";
-import{ArrowRight,BarChart3,Check,ChevronRight,Clock3,Download,LockKeyholePause,Plus,RotateCcw,Settings2,ShieldCheck,Sparkles,Target,Trash2,Upload,X,Moon,Sun}from"lucide-react";
+import{ArrowRight,BarChart3,Check,ChevronRight,Clock3,Download,LockKeyhole,Plus,Pause,RotateCcw,Settings2,ShieldCheck,Sparkles,Target,Trash2,Upload,X,Moon,Sun}from"lucide-react";
 type Goal={id:string;label:string;icon:string;accent:string;startedAt:string;best:number;checkIns:number;resets:number;active:boolean;reason?:string};
 type Checkin={date:string;goalId:string;stayedOnTrack:boolean};
 const opts=[["Nicotine","N","red"],["Smoking","S","red"],["Vaping","V","blue"],["Alcohol","A","amber"],["Sugar / junk food","S","orange"],["Doomscrolling","D","violet"],["Social media","S","blue"],["Gaming","G","purple"],["Something else","•","slate"]] as const;
