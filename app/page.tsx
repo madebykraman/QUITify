@@ -95,26 +95,17 @@ if(landing)return <main className="landing-page">
 </main>;
 return <main className="app"><div className="shell">
 <header className="top">
-  <button className="logo" aria-label={`Go to Today in ${BRAND}`} onClick={()=>setTab("today")}>
+  <button className="logo" aria-label="Go to Today in RECLAIM" onClick={()=>setTab("today")}>
     <span className="brand-mark">R</span><strong>{BRAND}</strong>
   </button>
-  <div className="top-context" aria-live="polite">
-    <span>{tab==="today"?"TODAY":tab.toUpperCase()}</span>
-    <b>{tab==="today"?todayLabel:tab==="pause"?"TEN MINUTE RESET":tab==="progress"?"YOUR CONSISTENCY":tab==="insights"?"YOUR PATTERNS":"YOUR SPACE"}</b>
-  </div>
-  {cur&&<button className="top-focus" aria-label={`Current focus: ${cur.label}`} onClick={()=>setTab("today")}>
-    <span className={`top-focus-icon ${cur.accent}`}>{cur.icon}</span>
-    <span className="top-focus-copy"><small>CURRENT FOCUS</small><b>{cur.label}</b></span>
-    <strong>{days}<small>d</small></strong>
-  </button>}
+  <div className="top-page-label" aria-live="polite">{tab==="today"?"TODAY":tab.toUpperCase()}</div>
   <div className="top-actions">
-    <div className="topstatus"><ShieldCheck size={15}/><span>Private</span></div>
     <button className="topbtn" aria-label="Open settings" onClick={()=>setTab("settings")}><Settings2 size={19}/></button>
   </div>
 </header>
-{tab==="today"&&<section className="page"><div className="home-heading"><div><p>{todayLabel}</p><h1>Good to see you.</h1><span>{encouragement}</span></div><button className="round home-add" aria-label="Add a focus" onClick={()=>setSheet("goal")}><Plus size={18}/></button></div>
+{tab==="today"&&<section className="page"><div className="home-heading"><div><p>{todayLabel}</p><h1>Good to see you.</h1><span>{encouragement}</span></div></div>
 {cur?<>
-<FocusCarousel goals={g} currentId={cur.id} checkins={c} onSelect={selectGoal}/>
+<FocusCarousel goals={g} currentId={cur.id} checkins={c} onSelect={selectGoal} onAdd={()=>setSheet("goal")}/>
 <div className="stack">
 <section className="today-insight"><div className="insight-mark"><Target size={16}/></div><div><p>YOUR WHY</p><b>{cur.reason||"You chose to make a change."}</b><span>{today?"You have already recorded today.":"A small decision today is enough."}</span></div></section>
 
@@ -187,7 +178,7 @@ return <div className={`focus-scene focus-scene-${kind} ${active?"is-active":""}
   <div className="scene-copy"><b>{marked?"RESET SAVED":scene.action}</b><span>{marked?"Today is already recorded.":scene.line}</span></div>
 </div>
 }
-function FocusCarousel({goals,currentId,checkins,onSelect}:{goals:Goal[];currentId:string;checkins:Checkin[];onSelect:(id:string)=>void}){
+function FocusCarousel({goals,currentId,checkins,onSelect,onAdd}:{goals:Goal[];currentId:string;checkins:Checkin[];onSelect:(id:string)=>void;onAdd:()=>void}){
 const trackRef=useRef<HTMLDivElement>(null);
 useEffect(()=>{
   const el=trackRef.current;
@@ -208,6 +199,6 @@ return <section className="focus-carousel" aria-label="Your focuses">
     </article>})}
   </div>
   <div className="focus-dots" aria-hidden="true">{goals.map(goal=><i key={goal.id} className={goal.id===currentId?"active":""}/>)}</div>
-  <button className="focus-add-link" onClick={()=>document.querySelector<HTMLButtonElement>(".home-add")?.click()}><Plus size={14}/> Add another focus</button>
+  <button className="focus-add-link" onClick={onAdd} type="button"><Plus size={14}/> Add another focus</button>
 </section>;
 }
