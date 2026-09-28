@@ -1,5 +1,3 @@
-@font-face{font-family:"Work Sans";src:url("/fonts/WorkSans-Variable.ttf") format("truetype");font-style:normal;font-weight:100 900;font-display:swap;}
-@font-face{font-family:"Cotham";src:url("/fonts/CothamSans.otf") format("opentype");font-style:normal;font-weight:400;font-display:swap;}
 /* RECLAIM Product System v2.0 */
 :root{--bg:#f5f6f4;--surface:#fff;--surface2:#f0f2ef;--ink:#161816;--muted:#6f746e;--soft:#969c94;--line:#dfe3dd;--accent:#3158d8;--accent2:#2749ba;--accentSoft:#edf1ff;--green:#2b8865;--greenSoft:#e8f5ee;--shadow:0 1px 2px rgba(18,24,18,.04),0 8px 28px rgba(18,24,18,.045);--shadowStrong:0 12px 40px rgba(18,24,18,.08)}
 :root[data-theme="dark"]{--bg:#0d0f12;--surface:#15181d;--surface2:#1c2026;--ink:#f4f6f4;--muted:#a4aaa5;--soft:#747b76;--line:#2a3037;--accent:#8198ff;--accent2:#9badff;--accentSoft:#1c2545;--green:#65c99a;--greenSoft:#153027;--shadow:0 8px 28px rgba(0,0,0,.20);--shadowStrong:0 16px 44px rgba(0,0,0,.30)}
@@ -33,8 +31,8 @@ button,.settings>label{touch-action:manipulation;-webkit-tap-highlight-color:tra
 /* RECLAIM Design Language v3 — expressive, familiar, product-first */
 
 :root{
-  --font-brand:"Work Sans",ui-sans-serif,system-ui,sans-serif;
-  --font-display:"Cotham","Work Sans",ui-sans-serif,system-ui,sans-serif;
+  --font-brand:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif;
+  --font-display:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif;
   --brand:#5b55e8; --brand2:#766ff5; --brand-soft:#eeedff;
   --coral:#ff786b; --mint:#49b98c; --sun:#f2b84b;
   --ink:#17181c; --bg:#f4f5f8; --surface:#fff; --surface2:#f7f7fa;
@@ -277,7 +275,7 @@ h1,h2,h3,.heading h1,.home-heading h1,.momentum-copy h2,.on-screen h1,.landing-p
 html,body{font-family:var(--font-brand),ui-sans-serif,system-ui,sans-serif!important;font-synthesis:weight style;font-kerning:normal}
 .app,.landing-page{min-height:100dvh}
 .heading h1,.home-heading h1,.momentum-copy h2,.progress-section-head h3,.check h2,.week h3,.settings b,.nav button,.top,.topstatus{font-family:var(--font-brand)!important}
-.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps b,.on-screen h1{font-family:"Cotham","Work Sans",ui-sans-serif,sans-serif!important;font-weight:400!important}
+.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps b,.on-screen h1{font-family:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif!important;font-weight:400!important}
 .landing-hero h1{letter-spacing:-.035em;line-height:.94}
 .landing-section-head h2{letter-spacing:-.035em}
 .on-screen h1{letter-spacing:-.025em}
@@ -1378,10 +1376,10 @@ h1,h2,h3,h4,h5,h6,b,strong,button,.logo,.nav,.top{
 }
 
 /* Keep Safari's visual viewport/browser chrome from pushing the dock into the toolbar. */
-:root{--vv-bottom:0px}
+
 @media(max-width:899px){
-  .nav{bottom:calc(10px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
-  .app{padding-bottom:calc(120px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
+  .nav{bottom:calc(10px + env(safe-area-inset-bottom))!important}
+  .app{padding-bottom:calc(120px + env(safe-area-inset-bottom))!important}
 }
 
 /* Onboarding uses the same contrast grammar as the app, not the legacy light modal. */
@@ -2176,7 +2174,7 @@ body{overflow-x:hidden}
   .nav button{flex-direction:row!important;justify-content:flex-start!important;gap:13px!important;height:50px!important;min-height:50px!important;padding:0 14px!important;border-radius:13px!important;font-size:13px!important}.nav button svg{width:18px!important;height:18px!important}.nav button span{font-size:13px!important}.nav button.active:after{left:auto!important;right:11px!important;top:50%!important;transform:translateY(-50%)!important}
   .app{padding-bottom:44px!important}.stack{padding-bottom:0!important}
 }
-@media(max-width:1199px){:root{--vv-bottom:0px!important}.nav{bottom:0!important;transform:none!important}}
+@media(max-width:1199px){.nav{bottom:0!important;transform:none!important}}
 
 /* RECLAIM v9 — fixed top navigation + behavioral focus scenes */
 .top{position:fixed!important;top:0!important;left:0!important;right:0!important;width:100%!important;height:82px!important;margin:0!important;padding:0 24px!important;box-sizing:border-box!important;z-index:120!important;background:color-mix(in srgb,var(--r-canvas) 78%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--r-line) 72%,transparent)!important;box-shadow:0 10px 34px rgba(0,0,0,.08)!important;backdrop-filter:blur(28px) saturate(150%)!important;-webkit-backdrop-filter:blur(28px) saturate(150%)!important}
@@ -2556,3 +2554,76 @@ small,p,span,label,input,textarea,select{font-weight:400}
 .scene-refresh{position:absolute;right:18%;top:27%;width:54px;height:54px;border:2px solid rgba(255,158,139,.5);border-left-color:transparent;border-radius:50%}.scene-refresh:after{content:"";position:absolute;right:-2px;top:7px;border-left:8px solid var(--reclaim-coral);border-top:5px solid transparent;border-bottom:5px solid transparent}
 .phone-small{transform:scale(.72);transform-origin:left top!important;left:22%!important;top:20%!important}
 @media(max-width:640px){.scene-price{right:17%}.scene-controller{transform:scale(.78) rotate(-5deg);transform-origin:left top}.scene-cart{transform:scale(.86);transform-origin:left top}.scene-task{transform:scale(.82);transform-origin:left top}}
+
+
+/* === RECLAIM / SPACE — DATA-DRIVEN INSIGHTS === */
+.insights-stack{display:grid;gap:12px}
+.insight-hero,.weekday-pattern,.insight-facts,.insight-guidance{border:1px solid var(--r-line);background:var(--r-surface);border-radius:22px}
+.insight-hero{padding:20px;overflow:hidden;background:
+  radial-gradient(420px 220px at 88% 0%,color-mix(in srgb,var(--r-violet,#9a8cff) 13%,transparent),transparent 70%),
+  var(--r-surface)}
+.insight-hero-top{display:flex;align-items:flex-end;justify-content:space-between;gap:18px}
+.insight-hero-top p,.weekday-pattern .sectiontop p,.insight-guidance p{margin:0 0 6px;color:var(--r-muted);font-size:10px;font-weight:800;letter-spacing:.14em}
+.insight-hero-top h3,.weekday-pattern .sectiontop h3{margin:0;color:var(--r-text);font-size:20px;line-height:1.08;letter-spacing:-.035em}
+.insight-hero-top>strong{font-size:42px;line-height:.9;letter-spacing:-.07em;color:var(--r-accent)}
+.insight-hero-top>strong small{font-size:13px;letter-spacing:-.02em;color:var(--r-muted)}
+.insight-rhythm{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px;margin-top:24px}
+.insight-rhythm i{display:block;height:28px;border-radius:9px;background:var(--r-surface-3);border:1px solid var(--r-line)}
+.insight-rhythm i.on{background:var(--r-success);border-color:color-mix(in srgb,var(--r-success) 72%,var(--r-line));box-shadow:0 5px 12px color-mix(in srgb,var(--r-success) 16%,transparent)}
+.insight-rhythm i.today{border-color:var(--r-accent);box-shadow:0 0 0 2px var(--r-accent-soft)}
+.insight-hero-foot{display:flex;justify-content:space-between;margin-top:8px;color:var(--r-muted);font-size:9px}
+.weekday-pattern{padding:20px}
+.weekday-pattern .sectiontop{display:flex;align-items:flex-end;justify-content:space-between}
+.weekday-pattern .sectiontop>b{color:var(--r-accent);font-size:18px}
+.weekday-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;height:142px;margin-top:22px;align-items:end}
+.weekday-bars>div{min-width:0;height:100%;display:grid;grid-template-rows:1fr auto auto;gap:6px;text-align:center}
+.weekday-bars>div>div{position:relative;min-height:0;border-bottom:1px solid var(--r-line);display:flex;align-items:flex-end;justify-content:center}
+.weekday-bars i{display:block;width:min(28px,70%);min-height:8px;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,var(--r-accent),color-mix(in srgb,var(--r-accent) 52%,var(--r-surface-3)));transition:height .28s ease}
+.weekday-bars .current i{background:linear-gradient(180deg,var(--reclaim-coral,#ff9e8b),color-mix(in srgb,var(--reclaim-coral,#ff9e8b) 45%,var(--r-surface-3)))}
+.weekday-bars small{font-size:10px;font-weight:750;color:var(--r-secondary);text-transform:uppercase}
+.weekday-bars span{font-size:8px;color:var(--r-muted)}
+.insight-method{margin:16px 0 0;color:var(--r-muted);font-size:11px;line-height:1.45}
+.insight-facts{display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.insight-facts>div{padding:18px 20px}
+.insight-facts>div+div{border-left:1px solid var(--r-line)}
+.insight-facts span,.insight-facts small{display:block}
+.insight-facts span{color:var(--r-muted);font-size:9px;font-weight:800;letter-spacing:.11em}
+.insight-facts b{display:block;margin:8px 0 2px;color:var(--r-text);font-size:30px;letter-spacing:-.06em}
+.insight-facts small{color:var(--r-muted);font-size:10px;line-height:1.35}
+.insight-guidance{display:flex;gap:13px;padding:18px}
+.insight-guidance-mark{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:11px;background:var(--r-accent-soft);color:var(--r-accent)}
+.insight-guidance p{color:var(--r-accent);margin-bottom:5px}
+.insight-guidance b{display:block;color:var(--r-text);font-size:14px}
+.insight-guidance span{display:block;margin-top:5px;color:var(--r-muted);font-size:11px;line-height:1.45}
+@media(max-width:640px){
+  .insight-hero,.weekday-pattern{padding:17px}
+  .insight-hero-top h3{font-size:18px;max-width:240px}
+  .insight-hero-top>strong{font-size:36px}
+  .insight-rhythm{gap:4px}
+  .insight-rhythm i{height:25px;border-radius:7px}
+  .weekday-bars{gap:5px;height:132px}
+  .weekday-bars i{width:min(24px,72%)}
+}
+@media(prefers-reduced-motion:reduce){
+  .weekday-bars i{transition:none}
+}
+
+/* Final typography authority: one family, one weight grammar. */
+:root{
+  --font-platform:"Google Sans","Google Sans Text",Roboto,ui-sans-serif,system-ui,sans-serif;
+}
+html,body,button,input,textarea,select{
+  font-family:var(--font-platform)!important;
+  font-synthesis:none!important;
+  font-kerning:normal;
+  text-rendering:optimizeLegibility;
+}
+body{font-weight:400!important;letter-spacing:-.012em!important}
+h1,h2,h3,h4,h5,h6,b,strong,button,.logo,.landing-page,.on-screen{
+  font-family:var(--font-platform)!important;
+  font-synthesis:none!important;
+}
+h1,h2,h3,h4,h5,h6{font-weight:700!important}
+b,strong{font-weight:600!important}
+button{font-weight:500!important}
+small,p,span,label,input,textarea,select{font-weight:400}
