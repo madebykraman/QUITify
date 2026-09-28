@@ -1,4 +1,4 @@
-name: QUITify CI
+name: RECLAIM CI
 on:
   push:
     branches: [main, ui-redesign-v4]
