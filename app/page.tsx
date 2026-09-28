@@ -108,6 +108,7 @@ return <main className="app"><div className="shell">
 {toast&&<div className="toast" role="status" aria-live="polite"><Check size={14}/>{toast}</div>}
 </div></main>
 }
+function Empty({onClick,text}:{onClick:()=>void;text:string}){return <section className="empty"><i><Target size={24}/></i><p>START HERE</p><h2>{text}</h2><span>One goal, one day, one check-in at a time.</span><button className="primary" onClick={onClick}>Choose my focus <ArrowRight size={16}/></button></section>}
 function FocusCarousel({goals,currentId,checkins,onSelect}:{goals:Goal[];currentId:string;checkins:Checkin[];onSelect:(id:string)=>void}){
 return <section className="focus-carousel" aria-label="Your focuses">
   <div className="focus-carousel-head"><div><p>TODAY’S FOCUSES</p><span>Swipe left or right to switch</span></div><span className="focus-carousel-count">{goals.length} {goals.length===1?"focus":"focuses"}</span></div>
