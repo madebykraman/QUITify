@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "A private, local-first space for changing habits.",
   applicationName: "QUITify",
   keywords: ["habit change", "quit habits", "wellbeing", "private", "local-first"],
-  metadataBase: new URL("https://qui-tify-five.vercel.app"),
+  metadataBase: new URL("https://qui-tify-git-ui-redesign-v4-madebykramans-projects.vercel.app"),
   openGraph: {
     title: "QUITify — Make room for your life",
     description: "A private, local-first space for changing habits.",
