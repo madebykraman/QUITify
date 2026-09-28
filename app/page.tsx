@@ -135,14 +135,27 @@ else if(/vap/.test(key))kind="vaping";
 else if(/alcohol/.test(key))kind="alcohol";
 else if(/sugar|junk/.test(key))kind="sugar";
 else if(/gaming/.test(key))kind="gaming";
+const scenes:{[key:string]:{action:string;line:string}}={
+  smoking:{action:"BREAK THE LOOP",line:"Let the urge pass without the next step."},
+  scroll:{action:"STOP THE SCROLL",line:"Put the feed down. Keep the moment."},
+  vaping:{action:"LET IT PASS",line:"Notice the urge. Do not feed it."},
+  alcohol:{action:"PAUSE THE POUR",line:"Create space before the next decision."},
+  sugar:{action:"CHOOSE THE NEXT",line:"The craving can exist without the choice."},
+  gaming:{action:"STEP OUT",line:"Close the loop. Return to the room."},
+  default:{action:"RESET THE MOMENT",line:"Interrupt the pattern. Choose what comes next."}
+};
+const scene=scenes[kind];
 return <div className={`focus-scene focus-scene-${kind} ${active?"is-active":""} ${marked?"is-marked":""}`} aria-hidden="true">
-  {kind==="smoking"&&<><span className="scene-stick"><i/></span><span className="scene-stop">STOP</span><span className="scene-smoke s1"/><span className="scene-smoke s2"/><span className="scene-smoke s3"/></>}
-  {kind==="scroll"&&<><span className="scene-feed f1"/><span className="scene-feed f2"/><span className="scene-feed f3"/><span className="scene-scroll-line"/><span className="scene-pause">Ⅱ</span></>}
-  {kind==="vaping"&&<><span className="scene-vape"/><span className="scene-vapor v1"/><span className="scene-vapor v2"/><span className="scene-vapor v3"/></>}
-  {kind==="alcohol"&&<><span className="scene-glass"><i/></span><span className="scene-wave w1"/><span className="scene-wave w2"/><span className="scene-stop">PAUSE</span></>}
-  {kind==="sugar"&&<><span className="scene-cube c1"/><span className="scene-cube c2"/><span className="scene-cube c3"/><span className="scene-stop">CHOOSE</span></>}
-  {kind==="gaming"&&<><span className="scene-controller"><i/><b/></span><span className="scene-pulse p1"/><span className="scene-pulse p2"/></>}
-  {kind==="default"&&<><span className="scene-orbit o1"/><span className="scene-orbit o2"/><span className="scene-core">R</span><span className="scene-stop">RESET</span></>}
+  <div className="scene-ambient"/>
+  <div className="scene-grid"/>
+  {kind==="smoking"&&<><div className="scene-breakline"/><div className="scene-stick"><i/></div><div className="scene-ember"/><div className="scene-smoke s1"/><div className="scene-smoke s2"/><div className="scene-smoke s3"/></>}
+  {kind==="scroll"&&<><div className="scene-phone"><i/><b/><span/><em/></div><div className="scene-feed f1"/><div className="scene-feed f2"/><div className="scene-feed f3"/><div className="scene-finger"/></>}
+  {kind==="vaping"&&<><div className="scene-vape"><i/></div><div className="scene-vapor v1"/><div className="scene-vapor v2"/><div className="scene-vapor v3"/><div className="scene-vapor-cut"/></>}
+  {kind==="alcohol"&&<><div className="scene-glass"><i/><b/></div><div className="scene-liquid-wave w1"/><div className="scene-liquid-wave w2"/><div className="scene-pause-ring"/></>}
+  {kind==="sugar"&&<><div className="scene-cube c1"/><div className="scene-cube c2"/><div className="scene-cube c3"/><div className="scene-handline"/></>}
+  {kind==="gaming"&&<><div className="scene-controller"><i/><b/></div><div className="scene-pulse p1"/><div className="scene-pulse p2"/><div className="scene-exit-line"/></>}
+  {kind==="default"&&<><div className="scene-orbit o1"/><div className="scene-orbit o2"/><div className="scene-core">R</div><div className="scene-breakline"/></>}
+  <div className="scene-copy"><b>{marked?"RESET SAVED":scene.action}</b><span>{marked?"Today is already recorded.":scene.line}</span></div>
 </div>
 }
 function FocusCarousel({goals,currentId,checkins,onSelect}:{goals:Goal[];currentId:string;checkins:Checkin[];onSelect:(id:string)=>void}){
@@ -159,7 +172,9 @@ return <section className="focus-carousel" aria-label="Your focuses">
   <div className="focus-carousel-head"><div><p>TODAY’S FOCUSES</p><span>Swipe cards to switch</span></div><span className="focus-carousel-count">{goals.length?activeIndex+1:0} of {goals.length}</span></div>
   <div ref={trackRef} className="focus-carousel-track" onScroll={e=>{const el=e.currentTarget;const cards=[...el.querySelectorAll<HTMLElement>("[data-goal-id]")];if(!cards.length)return;const center=el.scrollLeft+el.clientWidth/2;let nearest=cards[0],distance=Infinity;cards.forEach(card=>{const d=Math.abs(card.offsetLeft+card.offsetWidth/2-center);if(d<distance){distance=d;nearest=card}});const id=nearest.dataset.goalId;if(id&&id!==currentId)onSelect(id)}}>
     {goals.map(goal=>{const days=streakFor(checkins,goal.id,goal.startedAt),best=Math.max(goal.best,bestStreakFor(checkins,goal.id)),weekRun=days===0?0:(days%7||7),marked=checkins.some(x=>x.goalId===goal.id&&x.date===dk()&&x.stayedOnTrack);return <article key={goal.id} data-goal-id={goal.id} className={goal.id===currentId?"focus-card selected":"focus-card"} aria-label={goal.id===currentId?goal.label+" active focus":"Switch to "+goal.label} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();onSelect(goal.id)}}} onClick={()=>onSelect(goal.id)}>
-      <div className="focus-card-glow"/>{goal.id===currentId&&<span className="focus-active-chip">ACTIVE</span>}<div className="focus-card-top"><div><span className="eyebrow">TODAY’S FOCUS</span><h2>{goal.label}</h2><p>{goal.reason||"One clear choice is enough for today."}</p></div><FocusScene label={goal.label} active={goal.id===currentId} marked={marked}/></div>
+      <div className="focus-card-glow"/>{goal.id===currentId&&<span className="focus-active-chip">ACTIVE FOCUS</span>}
+      <div className="focus-card-visual"><FocusScene label={goal.label} active={goal.id===currentId} marked={marked}/></div>
+      <div className="focus-card-copy"><span className="eyebrow">TODAY’S FOCUS</span><h2>{goal.label}</h2><p>{goal.reason||"One clear choice is enough for today."}</p></div>
       <div className="focus-card-rule"/><div className="focus-card-bottom"><div><b>{days}</b><span>current run</span></div><div className="focus-card-ring" style={{"--ring":(Math.min(100,(weekRun/7)*100)+"%")} as React.CSSProperties}><span>{weekRun}<small>/7</small></span></div><div className="focus-card-best"><span>PERSONAL BEST</span><b>{best} days</b></div><div className={marked?"focus-card-status recorded":"focus-card-status"}>{marked?"✓ Recorded":"Today"}</div></div>
     </article>})}
   </div>
