@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "RECLAIM SPACE — Make room for your life",
   description: "A private, local-first space for changing habits with a calmer daily loop.",
   applicationName: "RECLAIM SPACE",
+  manifest: "/manifest.webmanifest",
   keywords: ["habit change", "quit habits", "wellbeing", "private", "local-first"],
     openGraph: {
     title: "RECLAIM SPACE — Make room for your life",
