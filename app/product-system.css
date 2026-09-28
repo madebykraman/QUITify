@@ -1,6 +1,6 @@
 @font-face{font-family:"Work Sans";src:url("/fonts/WorkSans-Variable.ttf") format("truetype");font-style:normal;font-weight:100 900;font-display:swap;}
 @font-face{font-family:"Cotham";src:url("/fonts/CothamSans.otf") format("opentype");font-style:normal;font-weight:400;font-display:swap;}
-/* QUITify Product System v2.0 */
+/* RECLAIM Product System v2.0 */
 :root{--bg:#f5f6f4;--surface:#fff;--surface2:#f0f2ef;--ink:#161816;--muted:#6f746e;--soft:#969c94;--line:#dfe3dd;--accent:#3158d8;--accent2:#2749ba;--accentSoft:#edf1ff;--green:#2b8865;--greenSoft:#e8f5ee;--shadow:0 1px 2px rgba(18,24,18,.04),0 8px 28px rgba(18,24,18,.045);--shadowStrong:0 12px 40px rgba(18,24,18,.08)}
 :root[data-theme="dark"]{--bg:#0d0f12;--surface:#15181d;--surface2:#1c2026;--ink:#f4f6f4;--muted:#a4aaa5;--soft:#747b76;--line:#2a3037;--accent:#8198ff;--accent2:#9badff;--accentSoft:#1c2545;--green:#65c99a;--greenSoft:#153027;--shadow:0 8px 28px rgba(0,0,0,.20);--shadowStrong:0 16px 44px rgba(0,0,0,.30)}
 html,body{background:var(--bg)!important;font-family:var(--font-brand)!important}body{letter-spacing:-.01em}
@@ -30,7 +30,7 @@ button,.settings>label{touch-action:manipulation;-webkit-tap-highlight-color:tra
 @media(max-width:390px){.app{padding-left:12px;padding-right:12px}.heading h1{font-size:32px}.run strong{font-size:50px}.weekrow{gap:4px}.weekrow i{width:31px;height:31px}.actions{grid-template-columns:1fr}.nav{width:calc(100vw - 24px)}}
 @media(min-width:720px){.page{padding-top:38px}.heading h1{font-size:42px}.stack{gap:14px}.focus,.check,.week{padding:24px}}
 
-/* QUITify Design Language v3 — expressive, familiar, product-first */
+/* RECLAIM Design Language v3 — expressive, familiar, product-first */
 
 :root{
   --font-brand:"Work Sans",ui-sans-serif,system-ui,sans-serif;
@@ -171,7 +171,7 @@ button:focus-visible{outline-color:color-mix(in srgb,var(--brand) 55%,white)!imp
 }
 
 
-/* === QUITify PUBLIC PRESENTATION 1.1 === */
+/* === RECLAIM PUBLIC PRESENTATION 1.1 === */
 .landing-page{
   min-height:100dvh;position:relative;overflow:hidden;background:#f6f6fb;color:#15161b;
   font-family:var(--font-brand);isolation:isolate;
@@ -310,7 +310,7 @@ button{min-height:44px}
 
 
 /* =========================================================
-   QUITify UI REDESIGN v4 — QUIET EDITORIAL
+   RECLAIM UI REDESIGN v4 — QUIET EDITORIAL
    Functional structure unchanged; presentation rebuilt.
    ========================================================= */
 :root{
@@ -504,7 +504,7 @@ h1,h2,h3,h4,h5,h6,strong,b,button,.logo,.topstatus,.nav button{
 }
 
 /* ============================================================
-   QUITify Prototype v5 — screenshot-matched visual system
+   RECLAIM Prototype v5 — screenshot-matched visual system
    ============================================================ */
 
 
@@ -775,7 +775,7 @@ linear-gradient(150deg,#0b111a 0%,#111a27 47%,#463a4c 100%)!important;box-shadow
     box-shadow:none!important;backdrop-filter:none!important;display:flex!important;flex-direction:column!important;
     align-items:stretch!important;justify-content:flex-start!important;gap:8px!important
   }
-  .nav:before{content:"QUITify";display:block;color:#fff;font-size:25px;font-weight:700;letter-spacing:-.065em;padding:8px 15px 36px}
+  .nav:before{content:"RECLAIM";display:block;color:#fff;font-size:25px;font-weight:700;letter-spacing:-.065em;padding:8px 15px 36px}
   .nav button{min-height:52px!important;justify-content:flex-start!important;flex:none!important;padding:0 17px!important;gap:14px!important;border-radius:28px!important;color:#9da5b2!important;font-size:13px!important}
   .nav button svg{width:18px;height:18px}
   .nav button.active{background:linear-gradient(135deg,#ffd0bd,#ffb09b)!important;color:#201713!important;box-shadow:0 8px 24px rgba(255,161,139,.16)}
@@ -833,7 +833,7 @@ linear-gradient(150deg,#0b111a 0%,#111a27 47%,#463a4c 100%)!important;box-shadow
 
 
 /* ============================================================
-   QUITify v6 — interaction + contrast correction
+   RECLAIM v6 — interaction + contrast correction
    ============================================================ */
 
 /* Deterministic typography: Fontsource is bundled with the app.
@@ -1045,7 +1045,7 @@ h1,h2,h3,h4,h5,h6,strong,b,button,.logo,.topstatus,.nav button{
 
 
 /* ============================================================
-   QUITify v7 — final mobile interaction layer
+   RECLAIM v7 — final mobile interaction layer
    ============================================================ */
 :root{
   --q-bg:#f5f6f8;
@@ -1420,7 +1420,7 @@ h1,h2,h3,h4,h5,h6,b,strong,button,.logo,.nav,.top{
 
 
 /* ============================================================
-   QUITify v8 — contrast, hierarchy, focus-card and dock cleanup
+   RECLAIM v8 — contrast, hierarchy, focus-card and dock cleanup
    Palette:
    ink       #080B12
    surface   #111722
@@ -1744,7 +1744,7 @@ body,button,input,textarea,select{font-family:var(--font-platform)!important}
 
 
 /* ============================================================
-   QUITify v9 — semantic color system + native bottom tabs
+   RECLAIM v9 — semantic color system + native bottom tabs
    Based on platform semantic-color principles:
    primary / secondary / tertiary text, layered surfaces,
    restrained brand color, explicit selected states.
@@ -2106,3 +2106,74 @@ html,body{background:var(--q-bg)!important;color:var(--q-text)!important}
   .nav{bottom:0!important}
   .app{padding-bottom:calc(88px + env(safe-area-inset-bottom))!important}
 }
+
+/* ============================================================
+   RECLAIM — final brand + responsive shell
+   Dark-first, semantic, platform-aware UI.
+   ============================================================ */
+:root{
+  --r-canvas:#090B10;--r-surface:#10131A;--r-surface-2:#151923;--r-surface-3:#1B202C;
+  --r-text:#F5F7FB;--r-secondary:#B8C0CE;--r-muted:#7F8999;--r-line:#293140;
+  --r-accent:#A69AFF;--r-accent-strong:#8B7CFF;--r-accent-soft:rgba(166,154,255,.12);
+  --r-success:#8ED7B5;--r-success-soft:rgba(142,215,181,.12);
+}
+:root[data-theme="light"]{
+  --r-canvas:#F5F6F8;--r-surface:#FFFFFF;--r-surface-2:#F0F2F6;--r-surface-3:#E8EBF1;
+  --r-text:#11141A;--r-secondary:#4C5665;--r-muted:#6D7787;--r-line:#D7DDE6;
+  --r-accent:#5D52D9;--r-accent-strong:#4E43C7;--r-accent-soft:rgba(93,82,217,.10);
+  --r-success:#287A5A;--r-success-soft:rgba(40,122,90,.10);
+}
+html,body{background:var(--r-canvas)!important;color:var(--r-text)!important}
+body{overflow-x:hidden}
+.app{min-height:100dvh!important;padding:0 24px 104px!important;background:radial-gradient(900px 520px at 82% -10%,rgba(139,124,255,.10),transparent 68%),var(--r-canvas)!important;color:var(--r-text)!important}
+.shell{width:min(100%,980px)!important;margin:0 auto!important}
+.top{height:82px!important;display:flex!important;align-items:center!important;gap:18px!important;position:sticky!important;top:0!important;z-index:30!important;margin:0 -24px!important;padding:0 24px!important;background:color-mix(in srgb,var(--r-canvas) 86%,transparent)!important;border-bottom:1px solid color-mix(in srgb,var(--r-line) 72%,transparent)!important;backdrop-filter:blur(24px) saturate(135%)!important;-webkit-backdrop-filter:blur(24px) saturate(135%)!important}
+.logo{gap:11px!important;color:var(--r-text)!important}
+.logo .brand-mark,.logo span{width:40px!important;height:40px!important;flex:0 0 40px!important;border-radius:13px!important;display:grid!important;place-items:center!important;background:linear-gradient(145deg,#F0A3FF 0%,#8B7CFF 100%)!important;color:#0B0C10!important;font-size:17px!important;font-weight:900!important;box-shadow:0 8px 22px rgba(139,124,255,.20)!important}
+.logo strong{font-size:18px!important;font-weight:780!important;letter-spacing:-.045em!important}
+.top-context{display:flex!important;flex-direction:column!important;gap:2px!important;min-width:0!important;padding-left:18px!important;border-left:1px solid var(--r-line)!important}
+.top-context span{font-size:9px!important;font-weight:850!important;letter-spacing:.14em!important;color:var(--r-muted)!important}
+.top-context b{font-size:12px!important;font-weight:650!important;color:var(--r-secondary)!important;white-space:nowrap!important}
+.top-actions{margin-left:auto!important;display:flex!important;align-items:center!important;gap:10px!important}
+.topstatus{min-height:38px!important;padding:0 12px!important;display:flex!important;align-items:center!important;gap:7px!important;border:1px solid var(--r-line)!important;border-radius:12px!important;background:var(--r-surface)!important;color:var(--r-secondary)!important;font-size:11px!important;font-weight:650!important}
+.topstatus svg{color:var(--r-success)!important}
+.topbtn{width:42px!important;height:42px!important;display:grid!important;place-items:center!important;border:1px solid var(--r-line)!important;border-radius:12px!important;background:var(--r-surface)!important;color:var(--r-text)!important}
+.topbtn:hover{background:var(--r-surface-2)!important}
+.home-heading h1,.heading h1{color:var(--r-text)!important}.home-heading>div>span,.heading>div>span{color:var(--r-secondary)!important}
+.page{padding-top:34px!important}.home-heading{margin-bottom:22px!important}
+
+/* Viewport-level bottom navigation. Never compensate for Safari's browser chrome. */
+.nav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;top:auto!important;transform:none!important;width:100%!important;height:calc(76px + env(safe-area-inset-bottom))!important;box-sizing:border-box!important;padding:7px max(12px,env(safe-area-inset-left)) env(safe-area-inset-bottom) max(12px,env(safe-area-inset-right))!important;display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;border:0!important;border-top:1px solid var(--r-line)!important;border-radius:0!important;background:color-mix(in srgb,var(--r-surface) 94%,transparent)!important;box-shadow:0 -12px 34px rgba(0,0,0,.22)!important;backdrop-filter:blur(26px) saturate(145%)!important;-webkit-backdrop-filter:blur(26px) saturate(145%)!important;z-index:90!important;overflow:visible!important}
+.nav button{position:relative!important;min-width:0!important;width:100%!important;height:58px!important;min-height:58px!important;padding:6px 4px!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:4px!important;border:0!important;border-radius:14px!important;background:transparent!important;color:var(--r-muted)!important;box-shadow:none!important;transform:none!important;transition:background .16s ease,color .16s ease!important}
+.nav button svg{width:19px!important;height:19px!important;color:currentColor!important}.nav button span{display:block!important;color:currentColor!important;font-size:10px!important;line-height:1.1!important;font-weight:650!important;white-space:nowrap!important}
+.nav button.active{background:var(--r-accent-soft)!important;color:var(--r-accent)!important}.nav button.active:after{content:""!important;position:absolute!important;left:50%!important;top:5px!important;width:4px!important;height:4px!important;border-radius:50%!important;transform:translateX(-50%)!important;background:currentColor!important}
+.nav button:active{background:var(--r-surface-2)!important;transform:none!important}.nav button.active:active{background:var(--r-accent-soft)!important}
+@media(hover:hover){.nav button:hover{background:var(--r-surface-2)!important;color:var(--r-secondary)!important}.nav button.active:hover{background:var(--r-accent-soft)!important;color:var(--r-accent)!important}}
+.nav button:focus-visible{outline:2px solid var(--r-accent)!important;outline-offset:-2px!important}
+.app{padding-bottom:calc(104px + env(safe-area-inset-bottom))!important}.stack{padding-bottom:24px!important}
+
+/* Compact iPhone/iPad: always bottom tabs, including landscape and Safari. */
+@media(max-width:1199px){
+  .app{padding-left:24px!important;padding-right:24px!important}.shell{width:min(100%,980px)!important}
+  .nav{display:grid!important;left:0!important;right:0!important;width:100%!important}.nav:before{display:none!important}
+  .nav-short,.nav-long{display:none!important}.top .logo{display:flex!important}
+  .top{margin-left:-24px!important;margin-right:-24px!important;padding-left:24px!important;padding-right:24px!important}
+}
+@media(max-width:640px){
+  .app{padding-left:16px!important;padding-right:16px!important}.top{height:72px!important;margin-left:-16px!important;margin-right:-16px!important;padding:0 16px!important;gap:12px!important}
+  .top-context{display:none!important}.topstatus{width:38px!important;height:38px!important;min-height:38px!important;padding:0!important;justify-content:center!important;border-radius:11px!important}.topstatus span{display:none!important}
+  .topbtn{width:40px!important;height:40px!important}.logo .brand-mark,.logo span{width:38px!important;height:38px!important;flex-basis:38px!important;border-radius:12px!important}.logo strong{font-size:17px!important}
+  .page{padding-top:26px!important}.app{padding-bottom:calc(98px + env(safe-area-inset-bottom))!important}.nav{height:calc(74px + env(safe-area-inset-bottom))!important;padding-top:6px!important;gap:3px!important}.nav button{height:56px!important;min-height:56px!important;border-radius:13px!important}.nav button span{font-size:9px!important}
+}
+
+/* Desktop: sidebar only when there is enough width for a real navigation rail. */
+@media(min-width:1200px){
+  .app{padding:0 44px 44px 300px!important}.shell{width:min(100%,1180px)!important;max-width:1180px!important}
+  .top{margin:0!important;padding:0!important;height:84px!important;background:transparent!important;border-bottom:1px solid var(--r-line)!important}.top .logo{display:none!important}
+  .top-context{padding-left:0!important;border-left:0!important}.top-context span{font-size:10px!important}.top-context b{font-size:14px!important;color:var(--r-text)!important}
+  .top-actions{margin-left:auto!important}.nav{position:fixed!important;left:0!important;right:auto!important;top:0!important;bottom:0!important;transform:none!important;width:264px!important;height:100dvh!important;padding:30px 18px!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;gap:7px!important;border:0!important;border-right:1px solid var(--r-line)!important;border-radius:0!important;background:var(--r-surface)!important;box-shadow:none!important;backdrop-filter:none!important}
+  .nav:before{content:"RECLAIM"!important;display:block!important;padding:10px 12px 34px!important;color:var(--r-text)!important;font-size:23px!important;font-weight:800!important;letter-spacing:-.06em!important}
+  .nav button{flex-direction:row!important;justify-content:flex-start!important;gap:13px!important;height:50px!important;min-height:50px!important;padding:0 14px!important;border-radius:13px!important;font-size:13px!important}.nav button svg{width:18px!important;height:18px!important}.nav button span{font-size:13px!important}.nav button.active:after{left:auto!important;right:11px!important;top:50%!important;transform:translateY(-50%)!important}
+  .app{padding-bottom:44px!important}.stack{padding-bottom:0!important}
+}
+@media(max-width:1199px){:root{--vv-bottom:0px!important}.nav{bottom:0!important;transform:none!important}}
