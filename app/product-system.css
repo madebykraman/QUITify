@@ -2198,3 +2198,12 @@ body{overflow-x:hidden}
 @media(max-width:1199px){.top{height:82px!important;padding:0 24px!important}.app{padding-top:82px!important}}
 @media(max-width:640px){.top{height:72px!important;padding:0 16px!important}.app{padding-top:72px!important}.top-context{display:none!important}.top-focus{margin-left:auto;max-width:138px;height:44px;border-radius:14px;padding-right:8px}.top-focus-icon{width:28px;height:28px;flex-basis:28px;border-radius:9px;font-size:10px}.top-focus-copy small{font-size:6px}.top-focus-copy b{font-size:10px}.top-focus>strong{font-size:13px}.top-actions{margin-left:0!important;gap:7px!important}.topstatus{display:none!important}.topbtn{width:40px!important;height:40px!important}.logo strong{font-size:16px!important}.logo .brand-mark,.logo span{width:38px!important;height:38px!important;flex-basis:38px!important}.focus-scene{width:72px;height:72px;flex-basis:72px;border-radius:20px}.focus-card-top>div:first-child{padding-right:0!important}}
 @media(min-width:1200px){.top{left:264px!important;width:calc(100% - 264px)!important;padding:0 44px!important}.app{padding-top:84px!important}.top .logo{display:none!important}.top-focus{margin-left:24px}}
+
+/* Accessibility polish for interactive focus cards and primary check-in actions. */
+.focus-card:focus-visible{outline:2px solid var(--r-accent)!important;outline-offset:3px!important}
+.focus-card{cursor:pointer}
+.check button{transition:transform .18s ease,background .18s ease,border-color .18s ease,box-shadow .18s ease!important}
+.check button:hover{transform:translateY(-1px)!important;box-shadow:0 10px 24px rgba(139,124,255,.12)!important}
+.check button:active{transform:scale(.985)!important}
+.check button.checked{box-shadow:0 0 0 1px color-mix(in srgb,var(--r-success) 24%,transparent),0 10px 28px rgba(40,122,90,.10)!important}
+@media(prefers-reduced-motion:reduce){.check button{transition:none!important}.check button:hover,.check button:active{transform:none!important}}
