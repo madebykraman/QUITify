@@ -1,6 +1,6 @@
 "use client";
 import "./product-system.css";
-import {useEffect,useMemo,useState} from "react";
+import {useEffect,useMemo,useRef,useState} from "react";
 import{ArrowRight,BarChart3,Check,ChevronRight,Clock3,Download,LockKeyhole,Pause,Plus,RotateCcw,Settings2,ShieldCheck,Sparkles,Target,Trash2,Upload,X,Moon,Sun}from"lucide-react";
 type Goal={id:string;label:string;icon:string;accent:string;startedAt:string;best:number;checkIns:number;resets:number;active:boolean;reason?:string};
 type Checkin={date:string;goalId:string;stayedOnTrack:boolean};
@@ -91,7 +91,6 @@ return <main className="app"><div className="shell">
 {cur?<>
 <FocusCarousel goals={g} currentId={cur.id} checkins={c} onSelect={selectGoal}/>
 <div className="stack">
-<section className="momentum-hero"><div className="momentum-top"><div className="momentum-copy"><span className="eyebrow">TODAY’S FOCUS</span><h2>{cur.label}</h2><p>{cur.reason||"One clear choice is enough for today."}</p></div><div className="momentum-badge"><i className={cur.accent}>{cur.icon}</i><span>{days}d</span></div></div><div className="momentum-bottom"><div><b>{days}</b><span>current run</span></div><div className="mini-ring" style={{"--ring":`${Math.min(100,(weekRun/7)*100)}%`} as React.CSSProperties}><span>{weekRun}<small>/7</small></span></div><div className="momentum-best"><span>PERSONAL BEST</span><b>{best} days</b></div></div></section>
 <section className="today-insight"><div className="insight-mark"><Target size={16}/></div><div><p>YOUR WHY</p><b>{cur.reason||"You chose to make a change."}</b><span>{today?"You have already recorded today.":"A small decision today is enough."}</span></div></section>
 
 <section className="check"><div className="checkintro"><div><p>TODAY</p><h2>{today?"You're on track.":"Check in with yourself."}</h2></div><span className={today?"done":""}>{today?"✓ Recorded":"A simple daily check-in"}</span></div><span className="checkcopy">{today?"Recorded for today. Keep going at your own pace.":"Record today without a score or judgment."}</span><button className={today?"checked":""} aria-pressed={today} aria-label={today?"Remove today's check-in":"Record today's check-in"} onClick={check}><i>{today&&<Check size={19}/>}</i><em><b>{today?"On track today":"I'm on track today"}</b><small>{today?"Tap to undo":"Tap to record"}</small></em><ChevronRight size={18}/></button></section>
@@ -110,15 +109,23 @@ return <main className="app"><div className="shell">
 }
 function Empty({onClick,text}:{onClick:()=>void;text:string}){return <section className="empty"><i><Target size={24}/></i><p>START HERE</p><h2>{text}</h2><span>One goal, one day, one check-in at a time.</span><button className="primary" onClick={onClick}>Choose my focus <ArrowRight size={16}/></button></section>}
 function FocusCarousel({goals,currentId,checkins,onSelect}:{goals:Goal[];currentId:string;checkins:Checkin[];onSelect:(id:string)=>void}){
+const trackRef=useRef<HTMLDivElement>(null);
+useEffect(()=>{
+  const el=trackRef.current;
+  if(!el)return;
+  const cards=[...el.querySelectorAll<HTMLElement>("[data-goal-id]")];
+  const card=cards.find(x=>x.dataset.goalId===currentId);
+  if(card)el.scrollLeft=card.offsetLeft;
+},[currentId,goals.length]);
 return <section className="focus-carousel" aria-label="Your focuses">
   <div className="focus-carousel-head"><div><p>TODAY’S FOCUSES</p><span>Swipe left or right to switch</span></div><span className="focus-carousel-count">{goals.length} {goals.length===1?"focus":"focuses"}</span></div>
-  <div className="focus-carousel-track" onScroll={e=>{const el=e.currentTarget;const cards=[...el.querySelectorAll<HTMLElement>("[data-goal-id]")];if(!cards.length)return;const center=el.scrollLeft+el.clientWidth/2;let nearest=cards[0],distance=Infinity;cards.forEach(card=>{const d=Math.abs(card.offsetLeft+card.offsetWidth/2-center);if(d<distance){distance=d;nearest=card}});const id=nearest.dataset.goalId;if(id&&id!==currentId)onSelect(id)}}>
+  <div ref={trackRef} className="focus-carousel-track" onScroll={e=>{const el=e.currentTarget;const cards=[...el.querySelectorAll<HTMLElement>("[data-goal-id]")];if(!cards.length)return;const center=el.scrollLeft+el.clientWidth/2;let nearest=cards[0],distance=Infinity;cards.forEach(card=>{const d=Math.abs(card.offsetLeft+card.offsetWidth/2-center);if(d<distance){distance=d;nearest=card}});const id=nearest.dataset.goalId;if(id&&id!==currentId)onSelect(id)}}>
     {goals.map(goal=>{const days=streakFor(checkins,goal.id,goal.startedAt),best=Math.max(goal.best,bestStreakFor(checkins,goal.id)),weekRun=days===0?0:(days%7||7),marked=checkins.some(x=>x.goalId===goal.id&&x.date===dk()&&x.stayedOnTrack);return <article key={goal.id} data-goal-id={goal.id} className={goal.id===currentId?"focus-card selected":"focus-card"} onClick={()=>onSelect(goal.id)}>
       <div className="focus-card-glow"/><div className="focus-card-top"><div><span className="eyebrow">TODAY’S FOCUS</span><h2>{goal.label}</h2><p>{goal.reason||"One clear choice is enough for today."}</p></div><div className="focus-card-badge"><i className={goal.accent}>{goal.icon}</i></div></div>
       <div className="focus-card-rule"/><div className="focus-card-bottom"><div><b>{days}</b><span>current run</span></div><div className="focus-card-ring" style={{"--ring":(Math.min(100,(weekRun/7)*100)+"%")} as React.CSSProperties}><span>{weekRun}<small>/7</small></span></div><div className="focus-card-best"><span>PERSONAL BEST</span><b>{best} days</b></div><div className={marked?"focus-card-status recorded":"focus-card-status"}>{marked?"✓ Recorded":"Today"}</div></div>
     </article>})}
-    <button className="focus-add-card" onClick={e=>{e.stopPropagation();document.querySelector<HTMLButtonElement>(".home-add")?.click()}}><Plus size={22}/><b>Add another focus</b><span>Keep another habit ready.</span></button>
   </div>
   <div className="focus-dots" aria-hidden="true">{goals.map(goal=><i key={goal.id} className={goal.id===currentId?"active":""}/>)}</div>
+  <button className="focus-add-link" onClick={()=>document.querySelector<HTMLButtonElement>(".home-add")?.click()}><Plus size={14}/> Add another focus</button>
 </section>;
 }
