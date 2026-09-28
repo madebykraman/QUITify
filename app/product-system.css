@@ -2536,3 +2536,23 @@ small,p,span,label,input,textarea,select{font-weight:400}
 @media(prefers-reduced-motion:reduce){
   .focus-card.selected .focus-card-glow,.focus-scene *,.focus-scene.is-active .scene-smoke,.focus-scene.is-active .scene-feed,.focus-scene.is-active .scene-vapor,.focus-scene.is-active .scene-cube,.focus-scene.is-active .scene-pulse,.focus-scene.is-active .scene-orbit,.focus-scene.is-active .scene-core{animation:none!important}
 }
+
+/* Extended focus vocabulary — same visual grammar, different behavior. */
+.scene-cart{position:absolute;left:23%;top:38%;width:92px;height:54px;border:2px solid rgba(255,255,255,.42);border-top:0;border-radius:4px 4px 15px 15px;transform:skew(-8deg)}
+.scene-cart:before{content:"";position:absolute;left:-13px;top:-8px;width:28px;height:2px;background:rgba(255,255,255,.42)}
+.scene-cart i,.scene-cart b{position:absolute;bottom:-12px;width:9px;height:9px;border:2px solid var(--reclaim-coral);border-radius:50%}.scene-cart i{left:12px}.scene-cart b{right:12px}.scene-cart span{position:absolute;left:10px;right:10px;top:14px;height:16px;border-radius:5px;background:rgba(154,140,255,.18)}
+.scene-price{position:absolute;right:22%;top:26%;font-size:42px;line-height:1;color:var(--reclaim-coral);font-weight:400;opacity:.8}
+.scene-caffeine .scene-cup{position:absolute;left:28%;top:31%;width:72px;height:66px;border:2px solid rgba(255,255,255,.42);border-top:0;border-radius:0 0 20px 20px;background:rgba(255,255,255,.035)}
+.scene-cup:after{content:"";position:absolute;right:-21px;top:16px;width:23px;height:27px;border:2px solid rgba(255,255,255,.35);border-left:0;border-radius:0 15px 15px 0}
+.scene-cup i{position:absolute;left:0;right:0;bottom:0;height:38%;background:linear-gradient(#b9784f,#8e5035);opacity:.75}
+.scene-cup b{position:absolute;left:7px;right:7px;top:-4px;height:8px;border-top:2px solid rgba(255,255,255,.4);border-radius:50%}
+.scene-steam{position:absolute;width:24px;height:44px;border:1px solid rgba(255,255,255,.25);border-bottom-color:transparent;border-radius:50%}.scene-steam.s1{left:39%;top:12%}.scene-steam.s2{left:52%;top:18%;height:36px}
+.focus-scene.is-active .scene-steam{animation:reclaimSteam 2.8s ease-in-out infinite}
+@keyframes reclaimSteam{50%{transform:translateY(-13px);opacity:.12}}
+.scene-task{position:absolute;left:24%;top:29%;width:112px;height:76px;border:2px solid rgba(255,255,255,.38);border-radius:13px;background:rgba(255,255,255,.035)}
+.scene-task:before{content:"";position:absolute;left:15px;right:15px;top:18px;height:7px;border-radius:99px;background:rgba(255,255,255,.16)}
+.scene-task i,.scene-task b,.scene-task span{position:absolute;left:16px;right:25px;height:6px;border-radius:99px;background:rgba(154,140,255,.22)}.scene-task i{top:39px}.scene-task b{top:53px;width:55px}.scene-task span{top:67px;width:74px}
+.scene-start-line{position:absolute;right:19%;top:30%;width:2px;height:90px;background:linear-gradient(var(--reclaim-coral),transparent);transform:rotate(18deg)}
+.scene-refresh{position:absolute;right:18%;top:27%;width:54px;height:54px;border:2px solid rgba(255,158,139,.5);border-left-color:transparent;border-radius:50%}.scene-refresh:after{content:"";position:absolute;right:-2px;top:7px;border-left:8px solid var(--reclaim-coral);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.phone-small{transform:scale(.72);transform-origin:left top!important;left:22%!important;top:20%!important}
+@media(max-width:640px){.scene-price{right:17%}.scene-controller{transform:scale(.78) rotate(-5deg);transform-origin:left top}.scene-cart{transform:scale(.86);transform-origin:left top}.scene-task{transform:scale(.82);transform-origin:left top}}
