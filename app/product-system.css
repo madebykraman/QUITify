@@ -1708,10 +1708,10 @@ body,button,input,textarea,select{font-family:var(--font-platform)!important}
 
 /* Fixed dock gets a real breathing zone rather than sitting directly on cards. */
 @media(max-width:899px){
-  .app{padding-bottom:calc(110px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
+  .app{padding-bottom:calc(110px + env(safe-area-inset-bottom))!important}
   .page{padding-bottom:28px!important}
   .stack{padding-bottom:54px!important}
-  .nav{bottom:calc(10px + env(safe-area-inset-bottom) + var(--vv-bottom))!important}
+  .nav{bottom:calc(10px + env(safe-area-inset-bottom))!important}
 }
 
 /* Stronger typography rhythm. */
