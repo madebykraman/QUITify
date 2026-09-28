@@ -1,7 +1,7 @@
 name: QUITify CI
 on:
   push:
-    branches: [main]
+    branches: [main, ui-redesign-v4]
   pull_request:
     branches: [main]
 jobs:
