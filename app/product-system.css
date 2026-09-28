@@ -271,3 +271,39 @@ h1,h2,h3,.heading h1,.home-heading h1,.momentum-copy h2,.on-screen h1,.landing-p
 .landing-hero h1{font-weight:700;letter-spacing:-.06em}
 .landing-section-head h2{font-weight:650}
 .momentum-copy h2,.home-heading h1,.heading h1,.on-screen h1{font-weight:700}
+
+
+/* === FINAL QA LAYER === */
+html,body{font-family:var(--font-brand),ui-sans-serif,system-ui,sans-serif!important;font-synthesis:weight style;font-kerning:normal}
+.app,.landing-page{min-height:100dvh}
+.heading h1,.home-heading h1,.momentum-copy h2,.progress-section-head h3,.check h2,.week h3,.settings b,.nav button,.top,.topstatus{font-family:var(--font-brand)!important}
+.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps b,.on-screen h1{font-family:"Cotham","Work Sans",ui-sans-serif,sans-serif!important;font-weight:400!important}
+.landing-hero h1{letter-spacing:-.035em;line-height:.94}
+.landing-section-head h2{letter-spacing:-.035em}
+.on-screen h1{letter-spacing:-.025em}
+.home-heading h1,.heading h1{letter-spacing:-.045em}
+.momentum-copy h2{letter-spacing:-.035em}
+button,a,label[role="button"]{outline-offset:3px}
+button:focus-visible,a:focus-visible,label[role="button"]:focus-visible{outline:2px solid var(--accent)!important;outline-offset:3px}
+button{min-height:44px}
+.topbtn,.round,.sheet-close,.pause-top>button{min-width:44px;min-height:44px}
+.nav button{min-height:54px}
+.sheetopts button,.options-v2 button,.reasons-v2 button{min-height:56px}
+.settings>label{cursor:pointer}
+.settings>label:focus-visible{outline:2px solid var(--accent);outline-offset:-3px}
+.toast{z-index:60}
+.landing-navlinks a{min-height:44px;display:inline-flex;align-items:center}
+.landing-nav-cta,.landing-primary,.landing-privacy button{min-height:48px}
+.landing-device{contain:layout paint}
+.device-frame{will-change:transform}
+@media(max-width:640px){
+  .landing-hero h1{font-size:clamp(45px,13vw,58px)}
+  .landing-section-head h2{font-size:36px}
+  .landing-steps article{grid-template-columns:40px 1fr}
+  .landing-feature b{font-size:19px}
+  .on-welcome{padding:34px 24px 30px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .device-frame{transform:none!important}
+}
