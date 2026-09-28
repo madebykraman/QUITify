@@ -1,4 +1,4 @@
-# RECLAIM SPACE SPACE
+# RECLAIM SPACE
 
 **Make room for your life.**
 
@@ -8,7 +8,7 @@ RECLAIM SPACE is a design-first, local-first habit-change product prototype. It 
 
 Changing a habit is cognitively expensive. RECLAIM SPACE therefore keeps the current focus visible, makes the daily action obvious, preserves history through fresh starts, and avoids gamification that turns behavior change into a score-chasing exercise.
 
-## RECLAIM SPACE SPACE
+## RECLAIM SPACE
 
 The current visual language is built around:
 
@@ -32,7 +32,7 @@ Shows the current run, personal best, weekly consistency, 14-day history, total 
 A timestamp-driven ten-minute intervention. The timer is based on elapsed wall-clock time rather than render ticks, so it remains accurate when the tab is backgrounded.
 
 ### Insights
-Uses only recorded check-ins. The screen deliberately avoids fabricated mood/trigger data and instead shows a real 14-day rhythm, a 28-day weekday pattern, check-in history, and fresh-start context.
+Uses only recorded check-ins. The screen deliberately avoids fabricated mood/trigger data and instead shows a a 28-day rhythm and a weekday pattern, check-in history, and fresh-start context.
 
 ### Settings
 Controls appearance, backup/restore, privacy information, and local-data deletion.
