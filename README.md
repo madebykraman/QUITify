@@ -1,8 +1,8 @@
-# QUITify
+# RECLAIM
 
 **Make room for your life.**
 
-QUITify is a design-first, offline/local-data habit-change case study. The product is intentionally private: core progress data lives in the browser's local storage instead of a required account or cloud database.
+RECLAIM is a design-first, offline/local-data habit-change case study. The product is intentionally private: core progress data lives in the browser's local storage instead of a required account or cloud database.
 
 ## Product thesis
 
