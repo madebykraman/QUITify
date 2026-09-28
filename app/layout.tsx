@@ -31,7 +31,7 @@ export const viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body><link rel="preload" href="/fonts/WorkSans-Variable.ttf" as="font" type="font/ttf" crossOrigin="anonymous"/><link rel="preload" href="/fonts/CothamSans.otf" as="font" type="font/otf" crossOrigin="anonymous"/>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
