@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;600;700&display=swap");
 @font-face{font-family:"Work Sans";src:url("/fonts/WorkSans-Variable.ttf") format("truetype");font-style:normal;font-weight:100 900;font-display:swap;}
 @font-face{font-family:"Cotham";src:url("/fonts/CothamSans.otf") format("opentype");font-style:normal;font-weight:400;font-display:swap;}
 /* QUITify Product System v2.0 */
@@ -506,7 +507,7 @@ h1,h2,h3,h4,h5,h6,strong,b,button,.logo,.topstatus,.nav button{
 /* ============================================================
    QUITify Prototype v5 — screenshot-matched visual system
    ============================================================ */
-@import url("https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600;700&family=Google+Sans+Text:wght@400;500;600;700&display=swap");
+
 
 :root{
   --proto-bg:#070a10;
