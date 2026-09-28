@@ -20,12 +20,18 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport = { themeColor: "#f7f7f5", colorScheme: "light dark" as const };
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f7f7f5" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0c0f" },
+  ],
+  colorScheme: "light dark" as const,
+};
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><link rel="preload" href="/fonts/WorkSans-Variable.ttf" as="font" type="font/ttf" crossOrigin="anonymous"/><link rel="preload" href="/fonts/CothamSans.otf" as="font" type="font/otf" crossOrigin="anonymous"/>{children}</body>
     </html>
   );
 }
