@@ -23,6 +23,10 @@ The design direction was informed by public UX/UI case studies across recovery, 
 
 The visual system is intentionally independent of liquid-glass or frosted-glass patterns. Depth comes from spacing, typography, borders, surface contrast, and restrained shadows.
 
+## UX research and launch audit
+
+The research synthesis, competitor-pattern comparison, code-audit findings, and release checklist are documented in [the UX research and launch audit](docs/ux-research-and-launch-audit.md).
+
 ## Run locally
 
 ```bash
