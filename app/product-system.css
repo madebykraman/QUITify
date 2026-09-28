@@ -2647,3 +2647,284 @@ html,body,button,input,textarea,select,h1,h2,h3,h4,h5,h6,p,span,b,strong,small,l
 @media(prefers-reduced-motion:reduce){.weekday-bars i{transition:none}.pause-main:hover{transform:none!important}}
 
 .weekrow i.slip{background:var(--reclaim-coral)!important;border-color:transparent!important;color:#1b1110}.week-bars i.slip{background:var(--reclaim-coral)!important}.history-grid>div.slip{background:color-mix(in srgb,var(--reclaim-coral) 16%,var(--r-surface-2))!important;border-color:color-mix(in srgb,var(--reclaim-coral) 44%,var(--r-line))!important;color:var(--reclaim-coral)!important}
+
+
+/* ============================================================
+   RECLAIM SPACE — MOBILE LAYOUT QA REPAIR
+   Explicit layout primitives for the production data surfaces.
+   ============================================================ */
+
+html,body{overflow-x:hidden!important}
+.app{overflow-x:clip!important}
+
+/* Shared section headers */
+.sectiontop,.progress-section-head,.checkintro{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+}
+.sectiontop>div,.progress-section-head>div,.checkintro>div{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+.sectiontop>b,.progress-section-head>b,.checkintro>span{
+  flex:0 0 auto!important;
+}
+
+/* The seven-day view is a row, never a block stack. */
+.weekrow{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  align-items:start!important;
+  justify-items:center!important;
+  width:100%!important;
+  gap:8px!important;
+}
+.weekrow>div{
+  width:100%!important;
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  text-align:center!important;
+}
+.weekrow small,.weekrow em{display:block!important}
+.weekrow i{
+  display:grid!important;
+  place-items:center!important;
+  flex:0 0 auto!important;
+}
+
+/* Progress bars: seven actual columns. */
+.progress-stack{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:14px!important;
+}
+.week-bars{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  align-items:end!important;
+  width:100%!important;
+  gap:8px!important;
+}
+.week-bars>div{
+  min-width:0!important;
+  height:78px!important;
+  display:grid!important;
+  grid-template-rows:1fr auto!important;
+  align-items:end!important;
+  justify-items:center!important;
+  gap:7px!important;
+}
+.week-bars i{
+  display:block!important;
+  width:min(28px,72%)!important;
+  height:52px!important;
+  min-height:8px!important;
+  align-self:end!important;
+}
+.week-bars small{
+  display:block!important;
+  font-size:9px!important;
+  line-height:1!important;
+}
+
+/* Metrics are two cards, not two block-level paragraphs. */
+.progress-metrics{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+.progress-metrics>div{
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:5px!important;
+}
+.progress-metrics small,.progress-metrics span{
+  display:block!important;
+}
+
+/* Fourteen-day history is a calendar-like grid. */
+.history-grid{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  gap:8px!important;
+  width:100%!important;
+  margin-top:16px!important;
+}
+.history-grid>div{
+  min-width:0!important;
+  min-height:66px!important;
+  padding:8px 4px!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  text-align:center!important;
+}
+.history-grid>div b,.history-grid>div span{
+  display:block!important;
+  line-height:1!important;
+}
+.history-grid>div svg{flex:0 0 auto!important}
+
+/* Settings rows need a real row/column hierarchy. */
+.settings>div,.settings>button,.settings>label{
+  width:100%!important;
+  box-sizing:border-box!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  text-align:left!important;
+}
+.settings>div>i,.settings>button>i,.settings>label>i{
+  flex:0 0 38px!important;
+  display:grid!important;
+  place-items:center!important;
+}
+.settings>div>span,.settings>button>span,.settings>label>span{
+  min-width:0!important;
+  flex:1 1 auto!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:flex-start!important;
+  justify-content:center!important;
+  gap:4px!important;
+  line-height:1.15!important;
+}
+.settings>div>span>b,.settings>button>span>b,.settings>label>span>b{
+  display:block!important;
+  white-space:normal!important;
+}
+.settings>div>span>small,.settings>button>span>small,.settings>label>span>small{
+  display:block!important;
+  line-height:1.35!important;
+  white-space:normal!important;
+}
+.settings>div>em{
+  flex:0 0 auto!important;
+  white-space:nowrap!important;
+}
+.settings>button>svg,.settings>label>svg{
+  flex:0 0 auto!important;
+}
+.settings .theme-row .switch{
+  flex:0 0 42px!important;
+}
+.settings .theme-row .switch i{
+  display:block!important;
+}
+.settings .danger{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+}
+.settings .danger>span{
+  flex:1 1 auto!important;
+}
+.settings .danger>span>b,.settings .danger>span>small{
+  display:block!important;
+}
+
+/* Insights chart: make the bars physically visible and bounded. */
+.weekday-pattern .sectiontop{
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+}
+.weekday-pattern .sectiontop>div{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+.weekday-bars{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  align-items:end!important;
+  width:100%!important;
+  height:150px!important;
+  gap:8px!important;
+  margin-top:20px!important;
+}
+.weekday-bars>div{
+  min-width:0!important;
+  height:100%!important;
+  display:grid!important;
+  grid-template-rows:minmax(0,1fr) auto auto!important;
+  align-items:end!important;
+  justify-items:center!important;
+  gap:6px!important;
+}
+.weekday-bars>div>div{
+  position:relative!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:0!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  border-bottom:1px solid var(--r-line)!important;
+}
+.weekday-bars i{
+  display:block!important;
+  width:min(28px,72%)!important;
+  min-height:8px!important;
+  max-height:100%!important;
+  flex:0 0 auto!important;
+  background:linear-gradient(180deg,var(--reclaim-violet),color-mix(in srgb,var(--reclaim-violet) 42%,var(--r-surface-3)))!important;
+}
+.weekday-bars .current i{
+  background:linear-gradient(180deg,var(--reclaim-coral),color-mix(in srgb,var(--reclaim-coral) 42%,var(--r-surface-3)))!important;
+}
+.weekday-bars small,.weekday-bars span{
+  display:block!important;
+  line-height:1!important;
+}
+
+/* Insight fact cards stay readable at narrow widths. */
+.insight-facts{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:10px!important;
+}
+.insight-facts>div{
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  justify-content:space-between!important;
+}
+.insight-facts>div:last-child{grid-column:1/-1!important}
+.insight-facts span,.insight-facts b,.insight-facts small{
+  display:block!important;
+}
+
+/* Prevent long labels from creating horizontal layout corruption. */
+.settings,.week,.week-progress,.history,.milestone,.weekday-pattern,.insight-hero,.insight-guidance,.progress-metrics>div{
+  min-width:0!important;
+}
+.settings small,.settings b,.history-grid span,.milestone span,.insight-facts small{
+  overflow-wrap:anywhere!important;
+}
+
+@media(max-width:640px){
+  .page{width:100%!important;box-sizing:border-box!important}
+  .weekrow{gap:4px!important}
+  .weekrow i{width:32px!important;height:32px!important}
+  .weekrow small{font-size:9px!important}
+  .weekrow em{font-size:9px!important}
+  .history-grid{gap:6px!important}
+  .history-grid>div{min-height:60px!important}
+  .progress-metrics{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .settings>div,.settings>button,.settings>label{min-height:76px!important;padding:14px!important}
+  .weekday-bars{height:136px!important;gap:5px!important}
+  .weekday-bars i{width:min(24px,72%)!important}
+}
+@media(max-width:390px){
+  .history-grid{gap:5px!important}
+  .history-grid>div{min-height:56px!important;padding:6px 2px!important}
+  .settings>div,.settings>button,.settings>label{gap:9px!important}
+}
