@@ -6,7 +6,7 @@ type Goal={id:string;label:string;icon:string;accent:string;startedAt:string;bes
 type Checkin={date:string;goalId:string;stayedOnTrack:boolean};
 const BRAND="RECLAIM";
 const stored=(key:string,legacyKey:string)=>localStorage.getItem(key)??localStorage.getItem(legacyKey);
-const opts=[["Nicotine","N","red"],["Smoking","S","red"],["Vaping","V","blue"],["Alcohol","A","amber"],["Sugar / junk food","S","orange"],["Doomscrolling","D","violet"],["Social media","S","blue"],["Gaming","G","purple"],["Something else","•","slate"]] as const;
+const opts=[["Nicotine","N","red"],["Smoking","S","red"],["Vaping","V","blue"],["Alcohol","A","amber"],["Sugar / junk food","S","orange"],["Doomscrolling","D","violet"],["Social media","S","blue"],["Gaming","G","purple"],["Shopping","$","coral"],["Caffeine","C","amber"],["Procrastination","P","blue"],["Phone checking","P","violet"],["Something else","•","slate"]] as const;
 const dk=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
 const rg=(v:string|null):Goal[]=>{try{const a=JSON.parse(v||"[]");return Array.isArray(a)?a.filter(x=>x?.id&&x?.label).map(x=>({...x,best:+x.best||0,checkIns:+x.checkIns||0,resets:+x.resets||0,active:x.active!==false})):[]}catch{return[]}};
 const rc=(v:string|null):Checkin[]=>{try{const a=JSON.parse(v||"[]");return Array.isArray(a)?a.filter(x=>typeof x?.goalId==="string"&&typeof x?.date==="string"):[]}catch{return[]}};
@@ -135,6 +135,10 @@ else if(/vap/.test(key))kind="vaping";
 else if(/alcohol/.test(key))kind="alcohol";
 else if(/sugar|junk/.test(key))kind="sugar";
 else if(/gaming/.test(key))kind="gaming";
+else if(/shopping/.test(key))kind="shopping";
+else if(/caffeine|coffee/.test(key))kind="caffeine";
+else if(/procrast/.test(key))kind="procrastination";
+else if(/phone checking|checking phone|phone/.test(key))kind="phone";
 const scenes:{[key:string]:{action:string;line:string}}={
   smoking:{action:"BREAK THE LOOP",line:"Let the urge pass without the next step."},
   scroll:{action:"STOP THE SCROLL",line:"Put the feed down. Keep the moment."},
@@ -142,6 +146,10 @@ const scenes:{[key:string]:{action:string;line:string}}={
   alcohol:{action:"PAUSE THE POUR",line:"Create space before the next decision."},
   sugar:{action:"CHOOSE THE NEXT",line:"The craving can exist without the choice."},
   gaming:{action:"STEP OUT",line:"Close the loop. Return to the room."},
+  shopping:{action:"CLOSE THE CART",line:"Wait before turning the impulse into a purchase."},
+  caffeine:{action:"BREAK THE REFLEX",line:"Notice the cue before reaching for the cup."},
+  procrastination:{action:"START THE NEXT",line:"Make the first move smaller than the resistance."},
+  phone:{action:"PUT IT DOWN",line:"Leave the checking loop without another refresh."},
   default:{action:"RESET THE MOMENT",line:"Interrupt the pattern. Choose what comes next."}
 };
 const scene=scenes[kind];
@@ -154,6 +162,10 @@ return <div className={`focus-scene focus-scene-${kind} ${active?"is-active":""}
   {kind==="alcohol"&&<><div className="scene-glass"><i/><b/></div><div className="scene-liquid-wave w1"/><div className="scene-liquid-wave w2"/><div className="scene-pause-ring"/></>}
   {kind==="sugar"&&<><div className="scene-cube c1"/><div className="scene-cube c2"/><div className="scene-cube c3"/><div className="scene-handline"/></>}
   {kind==="gaming"&&<><div className="scene-controller"><i/><b/></div><div className="scene-pulse p1"/><div className="scene-pulse p2"/><div className="scene-exit-line"/></>}
+  {kind==="shopping"&&<><div className="scene-cart"><i/><b/><span/></div><div className="scene-price">×</div><div className="scene-exit-line"/></>}
+  {kind==="caffeine"&&<><div className="scene-cup"><i/><b/></div><div className="scene-steam s1"/><div className="scene-steam s2"/><div className="scene-breakline"/></>}
+  {kind==="procrastination"&&<><div className="scene-task"><i/><b/><span/></div><div className="scene-start-line"/><div className="scene-pulse p1"/></>}
+  {kind==="phone"&&<><div className="scene-phone phone-small"><i/><b/><span/><em/></div><div className="scene-refresh"/><div className="scene-exit-line"/></>}
   {kind==="default"&&<><div className="scene-orbit o1"/><div className="scene-orbit o2"/><div className="scene-core">R</div><div className="scene-breakline"/></>}
   <div className="scene-copy"><b>{marked?"RESET SAVED":scene.action}</b><span>{marked?"Today is already recorded.":scene.line}</span></div>
 </div>
