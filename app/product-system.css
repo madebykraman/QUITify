@@ -2940,3 +2940,133 @@ html,body{overflow-x:hidden!important}
   .logo{flex:0 0 auto!important}
   .top-focus{flex:0 1 138px!important}
 }
+
+
+/* ============================================================
+   RECLAIM SPACE — CHROME / HEADER FINAL PASS
+   The header is orientation chrome, not a second dashboard.
+   ============================================================ */
+.top{
+  height:64px!important;
+  padding:0 24px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:18px!important;
+  box-sizing:border-box!important;
+  background:color-mix(in srgb,var(--r-canvas) 94%,transparent)!important;
+  border-bottom:1px solid color-mix(in srgb,var(--r-line) 62%,transparent)!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+}
+.logo{
+  display:flex!important;
+  align-items:center!important;
+  gap:9px!important;
+  min-width:0!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:var(--r-text)!important;
+}
+.logo .brand-mark,.logo span{
+  width:30px!important;
+  height:30px!important;
+  flex:0 0 30px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:9px!important;
+  background:var(--r-surface-2)!important;
+  border:1px solid var(--r-line)!important;
+  color:var(--r-accent)!important;
+  font-size:14px!important;
+  font-weight:800!important;
+}
+.logo strong{
+  font-size:14px!important;
+  line-height:1!important;
+  letter-spacing:.08em!important;
+  font-weight:750!important;
+}
+.top-page-label{
+  margin-left:auto!important;
+  color:var(--r-muted)!important;
+  font-size:9px!important;
+  font-weight:750!important;
+  letter-spacing:.16em!important;
+}
+.top-actions{
+  margin-left:0!important;
+  display:flex!important;
+  align-items:center!important;
+  flex:0 0 auto!important;
+}
+.topbtn{
+  width:40px!important;
+  height:40px!important;
+  display:grid!important;
+  place-items:center!important;
+  border:1px solid var(--r-line)!important;
+  border-radius:12px!important;
+  background:var(--r-surface)!important;
+  color:var(--r-secondary)!important;
+  box-shadow:none!important;
+}
+.topbtn:hover{
+  background:var(--r-surface-2)!important;
+  color:var(--r-text)!important;
+}
+.topstatus,.top-context,.top-focus{display:none!important}
+.app{padding-top:64px!important}
+.home-heading{display:block!important}
+.home-heading>div{min-width:0!important}
+.home-heading h1{max-width:760px!important}
+.focus-add-link{
+  width:max-content!important;
+  max-width:100%!important;
+  margin:14px auto 0!important;
+  min-height:46px!important;
+  padding:0 18px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:8px!important;
+  box-sizing:border-box!important;
+  border:1px solid color-mix(in srgb,var(--r-accent) 26%,var(--r-line))!important;
+  border-radius:14px!important;
+  background:var(--r-accent-soft)!important;
+  color:var(--r-accent)!important;
+  font-size:13px!important;
+  font-weight:700!important;
+  box-shadow:none!important;
+}
+.focus-add-link:hover{
+  background:color-mix(in srgb,var(--r-accent) 18%,var(--r-surface))!important;
+  border-color:color-mix(in srgb,var(--r-accent) 48%,var(--r-line))!important;
+}
+.focus-add-link:active{transform:scale(.985)!important}
+
+@media(max-width:640px){
+  .top{
+    height:60px!important;
+    padding:0 16px!important;
+    gap:12px!important;
+  }
+  .app{padding-top:60px!important}
+  .logo .brand-mark,.logo span{
+    width:28px!important;height:28px!important;flex-basis:28px!important;border-radius:8px!important;
+  }
+  .logo strong{font-size:13px!important}
+  .top-page-label{display:none!important}
+  .topbtn{width:38px!important;height:38px!important;border-radius:11px!important}
+  .focus-add-link{width:100%!important;margin-top:14px!important}
+}
+@media(min-width:1200px){
+  .top{
+    left:264px!important;
+    width:calc(100% - 264px)!important;
+    padding:0 40px!important;
+  }
+  .app{padding-top:64px!important}
+}
