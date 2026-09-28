@@ -1,14 +1,14 @@
-# RECLAIM
+# RECLAIM SPACE SPACE
 
 **Make room for your life.**
 
-RECLAIM is a design-first, local-first habit-change product prototype. It is built around one behavioral loop: notice the pattern, create a pause, choose the next action, check in, and look back without punishment.
+RECLAIM SPACE is a design-first, local-first habit-change product prototype. It is built around one behavioral loop: notice the pattern, create a pause, choose the next action, check in, and look back without punishment.
 
 ## Product thesis
 
-Changing a habit is cognitively expensive. RECLAIM therefore keeps the current focus visible, makes the daily action obvious, preserves history through fresh starts, and avoids gamification that turns behavior change into a score-chasing exercise.
+Changing a habit is cognitively expensive. RECLAIM SPACE therefore keeps the current focus visible, makes the daily action obvious, preserves history through fresh starts, and avoids gamification that turns behavior change into a score-chasing exercise.
 
-## RECLAIM / SPACE
+## RECLAIM SPACE SPACE
 
 The current visual language is built around:
 
@@ -45,7 +45,7 @@ The app persists:
 - `reclaim-checkins`
 - `reclaim-theme`
 
-Existing QUITify storage keys are read once as a compatibility migration path. New writes use RECLAIM keys.
+Existing QUITify storage keys are read once as a compatibility migration path. New writes use RECLAIM SPACE keys.
 
 Backups are JSON files containing goals, check-ins, product name, version, and export timestamp.
 
@@ -79,4 +79,9 @@ The app is a standard Next.js project and is intended for Vercel deployment.
 
 ## Privacy note
 
-RECLAIM is a product/design prototype, not medical treatment. It should not replace professional support, especially where withdrawal or dependence can create medical risk.
+RECLAIM SPACE is a product/design prototype, not medical treatment. It should not replace professional support, especially where withdrawal or dependence can create medical risk.
+
+
+## Final audit
+
+RECLAIM SPACE is a local-first behavior-change PWA centered on one focus, explicit daily outcomes, an in-the-moment pause, and evidence-based personal patterns. The final pass unifies typography around the bundled Google Sans family, keeps safe-area navigation and visible keyboard focus, respects reduced motion, adds real custom-focus creation, records explicit slips without treating missing days as slips, and makes Insights deterministic and explainable rather than decorative. Existing QUITify and RECLAIM local keys remain readable for migration.
