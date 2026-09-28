@@ -8,7 +8,7 @@ RECLAIM is a design-first, offline/local-data habit-change case study. The produ
 
 Changing a habit is already cognitively expensive. The interface should therefore reduce decisions, avoid shame, keep the next useful action visible, and make progress legible without turning the experience into a noisy analytics dashboard.
 
-## V1 design principles
+## RECLAIM / SPACE design language
 
 - **Calm over clinical** — warm neutrals, soft green, restrained violet, generous whitespace.
 - **One thing at a time** — the current goal and current run lead the hierarchy.
