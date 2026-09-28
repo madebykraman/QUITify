@@ -2928,3 +2928,15 @@ html,body{overflow-x:hidden!important}
   .history-grid>div{min-height:56px!important;padding:6px 2px!important}
   .settings>div,.settings>button,.settings>label{gap:9px!important}
 }
+
+
+/* Final chrome layout guard */
+.top{display:flex!important;align-items:center!important;box-sizing:border-box!important}
+.logo{display:flex!important;align-items:center!important;gap:10px!important;min-width:0!important}
+.logo strong{display:block!important;white-space:nowrap!important}
+.top-focus{flex:0 1 245px!important;min-width:0!important}
+.top-actions{display:flex!important;align-items:center!important;flex:0 0 auto!important}
+@media(max-width:640px){
+  .logo{flex:0 0 auto!important}
+  .top-focus{flex:0 1 138px!important}
+}
