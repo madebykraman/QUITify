@@ -1320,7 +1320,7 @@ h1,h2,h3,h4,h5,h6,b,strong,button,.logo,.nav,.top{
 }
 .pause-ring{
   width:250px!important;height:250px!important;
-  background:conic-gradient(#ffc0aa calc((600 - var(--pause-left,600))/600*360deg),rgba(255,255,255,.25) 0)!important;
+  background:conic-gradient(#ffc0aa var(--pause-angle,0deg),rgba(255,255,255,.25) var(--pause-angle,0deg))!important;
 }
 .pause-ring:before{background:rgba(28,34,47,.94)!important}
 .pause-ring span{color:#fff!important;text-shadow:0 1px 8px rgba(0,0,0,.35)}
