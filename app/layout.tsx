@@ -37,7 +37,7 @@ const platformScript = `(()=>{try{const n=navigator||{};const ua=(n.userAgent||"
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-product="reclaim-space" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{__html: platformScript}} />
       </head>
