@@ -1070,8 +1070,7 @@ h1,h2,h3,h4,h5,h6,strong,b,button,.logo,.topstatus,.nav button{
   --q-danger:#ff918b;
 }
 
-/* The bundled Google Sans is the web fallback on non-Apple platforms.
-   Apple platforms resolve to the system SF Pro stack. */
+/* Google Sans is the single product typeface across platforms. */
 html,body,button,input,textarea,select{
   font-family:var(--font-platform)!important;
   color:var(--q-text);
