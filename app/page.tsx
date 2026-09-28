@@ -6,7 +6,7 @@ type Goal={id:string;label:string;icon:string;accent:string;startedAt:string;bes
 type Checkin={date:string;goalId:string;stayedOnTrack:boolean};
 const opts=[["Nicotine","N","red"],["Smoking","S","red"],["Vaping","V","blue"],["Alcohol","A","amber"],["Sugar / junk food","S","orange"],["Doomscrolling","D","violet"],["Social media","S","blue"],["Gaming","G","purple"],["Something else","•","slate"]] as const;
 const dk=(d=new Date())=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-const validDateKey=(v:unknown):v is string=>{if(typeof v!=="string"||!/^\\d{4}-\\d{2}-\\d{2}$/.test(v))return false;const d=new Date(`${v}T12:00:00`);return !Number.isNaN(d.getTime())&&dk(d)===v};
+const validDateKey=(v:unknown):v is string=>{if(typeof v!=="string"||!/^\d{4}-\d{2}-\d{2}$/.test(v))return false;const d=new Date(`${v}T12:00:00`);return !Number.isNaN(d.getTime())&&dk(d)===v};
 const storageGet=(key:string)=>{try{return window.localStorage.getItem(key)}catch{return null}};
 const storageSet=(key:string,value:string)=>{try{window.localStorage.setItem(key,value);return true}catch{return false}};
 const storageRemove=(key:string)=>{try{window.localStorage.removeItem(key);return true}catch{return false}};
