@@ -39,6 +39,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" data-product="reclaim-space" suppressHydrationWarning>
       <head>
+        <link rel="icon" href="/icon.svg" />
+        <link rel="apple-touch-icon" href="/icon-192.png" />
         <script dangerouslySetInnerHTML={{__html: platformScript}} />
       </head>
       <body>{children}</body>
