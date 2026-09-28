@@ -354,3 +354,20 @@ h1,h2,h3,h4,.landing-page h1,.landing-page h2,.landing-feature b,.landing-steps 
 .app{padding-bottom:calc(148px + env(safe-area-inset-bottom))}
 .nav{bottom:calc(12px + env(safe-area-inset-bottom))}
 @media(max-width:560px){.app{padding-bottom:calc(156px + env(safe-area-inset-bottom))}}
+
+
+/* Visual QA fixes: dark-mode contrast, fixed navigation clearance, form inheritance */
+.progress-hero{color:#fff!important}
+.progress-hero p,.progress-hero span,.progress-hero .hero-best small{color:rgba(255,255,255,.72)!important}
+.progress-hero .hero-best b{color:#fff!important}
+.app{padding-bottom:calc(142px + env(safe-area-inset-bottom))!important}
+.nav{z-index:25;bottom:calc(12px + env(safe-area-inset-bottom))!important}
+.onboarding-modal{overscroll-behavior:contain}
+.onboard-v2{max-height:calc(100dvh - 24px);overflow-y:auto;overscroll-behavior:contain}
+.onboard-v2 button,.sheet button{flex-shrink:0}
+.landing-page button,.landing-page a{touch-action:manipulation}
+.landing-feature b,.landing-steps b{font-family:var(--font-display)!important;font-weight:600}
+@media(max-width:640px){
+  .app{padding-bottom:calc(148px + env(safe-area-inset-bottom))!important}
+  .onboard-v2{max-height:calc(100dvh - 12px);border-radius:24px!important}
+}
