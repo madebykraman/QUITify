@@ -3070,3 +3070,398 @@ html,body{overflow-x:hidden!important}
   }
   .app{padding-top:64px!important}
 }
+
+
+/* ============================================================
+   RECLAIM SPACE — INTERACTION / MOBILE NATIVE PASS
+   ============================================================ */
+
+/* Focus creation is a real bottom sheet on touch, modal on desktop. */
+.overlay{
+  position:fixed!important;
+  inset:0!important;
+  z-index:300!important;
+  display:flex!important;
+  align-items:flex-end!important;
+  justify-content:center!important;
+  padding:0!important;
+  background:rgba(4,6,10,.68)!important;
+  backdrop-filter:blur(10px) saturate(120%)!important;
+  -webkit-backdrop-filter:blur(10px) saturate(120%)!important;
+  animation:reclaimOverlayIn .18s ease-out!important;
+}
+.sheet{
+  position:relative!important;
+  width:min(620px,100%)!important;
+  max-height:min(760px,88dvh)!important;
+  overflow:auto!important;
+  overscroll-behavior:contain!important;
+  box-sizing:border-box!important;
+  padding:12px 20px calc(24px + env(safe-area-inset-bottom))!important;
+  margin:0!important;
+  border:1px solid var(--r-line)!important;
+  border-bottom:0!important;
+  border-radius:24px 24px 0 0!important;
+  background:var(--r-surface)!important;
+  color:var(--r-text)!important;
+  box-shadow:0 -24px 80px rgba(0,0,0,.42)!important;
+  animation:reclaimSheetIn .22s cubic-bezier(.2,.8,.2,1)!important;
+}
+.sheet .handle{
+  width:38px!important;
+  height:4px!important;
+  margin:2px auto 16px!important;
+  border-radius:99px!important;
+  background:var(--r-line)!important;
+}
+.sheethead{
+  display:flex!important;
+  align-items:flex-start!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+  margin-bottom:18px!important;
+}
+.sheethead>div{min-width:0!important;flex:1!important}
+.sheethead p,.sheetlabel{
+  margin:0 0 7px!important;
+  color:var(--r-muted)!important;
+  font-size:9px!important;
+  font-weight:750!important;
+  letter-spacing:.14em!important;
+}
+.sheethead h2{
+  margin:0!important;
+  color:var(--r-text)!important;
+  font-size:24px!important;
+  line-height:1.05!important;
+  letter-spacing:-.045em!important;
+}
+.sheet-close{
+  flex:0 0 44px!important;
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+  border:1px solid var(--r-line)!important;
+  border-radius:12px!important;
+  background:var(--r-surface-2)!important;
+  color:var(--r-secondary)!important;
+  display:grid!important;
+  place-items:center!important;
+}
+.sheetopts{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:9px!important;
+  margin-bottom:18px!important;
+}
+.sheetopts button{
+  min-width:0!important;
+  min-height:58px!important;
+  padding:11px 12px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  text-align:left!important;
+  border:1px solid var(--r-line)!important;
+  border-radius:14px!important;
+  background:var(--r-surface-2)!important;
+  color:var(--r-text)!important;
+}
+.sheetopts button:hover{background:var(--r-surface-3)!important}
+.sheetopts button.selected{
+  border-color:color-mix(in srgb,var(--r-accent) 55%,var(--r-line))!important;
+  background:var(--r-accent-soft)!important;
+}
+.sheetopts button i{
+  flex:0 0 34px!important;
+  width:34px!important;height:34px!important;
+  display:grid!important;place-items:center!important;
+  border-radius:10px!important;
+}
+.sheetopts button span{
+  min-width:0!important;
+  flex:1!important;
+  display:flex!important;
+  flex-direction:column!important;
+  gap:3px!important;
+  font-size:12px!important;
+  font-weight:650!important;
+}
+.sheetopts button span small{
+  display:block!important;
+  color:var(--r-muted)!important;
+  font-size:9px!important;
+  font-weight:400!important;
+  white-space:normal!important;
+}
+.custom-focus{
+  margin:0 0 20px!important;
+  padding:14px!important;
+  border:1px solid var(--r-line)!important;
+  border-radius:16px!important;
+  background:var(--r-surface-2)!important;
+}
+.custom-focus>label{
+  display:block!important;
+  margin-bottom:8px!important;
+  color:var(--r-muted)!important;
+  font-size:9px!important;
+  font-weight:750!important;
+  letter-spacing:.12em!important;
+}
+.custom-focus>div{
+  display:flex!important;
+  align-items:center!important;
+  gap:8px!important;
+}
+.custom-focus input{
+  min-width:0!important;
+  flex:1!important;
+  height:44px!important;
+  padding:0 12px!important;
+  border:1px solid var(--r-line)!important;
+  border-radius:11px!important;
+  background:var(--r-canvas)!important;
+  color:var(--r-text)!important;
+  outline:none!important;
+}
+.custom-focus input:focus{
+  border-color:var(--r-accent)!important;
+  box-shadow:0 0 0 3px var(--r-accent-soft)!important;
+}
+.custom-focus button{
+  flex:0 0 44px!important;
+  width:44px!important;height:44px!important;
+  display:grid!important;place-items:center!important;
+  border:0!important;border-radius:11px!important;
+  background:var(--r-accent)!important;color:#fff!important;
+}
+.custom-focus button:disabled{opacity:.38!important}
+.reset{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important}
+.reset button{min-height:50px!important;border:1px solid var(--r-line)!important;border-radius:13px!important;background:var(--r-surface-2)!important;color:var(--r-text)!important}
+.reset .primary{background:var(--r-accent)!important;color:#fff!important}
+
+@keyframes reclaimOverlayIn{from{opacity:0}to{opacity:1}}
+@keyframes reclaimSheetIn{from{transform:translateY(24px);opacity:.8}to{transform:translateY(0);opacity:1}}
+
+/* Check-in result: a real interaction state, not a toast pretending to be feedback. */
+.check.has-feedback{
+  border-color:color-mix(in srgb,var(--r-accent) 38%,var(--r-line))!important;
+}
+.check.has-feedback.track{
+  box-shadow:0 18px 55px rgba(142,215,181,.08)!important;
+}
+.check.has-feedback.slip{
+  border-color:color-mix(in srgb,var(--reclaim-coral) 34%,var(--r-line))!important;
+}
+.check-actions>button{
+  position:relative!important;
+  overflow:hidden!important;
+  transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease!important;
+}
+.check-actions>button:after{
+  content:""!important;
+  position:absolute!important;
+  inset:0!important;
+  pointer-events:none!important;
+  opacity:0!important;
+  background:radial-gradient(circle at 16% 50%,rgba(255,255,255,.10),transparent 32%)!important;
+  transition:opacity .2s ease!important;
+}
+.check-actions>button:hover:after,.check-actions>button:focus-visible:after{opacity:1!important}
+.check-actions>button:active{transform:scale(.985)!important}
+.check-actions>button.checked{
+  transform:translateY(-1px)!important;
+  border-color:color-mix(in srgb,var(--r-success) 48%,var(--r-line))!important;
+  background:linear-gradient(100deg,var(--r-success-soft),var(--r-surface-2))!important;
+}
+.check-feedback{
+  position:relative!important;
+  margin-top:12px!important;
+  padding:14px 42px 14px 14px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:12px!important;
+  border:1px solid var(--r-line)!important;
+  border-radius:16px!important;
+  background:var(--r-surface-2)!important;
+  animation:reclaimFeedbackIn .3s cubic-bezier(.2,.8,.2,1)!important;
+}
+.check-feedback.track{
+  border-color:color-mix(in srgb,var(--r-success) 38%,var(--r-line))!important;
+  background:linear-gradient(135deg,var(--r-success-soft),var(--r-surface-2))!important;
+}
+.check-feedback.slip{
+  border-color:color-mix(in srgb,var(--reclaim-coral) 34%,var(--r-line))!important;
+  background:linear-gradient(135deg,rgba(255,158,139,.08),var(--r-surface-2))!important;
+}
+.check-feedback-icon{
+  width:42px!important;height:42px!important;
+  flex:0 0 42px!important;
+  display:grid!important;place-items:center!important;
+  border-radius:13px!important;
+}
+.check-feedback.track .check-feedback-icon{background:var(--r-success-soft)!important;color:var(--r-success)!important}
+.check-feedback.slip .check-feedback-icon{background:rgba(255,158,139,.10)!important;color:var(--reclaim-coral)!important}
+.check-feedback strong{
+  display:block!important;
+  color:var(--r-text)!important;
+  font-size:14px!important;
+  line-height:1.2!important;
+}
+.check-feedback p{
+  margin:4px 0 0!important;
+  color:var(--r-secondary)!important;
+  font-size:10px!important;
+  line-height:1.45!important;
+}
+.check-feedback>button{
+  position:absolute!important;
+  right:8px!important;top:8px!important;
+  width:30px!important;height:30px!important;
+  min-height:30px!important;
+  display:grid!important;place-items:center!important;
+  border:0!important;border-radius:8px!important;
+  background:transparent!important;color:var(--r-muted)!important;
+}
+
+/* Replace the toy calendar blocks with a quiet editorial timeline. */
+.week{
+  padding:22px!important;
+}
+.week .sectiontop{
+  margin-bottom:22px!important;
+}
+.week .sectiontop h3{
+  font-size:22px!important;
+  letter-spacing:-.035em!important;
+}
+.week .sectiontop>b{
+  font-size:12px!important;
+  color:var(--r-secondary)!important;
+  font-weight:650!important;
+}
+.week-timeline{
+  display:grid!important;
+  grid-template-columns:repeat(7,minmax(0,1fr))!important;
+  gap:6px!important;
+  width:100%!important;
+  padding:4px 0 2px!important;
+}
+.week-timeline>div{
+  min-width:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  gap:7px!important;
+  color:var(--r-muted)!important;
+}
+.week-timeline>div>span{
+  font-size:9px!important;
+  line-height:1!important;
+  font-weight:650!important;
+}
+.week-timeline>div>div{
+  width:38px!important;
+  height:38px!important;
+  max-width:100%!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:12px!important;
+  border:1px solid var(--r-line)!important;
+  background:transparent!important;
+  color:var(--r-muted)!important;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease!important;
+}
+.week-timeline>div>div.on{
+  background:var(--r-success-soft)!important;
+  border-color:color-mix(in srgb,var(--r-success) 46%,var(--r-line))!important;
+  color:var(--r-success)!important;
+}
+.week-timeline>div>div.slip{
+  background:rgba(255,158,139,.08)!important;
+  border-color:color-mix(in srgb,var(--reclaim-coral) 42%,var(--r-line))!important;
+  color:var(--reclaim-coral)!important;
+}
+.week-timeline>div.today>div{
+  box-shadow:0 0 0 2px var(--r-accent-soft)!important;
+  border-color:var(--r-accent)!important;
+}
+.week-timeline>div>small{
+  font-size:9px!important;
+  line-height:1!important;
+  color:var(--r-muted)!important;
+}
+.week-timeline>div.today>span,.week-timeline>div.today>small{
+  color:var(--r-accent)!important;
+}
+.weeklegend{
+  display:flex!important;
+  align-items:center!important;
+  flex-wrap:wrap!important;
+  gap:14px!important;
+  margin-top:18px!important;
+  color:var(--r-muted)!important;
+  font-size:9px!important;
+}
+.weeklegend span{display:flex!important;align-items:center!important;gap:5px!important}
+.weeklegend i{
+  width:6px!important;height:6px!important;
+  flex:0 0 6px!important;
+  border-radius:50%!important;
+}
+.weeklegend .done-dot{background:var(--r-success)!important}
+.weeklegend .slip-dot{background:var(--reclaim-coral)!important}
+.weeklegend .today-dot{background:var(--r-accent)!important}
+
+/* Header: make it a true native app chrome at every touch breakpoint. */
+@media(max-width:1199px){
+  .top{
+    position:fixed!important;
+    top:0!important;
+    left:0!important;
+    right:0!important;
+    width:100%!important;
+    height:64px!important;
+    margin:0!important;
+    padding:0 16px!important;
+    box-sizing:border-box!important;
+    display:flex!important;
+    align-items:center!important;
+    z-index:120!important;
+    background:color-mix(in srgb,var(--r-canvas) 96%,transparent)!important;
+    border-bottom:1px solid var(--r-line)!important;
+    box-shadow:0 8px 24px rgba(0,0,0,.10)!important;
+    backdrop-filter:blur(18px)!important;
+    -webkit-backdrop-filter:blur(18px)!important;
+  }
+  .app{padding-top:64px!important}
+  .logo{flex:0 0 auto!important}
+  .logo .brand-mark,.logo span{width:30px!important;height:30px!important;flex-basis:30px!important;border-radius:9px!important}
+  .logo strong{font-size:14px!important}
+  .top-page-label{display:block!important;margin-left:auto!important;margin-right:8px!important}
+  .top-actions{margin-left:0!important}
+}
+@media(max-width:640px){
+  .top{height:60px!important;padding:0 14px!important}
+  .app{padding-top:60px!important}
+  .top-page-label{display:none!important}
+  .topbtn{width:40px!important;height:40px!important;border-radius:12px!important}
+  .logo .brand-mark,.logo span{width:28px!important;height:28px!important;flex-basis:28px!important;border-radius:8px!important}
+  .logo strong{font-size:13px!important;letter-spacing:.08em!important}
+  .week{padding:18px!important}
+  .week-timeline{gap:3px!important}
+  .week-timeline>div>div{width:34px!important;height:34px!important;border-radius:10px!important}
+  .weeklegend{gap:10px!important}
+  .check-feedback{align-items:flex-start!important}
+}
+@media(max-width:390px){
+  .week{padding:16px!important}
+  .week-timeline>div>div{width:31px!important;height:31px!important}
+  .week-timeline>div>span,.week-timeline>div>small{font-size:8px!important}
+  .check-feedback{padding-right:38px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .overlay,.sheet,.check-feedback{animation:none!important}
+  .check-actions>button,.week-timeline>div>div{transition:none!important}
+}
