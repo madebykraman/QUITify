@@ -6,20 +6,20 @@ import "@fontsource/google-sans/700.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "QUITify — Make room for your life",
-  description: "A private, local-first space for changing habits.",
-  applicationName: "QUITify",
+  title: "RECLAIM — Make room for your life",
+  description: "A private, local-first space for changing habits with a calmer daily loop.",
+  applicationName: "RECLAIM",
   keywords: ["habit change", "quit habits", "wellbeing", "private", "local-first"],
   metadataBase: new URL("https://qui-tify-git-ui-redesign-v4-madebykramans-projects.vercel.app"),
   openGraph: {
-    title: "QUITify — Make room for your life",
+    title: "RECLAIM — Make room for your life",
     description: "A private, local-first space for changing habits.",
     type: "website",
-    siteName: "QUITify",
+    siteName: "RECLAIM",
   },
   twitter: {
     card: "summary",
-    title: "QUITify — Make room for your life",
+    title: "RECLAIM — Make room for your life",
     description: "A private, local-first space for changing habits.",
   },
 };
