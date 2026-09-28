@@ -134,7 +134,7 @@ return <main className="app"><div className="shell">
 }
 function Empty({onClick,text}:{onClick:()=>void;text:string}){return <section className="empty"><i><Target size={24}/></i><p>START HERE</p><h2>{text}</h2><span>One goal, one day, one check-in at a time.</span><button className="primary" onClick={onClick}>Choose my focus <ArrowRight size={16}/></button></section>}
 function InsightsPanel({checkins,goal}:{checkins:Checkin[];goal:Goal}){
-const todayDate=new Date(dk()+"T12:00:00"),goalChecks=checkins.filter(x=>x.goalId===goal.id),onTrack=goalChecks.filter(x=>x.stayedOnTrack),slips=goalChecks.filter(x=>!x.stayedOnTrack),windowStart=new Date(todayDate);windowStart.setDate(windowStart.getDate()-27);
+const todayDate=new Date(dk()+"T12:00:00"),goalChecks=checkins.filter(x=>x.goalId===goal.id),onTrack=goalChecks.filter(x=>x.stayedOnTrack),windowStart=new Date(todayDate);windowStart.setDate(windowStart.getDate()-27);
 const activeStart=new Date(Math.max(new Date(goal.startedAt+"T12:00:00").getTime(),windowStart.getTime()));
 const recent=Array.from({length:28},(_,i)=>{const d=new Date(windowStart);d.setDate(d.getDate()+i);return d}).filter(d=>d>=activeStart).map(d=>{const key=dk(d);return{key,entry:goalChecks.find(x=>x.date===key)}});
 const logged=recent.filter(x=>x.entry).length,tracked=recent.filter(x=>x.entry?.stayedOnTrack).length,recentSlips=recent.filter(x=>x.entry&&!x.entry.stayedOnTrack).length,coverage=recent.length?Math.round(logged/recent.length*100):0,onTrackRate=logged?Math.round(tracked/logged*100):0;
